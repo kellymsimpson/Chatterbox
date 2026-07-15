@@ -1,6 +1,6 @@
 # Chatterbox
 
-A digital paper fortune teller (cootie catcher) built for Config Makeathon 2026.
+A digital paper fortune teller (cootie catcher) — fold, decorate, and play chatterboxes with friends. Built with vanilla JS, Vercel, and Supabase.
 
 **Start here → `HANDOFF.md`** — master checklist, asset export list, and the first Cursor session prompt.
 

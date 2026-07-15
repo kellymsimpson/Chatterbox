@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatterbox</title>
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/home.css" />
+</head>
+<body>
+
+  <!-- Home screen scaffold — tell Cursor to build this to match Figma node 845:21596 -->
+
+  <main class="home-screen">
+
+    <!-- Wordmark + tagline -->
+    <header class="home-header">
+      <h1 class="wordmark">Chatterbox</h1>
+      <p class="tagline">Tell your fortune. Make someone else's day.</p>
+    </header>
+
+    <!-- Display name badge (top-right corner) -->
+    <div class="identity-badge" id="identity-badge">
+      <!-- Injected by identity.js -->
+    </div>
+
+    <!-- Three action cards -->
+    <section class="action-cards">
+      <a href="screens/construct.html" class="action-card" id="card-construct">
+        <h2>Construct</h2>
+        <p>Fold a chatterbox from scratch.</p>
+      </a>
+      <a href="screens/decorate.html" class="action-card" id="card-decorate">
+        <h2>Decorate</h2>
+        <p>Paint flaps, place stickers, choose a vibe.</p>
+      </a>
+      <a href="screens/schoolyard.html" class="action-card" id="card-play">
+        <h2>Play</h2>
+        <p>Pick a vibe and play from the community pool.</p>
+      </a>
+    </section>
+
+  </main>
+
+  <script src="components/identity.js"></script>
+  <script src="components/home.js"></script>
+
+</body>
+</html>

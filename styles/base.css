@@ -1,0 +1,96 @@
+/* ============================================================
+   Chatterbox — Base Styles
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Outfit:wght@400;500;700&family=Patrick+Hand&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  min-width: var(--layout-min-width); /* Narrower viewports get horizontal scrollbar */
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.4;
+  background-color: var(--color-desk-brown);
+  color: var(--color-bright-white);
+  min-height: 100vh;
+}
+
+/* ── Typography ── */
+h1 { font-family: var(--font-heading); font-size: var(--text-h1); font-weight: 700; }
+h2 { font-family: var(--font-heading); font-size: var(--text-h2); font-weight: 400; }
+h3 { font-family: var(--font-heading); font-size: var(--text-h3); font-weight: 700; }
+
+.fortune-text {
+  font-family: var(--font-fortune);
+  font-size: var(--text-fortune);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ── Desk background surface ── */
+.desk-surface {
+  background-color: var(--color-desk-brown);
+  /* Wood texture applied via JS after asset load */
+}
+
+/* ── Schoolyard concrete surface ── */
+.concrete-surface {
+  background-color: var(--color-schoolyard-concrete);
+  /* Photoshop texture: Figma node 1074:7286 */
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 700;
+  background: var(--color-bright-teal);
+  color: var(--color-bright-white);
+  border: none;
+  border-radius: 100px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+.btn-primary:hover { background: var(--color-hover-teal); }
+
+.btn-secondary {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 500;
+  background: var(--color-soft-white);
+  color: var(--color-dark-teal);
+  border: 2px solid var(--color-dark-teal);
+  border-radius: 100px;
+  padding: 12px 24px;
+  cursor: pointer;
+}
+
+.btn-tertiary {
+  font-family: var(--font-body);
+  font-size: var(--text-help);
+  font-weight: 400;
+  background: none;
+  color: var(--color-bright-white);
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+/* ── Utility ── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+}

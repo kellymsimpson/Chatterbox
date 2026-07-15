@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Animation Test — Chatterbox</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <link rel="stylesheet" href="../styles/base.css" />
+  <style>
+    body { display: flex; flex-direction: column; align-items: center; padding: 40px; gap: 24px; }
+    .chatterbox-stage { width: 267px; height: 294px; background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; }
+    .controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .frame-label { font-family: monospace; font-size: 14px; color: var(--color-warm-amber); }
+  </style>
+</head>
+<body>
+
+  <h1>Frame-swap Animation Test</h1>
+  <p class="frame-label" id="frame-label">Current frame: V33</p>
+
+  <div class="chatterbox-stage" id="stage">
+    <!-- Frame asset renders here -->
+  </div>
+
+  <div class="controls">
+    <button class="btn-secondary" onclick="testHOpen()">▶ H-Open sequence</button>
+    <button class="btn-secondary" onclick="testVOpen()">▶ V-Open sequence</button>
+    <button class="btn-secondary" onclick="testFullLoop()">▶ Full loop</button>
+    <button class="btn-secondary" onclick="resetFrame()">Reset to V33</button>
+  </div>
+
+  <script type="module">
+    import { Chatterbox } from '../components/chatterbox.js';
+    const stage = document.getElementById('stage');
+    const label = document.getElementById('frame-label');
+    const cb = new Chatterbox(stage);
+
+    window.testHOpen = async () => {
+      await cb.playSequence([...cb.H_OPEN_SEQ, ...cb.H_CLOSE_SEQ]);
+    };
+    window.testVOpen = async () => {
+      await cb.playSequence([...cb.V_OPEN_SEQ, ...cb.V_CLOSE_SEQ]);
+    };
+    window.testFullLoop = async () => {
+      // Simulate one letter of spelling: V then H
+      await cb.playSequence([...cb.V_OPEN_SEQ, ...cb.V_CLOSE_SEQ]);
+      await cb.playSequence([...cb.H_OPEN_SEQ, ...cb.H_CLOSE_SEQ]);
+    };
+    window.resetFrame = () => cb.showFrame('V33');
+  </script>
+
+</body>
+</html>

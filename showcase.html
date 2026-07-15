@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chatterbox — Component Showcase</title>
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <style>
+    body { padding: 40px; background: var(--color-desk-brown); }
+    .section { margin-bottom: 48px; }
+    .section h2 { color: var(--color-bright-white); font-family: 'Comfortaa', sans-serif; margin-bottom: 16px; }
+    .swatch-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .swatch { width: 80px; height: 80px; border-radius: 8px; display: flex; align-items: flex-end; padding: 6px; }
+    .swatch span { font-size: 10px; color: white; }
+    .paint-pods { display: flex; gap: 8px; }
+    .pod { width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); }
+  </style>
+</head>
+<body>
+
+  <h1 style="color: var(--color-bright-white); font-family: Comfortaa, sans-serif; margin-bottom: 40px;">
+    Chatterbox — Component Showcase
+  </h1>
+
+  <!-- Colours -->
+  <div class="section">
+    <h2>Colour Palette</h2>
+    <div class="swatch-row">
+      <div class="swatch" style="background:#7D5F36"><span>Desk Brown</span></div>
+      <div class="swatch" style="background:#464039"><span>Concrete</span></div>
+      <div class="swatch" style="background:#FAF7F0"><span>Paper Front</span></div>
+      <div class="swatch" style="background:#EFE9DD"><span>Paper Back</span></div>
+      <div class="swatch" style="background:#2A9D8F"><span>Bright Teal</span></div>
+      <div class="swatch" style="background:#264653"><span>Dark Teal</span></div>
+    </div>
+  </div>
+
+  <!-- Magic Paint pods -->
+  <div class="section">
+    <h2>Magic Paint Colours</h2>
+    <div class="paint-pods">
+      <div class="pod" style="background:#FFB2D2" title="Pink"></div>
+      <div class="pod" style="background:#EA6949" title="Red"></div>
+      <div class="pod" style="background:#F6AA41" title="Orange"></div>
+      <div class="pod" style="background:#E9D26D" title="Yellow"></div>
+      <div class="pod" style="background:#7AA86A" title="Green"></div>
+      <div class="pod" style="background:#649FC6" title="Blue"></div>
+      <div class="pod" style="background:#B285CD" title="Purple"></div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="section">
+    <h2>Typography</h2>
+    <div style="background: var(--color-paper-front); padding: 24px; border-radius: 8px;">
+      <p style="font-family:Comfortaa,sans-serif; font-size:32px; font-weight:700; color:#020101">Heading 1 — Comfortaa Bold 32pt</p>
+      <p style="font-family:Comfortaa,sans-serif; font-size:24px; color:#020101">Heading 2 — Comfortaa 24pt</p>
+      <p style="font-family:Outfit,sans-serif; font-size:20px; font-weight:500; color:#020101">Body 1 — Outfit Medium 20pt</p>
+      <p style="font-family:'Patrick Hand',cursive; font-size:48px; color:#020101; line-height:1.2">✦ Your fortune will appear here ✦</p>
+    </div>
+  </div>
+
+  <!-- Components (Cursor builds these from Figma) -->
+  <div class="section">
+    <h2>Components — build from Figma</h2>
+    <p style="color:var(--color-bright-white); font-family:Outfit,sans-serif; opacity:0.6">
+      Tell Cursor: "Build each component to match the Figma design. File key: dRqS5TWdiu2J4TPhiEyLrb."
+    </p>
+  </div>
+
+</body>
+</html>

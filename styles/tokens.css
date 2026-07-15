@@ -1,0 +1,78 @@
+/* ============================================================
+   Chatterbox — Design Tokens
+   Source of truth: Figma Design System node 772-9087
+   ============================================================ */
+
+:root {
+
+  /* ── Grays ── */
+  --color-bright-white:   #FEFBFB;
+  --color-soft-white:     #E8E7E7;
+  --color-light-gray:     #BCBABA;
+  --color-medium-gray:    #878787;
+  --color-dark-gray:      #5E5E5E;
+  --color-soft-black:     #020101;
+
+  /* ── Primary (Teal) ── */
+  --color-seaglass:       #78A79F;
+  --color-hover-teal:     #22BDAA;
+  --color-bright-teal:    #2A9D8F;
+  --color-teal:           #217D72;
+  --color-deep-teal:      #287271;
+  --color-dark-teal:      #264653;
+
+  /* ── Secondary (Paper) ── */
+  --color-paper-front:    #FAF7F0;
+  --color-paper-back:     #EFE9DD;
+  --color-golden-yellow:  #E9C46A;
+  --color-warm-amber:     #EFB366;
+  --color-peach-amber:    #F4A261;
+  --color-coral-red:      #E76F51;
+
+  /* ── Accents ── */
+  --color-magic-pink:     #EFB366;
+  --color-verdigris:      #8AB17D;
+  --color-danish-blue:    #8FB7B3;
+
+  /* ── Backgrounds ── */
+  --color-desk-brown:         #7D5F36;
+  --color-schoolyard-concrete: #464039;
+
+  /* ── Magic Paint (applied at 70% opacity) ── */
+  --paint-pink:    #FFB2D2;
+  --paint-red:     #EA6949;
+  --paint-orange:  #F6AA41;
+  --paint-yellow:  #E9D26D;
+  --paint-green:   #7AA86A;
+  --paint-blue:    #649FC6;
+  --paint-purple:  #B285CD;
+
+  /* ── Typography ── */
+  --font-heading:  'Comfortaa', sans-serif;
+  --font-body:     'Outfit', sans-serif;
+  --font-fortune:  'Patrick Hand', cursive;
+
+  --text-h1:   32px;
+  --text-h2:   24px;
+  --text-h3:   16px;
+  --text-body: 20px;
+  --text-help: 16px;
+  --text-fortune: 48px;
+
+  /* ── Layout ── */
+  --layout-min-width:  1440px;
+  --layout-baseline:   1440px;
+
+  /* ── Chatterbox dimensions ── */
+  --chatterbox-width:  267px;  /* Same in Decorate AND Play mode. Do not change. */
+
+  /* ── Schoolyard shadow (top-left light source) ── */
+  --schoolyard-shadow-x:    17px;
+  --schoolyard-shadow-y:    12px;
+  --schoolyard-shadow-blur: 12px;
+  --schoolyard-shadow-opacity: 0.35;
+
+  /* ── Magic Paint opacity ── */
+  --paint-opacity: 0.70;
+
+}

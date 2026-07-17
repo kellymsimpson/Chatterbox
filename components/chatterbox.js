@@ -4,13 +4,29 @@
  * All chatterbox animation uses frame-swap (not interpolation).
  * Pre-built Figma frames are displayed in sequence.
  *
- * Runtime open/close (design decision 2026-07-17):
- *   Horizontal: V33 ↔ V34 only
- *   Vertical:   V33 ↔ V36 only
- * Intermediate frames (V33.1, V33.2, V35.1, V35.2) remain in the asset/
- * coord libraries but are NOT in any runtime sequence. Decorations stay
- * at full opacity on every displayed frame. Swaps use a ~120ms
- * scale-squash pop on the container.
+ * ─────────────────────────────────────────────────────────────────────
+ * CANONICAL OPEN/CLOSE ANIMATION (approved 2026-07-17)
+ * ─────────────────────────────────────────────────────────────────────
+ * Sequences (stables only):
+ *   Horizontal: V33 ↔ V34
+ *   Vertical:   V33 ↔ V36
+ * Intermediate frames (V33.1, V33.2, V35.1, V35.2) remain in asset/coord
+ * libraries but are NOT in any runtime sequence.
+ *
+ * Decorations: full opacity on every displayed frame (no fades / hides).
+ *
+ * Swap motion — scale-squash pop on the container:
+ *   duration:  120ms          (SWAP_SQUASH_MS)
+ *   keyframes: scale(1, 1) → scale(1.05, 0.90) @ 40% → scale(1, 1)
+ *   easing:    ease-out       (= cubic-bezier(0, 0, 0.58, 1))
+ * Hold after each swap:
+ *   duration:  200ms          (STABLE_HOLD_MS)
+ *
+ * Design decision 2026-07-17: these values are canonical and REPLACE
+ * Figma prototype timings for the cut intermediate open/close sequences.
+ * Do not re-read or re-apply those prototype durations for runtime H/V
+ * open/close. (Figma file key remains the source for assets / geometry.)
+ * ─────────────────────────────────────────────────────────────────────
  *
  * Frame reference:
  *   V33     — Closed (resting state)
@@ -63,13 +79,10 @@ const FRAME_FILES = {
 
 const FRAMES_BASE = new URL('../assets/frames/', import.meta.url);
 
-/** Container pop on each open/close swap (reads as paper squash). */
+/** Canonical: container scale-squash pop duration (see file header). */
 export const SWAP_SQUASH_MS = 120;
 
-/**
- * Hold on a stable after a swap before the next action.
- * Anchored to Figma Screens `568:*` V open duration (V35.1→V36 = 200ms).
- */
+/** Canonical: hold on a stable after each swap (see file header). */
 export const STABLE_HOLD_MS = 200;
 
 export class Chatterbox {

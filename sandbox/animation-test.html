@@ -2,50 +2,170 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Animation Test — Chatterbox</title>
+  <title>Paint + Sticker Animation Test — Chatterbox</title>
   <link rel="stylesheet" href="../styles/tokens.css" />
   <link rel="stylesheet" href="../styles/base.css" />
   <style>
-    body { display: flex; flex-direction: column; align-items: center; padding: 40px; gap: 24px; }
-    .chatterbox-stage { width: 267px; height: 294px; background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; }
-    .controls { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .frame-label { font-family: monospace; font-size: 14px; color: var(--color-warm-amber); }
+    /* Sandbox: ignore app min-width so the stage fits the preview pane */
+    html { min-width: 0 !important; }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px;
+      gap: 20px;
+      background: var(--color-desk-brown);
+      min-height: 100vh;
+    }
+    h1 {
+      font-family: var(--font-heading);
+      color: var(--color-bright-white);
+      font-size: var(--text-h2);
+      margin: 0;
+    }
+    .sub {
+      font-family: var(--font-body);
+      color: var(--color-soft-white);
+      max-width: 540px;
+      text-align: center;
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .chatterbox-stage {
+      width: 267px;
+      height: 294px;
+      position: relative;
+      filter: drop-shadow(
+        var(--schoolyard-shadow-x)
+        var(--schoolyard-shadow-y)
+        var(--schoolyard-shadow-blur)
+        rgba(0, 0, 0, var(--schoolyard-shadow-opacity))
+      );
+    }
+    .paint-sticker-layer {
+      position: absolute;
+      inset: 0;
+      width: 267px;
+      height: 294px;
+      pointer-events: none;
+    }
+    .paint-sticker-layer .paint-svg {
+      position: absolute;
+      inset: 0;
+      overflow: visible;
+    }
+    .paint-masks,
+    .sticker-layer {
+      position: absolute;
+      inset: 0;
+      width: 267px;
+      height: 294px;
+      overflow: visible;
+    }
+    .flap-paint-mask {
+      position: absolute;
+      left: 0;
+      top: 0;
+      will-change: transform;
+    }
+    .sticker-on-flap {
+      will-change: transform;
+      pointer-events: none;
+    }
+    .sticker-on-flap img {
+      display: block;
+      pointer-events: none;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .frame-label {
+      font-family: monospace;
+      font-size: 14px;
+      color: var(--color-warm-amber);
+    }
+    .swatches {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-family: var(--font-body);
+      color: var(--color-soft-white);
+      font-size: 13px;
+    }
+    .swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      opacity: var(--paint-opacity);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
   </style>
 </head>
 <body>
 
-  <h1>Frame-swap Animation Test</h1>
+  <h1>Paint + sticker open/close</h1>
+  <p class="sub">
+    Prefer the crop-aligned motion sandbox:
+    <a href="./step4-motion-cycles.html" style="color:var(--color-warm-amber)">step4-motion-cycles.html</a>
+    (V33↔V34 / V33↔V36, full-opacity decor, 120ms squash-pop).
+  </p>
   <p class="frame-label" id="frame-label">Current frame: V33</p>
 
-  <div class="chatterbox-stage" id="stage">
-    <!-- Frame asset renders here -->
-  </div>
+  <div class="swatches" id="swatches"></div>
+
+  <div class="chatterbox-stage" id="stage"></div>
 
   <div class="controls">
-    <button class="btn-secondary" onclick="testHOpen()">▶ H-Open sequence</button>
-    <button class="btn-secondary" onclick="testVOpen()">▶ V-Open sequence</button>
-    <button class="btn-secondary" onclick="testFullLoop()">▶ Full loop</button>
-    <button class="btn-secondary" onclick="resetFrame()">Reset to V33</button>
+    <button class="btn-secondary" type="button" id="btn-v">▶ V-Open cycle (demo)</button>
+    <button class="btn-secondary" type="button" id="btn-h">▶ H-Open cycle</button>
+    <button class="btn-secondary" type="button" id="btn-reset">Reset to V33</button>
   </div>
 
   <script type="module">
     import { Chatterbox } from '../components/chatterbox.js';
+
+    const css = getComputedStyle(document.documentElement);
+    const paint = (name) => css.getPropertyValue(name).trim();
+
+    const DEMO = {
+      flap_colors: {
+        top_left: paint('--paint-pink') || '#FFB2D2',
+        top_right: paint('--paint-blue') || '#649FC6',
+        bottom_left: paint('--paint-yellow') || '#E9D26D',
+        bottom_right: paint('--paint-green') || '#7AA86A',
+      },
+      stickers: [
+        { flap: 'top_left', id: 'sticker-01', u: 0.42, v: 0.48, scale: 0.32 },
+      ],
+    };
+
+    document.getElementById('swatches').innerHTML =
+      'Paint:&nbsp;' +
+      Object.entries(DEMO.flap_colors)
+        .map(([k, c]) => `<span class="swatch" style="background:${c}" title="${k}"></span>`)
+        .join('') +
+      '&nbsp;+ sticker-01 on top-left';
+
     const stage = document.getElementById('stage');
     const label = document.getElementById('frame-label');
-    const cb = new Chatterbox(stage);
+    const cb = new Chatterbox(stage, DEMO);
+    window.__cb = cb;
 
-    window.testHOpen = async () => {
-      await cb.playSequence([...cb.H_OPEN_SEQ, ...cb.H_CLOSE_SEQ]);
-    };
-    window.testVOpen = async () => {
+    stage.addEventListener('chatterbox:frame', (e) => {
+      label.textContent = `Current frame: ${e.detail.frame}`;
+    });
+
+    document.getElementById('btn-v').onclick = async () => {
       await cb.playSequence([...cb.V_OPEN_SEQ, ...cb.V_CLOSE_SEQ]);
     };
-    window.testFullLoop = async () => {
-      // Simulate one letter of spelling: V then H
-      await cb.playSequence([...cb.V_OPEN_SEQ, ...cb.V_CLOSE_SEQ]);
+    document.getElementById('btn-h').onclick = async () => {
       await cb.playSequence([...cb.H_OPEN_SEQ, ...cb.H_CLOSE_SEQ]);
     };
-    window.resetFrame = () => cb.showFrame('V33');
+    document.getElementById('btn-reset').onclick = () => cb.showFrame('V33');
   </script>
 
 </body>

@@ -1,3 +1,9 @@
-# Vibe card icons — export from Figma, node 772-9087
-Custom-designed illustrations. **Never substitute or generate alternatives.**
-Required: vibe-mystical.svg · vibe-funny.svg · vibe-wholesome.svg · vibe-dramatic.svg · vibe-wildcard.svg
+# Vibe icons (exported from Figma Design System Card icons `302:2151`)
+
+| File | Theme | Node |
+|---|---|---|
+| vibe-mystical.svg | mystical, default | 302:2150 |
+| vibe-funny.svg | funny, default | 403:1049 |
+| vibe-wholesome.svg | wholesome, default | 302:2157 |
+| vibe-dramatic.svg | Dramatic, default | 462:9623 |
+| vibe-wildcard.svg | wildcard, default | 586:7669 |

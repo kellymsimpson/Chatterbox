@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Step — V34 + horizontal fill masks</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <style>
+    html { min-width: 0 !important; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: #5c4033;
+      font-family: system-ui, sans-serif;
+      color: #fff;
+      padding: 24px;
+    }
+    h1 { margin: 0; font-size: 18px; font-weight: 600; }
+    .note { margin: 0; font-size: 13px; opacity: 0.85; max-width: 820px; text-align: center; line-height: 1.45; }
+    .row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .col { text-align: center; }
+    .col label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+    .stage {
+      width: 292px;
+      height: 209px;
+      position: relative;
+      background: transparent;
+      outline: 1px dashed rgba(255, 255, 255, 0.35);
+      overflow: visible;
+    }
+    .stage > svg.composite {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 292px;
+      height: 209px;
+      display: block;
+      overflow: visible;
+    }
+    .stage > .frame-ref {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 292px;
+      height: 209px;
+      display: block;
+      object-fit: fill;
+    }
+    table {
+      border-collapse: collapse;
+      font-size: 11px;
+      font-family: ui-monospace, monospace;
+      margin-top: 8px;
+      max-width: 980px;
+    }
+    td, th {
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>V34 — H-open + horizontal masks</h1>
+  <p class="note" id="note">Loading…</p>
+  <div class="row">
+    <div class="col">
+      <label>Render (stage)</label>
+      <div class="stage" id="stage"></div>
+    </div>
+    <div class="col">
+      <label>Figma ref (NORMAL @ 0.70 fill paint)</label>
+      <div class="stage">
+        <img class="frame-ref" src="./refs/figma-v34-with-h-fills.png?v=1" width="292" height="209" alt="Figma V34 with H fills" />
+      </div>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>File</th><th>Node</th><th>Instance (crop-local)</th>
+        <th>Export origin</th><th>Placed at</th>
+      </tr>
+    </thead>
+    <tbody id="mask-table"></tbody>
+  </table>
+
+  <script type="module">
+    /**
+     * Same compositing recipe as closed mode (573:6020 / Fill):
+     * (a) NORMAL on fill paint
+     * (b) paper (folded + top/shading) then fills
+     * (c) fill-paint opacity 0.70; instance opacity 1
+     * Placements from V41 573:5921 — not quads.
+     */
+    const PAINT = { r: 234, g: 105, b: 73 };
+    const PAINT_OPACITY = 0.70;
+
+    const placements = await fetch(new URL('../assets/fills/h-placements.json?v=tl3', import.meta.url)).then((r) => r.json());
+    const note = document.getElementById('note');
+    note.innerHTML = `
+      Frame from Screens <code>${placements.paperExport.screensSourceFrame}</code>
+      (${placements.paperExport.screensSourceName}) — not Sandbox isolate.
+      Masks from set <code>499:15373</code>; placements from
+      <code>${placements.sourceFrame.id}</code> (${placements.sourceFrame.name}).
+      Compositing: <strong>NORMAL</strong>, fills above paper shading,
+      <strong>fill-opacity ${PAINT_OPACITY}</strong>. Stage ${placements.paperExport.viewBox}.
+      <br />TL reconciled to instance <code>573:5953</code>: x=8.690 w=132.237 (export 133 pad right-only).
+    `;
+
+    const stage = document.getElementById('stage');
+    const table = document.getElementById('mask-table');
+    const NS = 'http://www.w3.org/2000/svg';
+
+    const paperText = await fetch(new URL('../assets/frames/v34.svg?v=screens2', import.meta.url)).then((r) => r.text());
+    const paperDoc = new DOMParser().parseFromString(paperText, 'image/svg+xml');
+    const paperSvg = paperDoc.querySelector('svg');
+
+    const root = document.createElementNS(NS, 'svg');
+    root.setAttribute('class', 'composite');
+    root.setAttribute('viewBox', paperSvg.getAttribute('viewBox') || '0 0 292 209');
+    root.setAttribute('width', '292');
+    root.setAttribute('height', '209');
+    root.setAttribute('xmlns', NS);
+
+    const paperG = document.createElementNS(NS, 'g');
+    paperG.setAttribute('data-layer', 'paper');
+    for (const child of [...paperSvg.childNodes]) {
+      paperG.appendChild(document.importNode(child, true));
+    }
+    root.appendChild(paperG);
+
+    const fillG = document.createElementNS(NS, 'g');
+    fillG.setAttribute('data-layer', 'Fills');
+    fillG.setAttribute('style', 'mix-blend-mode: normal');
+
+    for (const m of placements.masks) {
+      const placeX = m.instanceLocal.x + m.exportOrigin.x;
+      const placeY = m.instanceLocal.y + m.exportOrigin.y;
+
+      const svgUrl = new URL(`../assets/fills/${m.file}`, import.meta.url);
+      svgUrl.searchParams.set('v', 'h2');
+      const svgText = await fetch(svgUrl).then((r) => r.text());
+      const doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+      const maskSvg = doc.querySelector('svg');
+      const exportW = parseFloat(maskSvg.getAttribute('width')) || maskSvg.viewBox.baseVal.width;
+      const exportH = parseFloat(maskSvg.getAttribute('height')) || maskSvg.viewBox.baseVal.height;
+
+      const g = document.createElementNS(NS, 'g');
+      g.setAttribute('data-flap', m.flap);
+      g.setAttribute('data-node', m.node);
+      g.setAttribute('transform', `translate(${placeX} ${placeY})`);
+
+      const path = maskSvg.querySelector('path');
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', path.getAttribute('d'));
+      p.setAttribute('fill', `rgb(${PAINT.r}, ${PAINT.g}, ${PAINT.b})`);
+      p.setAttribute('fill-opacity', String(PAINT_OPACITY));
+      p.setAttribute('style', 'mix-blend-mode: normal');
+      g.appendChild(p);
+      fillG.appendChild(g);
+
+      table.insertAdjacentHTML(
+        'beforeend',
+        `<tr>
+          <td>${m.file}</td>
+          <td>${m.node}</td>
+          <td>x=${m.instanceLocal.x.toFixed(3)}, y=${m.instanceLocal.y.toFixed(3)}, ${m.instanceLocal.w.toFixed(2)}×${m.instanceLocal.h.toFixed(2)}</td>
+          <td>(${m.exportOrigin.x.toFixed(3)}, ${m.exportOrigin.y.toFixed(3)})</td>
+          <td>x=${placeX.toFixed(3)}, y=${placeY.toFixed(3)}, ${exportW}×${exportH}</td>
+        </tr>`,
+      );
+    }
+
+    root.appendChild(fillG);
+    stage.appendChild(root);
+  </script>
+</body>
+</html>

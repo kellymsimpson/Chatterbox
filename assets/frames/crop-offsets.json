@@ -1,0 +1,487 @@
+{
+  "$schema_note": "Crop offsets map original 1440\u00d7900 Play Mode screen space to exported SVG top-left. Formula: localX = screenX - crop.x; localY = screenY - crop.y. play_flap_coords in components/flap-coords.js are in screen space.",
+  "sourcePage": "Screens (0:1)",
+  "sourceSection": "Play Mode (486:14261)",
+  "pad": 8,
+  "frames": {
+    "v33": {
+      "file": "v33.svg",
+      "sourceId": "933:22940",
+      "sourceName": "Chatterbox - undecorated (Decorate instance on V33.5)",
+      "sourceFrame": {
+        "w": 267,
+        "h": 294
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 267,
+        "h": 294,
+        "pad": 0
+      },
+      "coordinateSpace": "decorate-local (origin = chatterbox top-left; matches decorate_flap_coords / PRD \u00a715)",
+      "note": "Exported from Decorate instance 933:22940. Raw SVG included parent Screen background (#F5F5F5 rect + huge white paths) \u2014 those were stripped; kept only the Chatterbox-undecorated group + defs. Prior Sandbox isolate 573:7311 (291\u00d7292) was wrong size/space."
+    },
+    "v33.1": {
+      "file": "v33.1.svg",
+      "sourceId": "544:5624",
+      "sourceName": "V33.1 -  Animated horizontal start open/close",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 597.419921875,
+        "y": 156.69361877441406,
+        "w": 261,
+        "h": 279,
+        "pad": 8
+      },
+      "parts": [
+        "bottom",
+        "folded paper",
+        "top"
+      ],
+      "exportViewBox": "0 0 261 279",
+      "exportTempId": "1299:18319",
+      "coordinateSpace": "frame-local crop of Screens 544:5624 (pad 8); play quads \u2192 crop-local via screen - crop.origin",
+      "note": "Re-exported illustration-only 2026-07-17. Gray plate stripped. Quads authoritative (hand-measured)."
+    },
+    "v33.2": {
+      "file": "v33.2.svg",
+      "sourceId": "544:5677",
+      "sourceName": "V33.2 - Animated horizontal half open/close",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 571.099609375,
+        "y": 163.52806091308594,
+        "w": 308,
+        "h": 272,
+        "pad": 8
+      },
+      "parts": [
+        "bottom",
+        "folded paper",
+        "top"
+      ],
+      "exportViewBox": "0 0 308 272",
+      "exportTempId": "1299:18371",
+      "coordinateSpace": "frame-local crop of Screens 544:5677 (pad 8); play quads \u2192 crop-local via screen - crop.origin",
+      "note": "Re-exported illustration-only 2026-07-17. Gray plate stripped. Quads authoritative (hand-measured)."
+    },
+    "v34": {
+      "file": "v34.svg",
+      "sourceId": "417:4683",
+      "sourceName": "V34- Horizontal open.Deco",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 579.1,
+        "y": 192.326,
+        "w": 291.504,
+        "h": 208.326,
+        "pad": 0
+      },
+      "exportViewBox": "0 0 292 209",
+      "coordinateSpace": "H-open crop-local (origin = union of folded paper + top absoluteRenderBounds)",
+      "parts": [
+        "417:4708 folded paper",
+        "417:4715 top"
+      ],
+      "note": "Re-exported from Screens page (not Sandbox isolate 573:7369). Horizontal Flap Numbers (417:4738) is nested inside folded paper \u2014 included with that group. Gray plate stripped. Fill placements measured on V41 573:5921 in the same crop space."
+    },
+    "v35.1": {
+      "file": "v35.1.svg",
+      "sourceId": "544:5789",
+      "sourceName": "V35.1 - Animated vertical start open/close",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 579.9102478027344,
+        "y": 143.02243041992188,
+        "w": 286,
+        "h": 292,
+        "pad": 8
+      },
+      "parts": [
+        "bottom",
+        "folded paper",
+        "top"
+      ],
+      "exportViewBox": "0 0 286 292",
+      "exportTempId": "1299:18426",
+      "coordinateSpace": "frame-local crop of Screens 544:5789 (pad 8); play quads \u2192 crop-local via screen - crop.origin",
+      "note": "Re-exported illustration-only 2026-07-17. Gray plate stripped. Quads from PRD \u00a715."
+    },
+    "v35.2": {
+      "file": "v35.2.svg",
+      "sourceId": "544:5843",
+      "sourceName": "V35.2 - Animated vertical half open/close",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 583.3309020996094,
+        "y": 190.19976806640625,
+        "w": 289,
+        "h": 274,
+        "pad": 8
+      },
+      "parts": [
+        "bottom",
+        "folded paper",
+        "top",
+        "Vertical Flap Numbers"
+      ],
+      "exportViewBox": "0 0 289 274",
+      "exportTempId": "1299:18479",
+      "coordinateSpace": "frame-local crop of Screens 544:5843 (pad 8); play quads \u2192 crop-local via screen - crop.origin",
+      "note": "Re-exported illustration-only 2026-07-17. Gray plate stripped. Quads from PRD \u00a715."
+    },
+    "v36": {
+      "file": "v36.svg",
+      "sourceId": "431:5905",
+      "sourceName": "V36 - Vertical open.Deco",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 591.3331909179688,
+        "y": 126.23858642578125,
+        "w": 272.55059814453125,
+        "h": 329.86199951171875,
+        "pad": 0
+      },
+      "exportViewBox": "0 0 273 330",
+      "coordinateSpace": "SVG is crop-local (origin 0,0). Screen-space crop origin stored in crop.x/y for converting play_flap_coords \u2192 SVG space.",
+      "parts": [
+        "431:5930 folded paper",
+        "431:5937 top",
+        "431:5962 Vertical Flap Numbers (component 413:1703)"
+      ],
+      "note": "Re-exported from Screens (not Sandbox isolate 573:7400). Includes Vertical Flap Numbers at crop-local ~82.85,109.45. Fill placements measured on V41.2 573:6085 in the same crop space."
+    },
+    "v37": {
+      "file": "v37.svg",
+      "sourceId": "511:17237",
+      "sourceName": "V37 - Horizontal Fortune Reveal",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 179.208,
+        "w": 340.514,
+        "h": 241.818,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 242",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "tempExportFrameId": "1281:9983",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v37.1": {
+      "file": "v37.1.svg",
+      "sourceId": "511:17199",
+      "sourceName": "V37.1 - Horizontal Fortune Reveal",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 179.208,
+        "w": 340.514,
+        "h": 241.818,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 242",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "tempExportFrameId": "1281:10010",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v37.2": {
+      "file": "v37.2.svg",
+      "sourceId": "511:17120",
+      "sourceName": "V37.2 - Horizontal Fortune Reveal",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 171.569,
+        "w": 340.514,
+        "h": 249.457,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 250",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "tempExportFrameId": "1281:10037",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v38.1": {
+      "file": "v38.1.svg",
+      "sourceId": "524:18316",
+      "sourceName": "V38.1 - Horizontal Fortune Reveal - even number flaps",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 98.228,
+        "w": 340.514,
+        "h": 322.798,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 323",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap (POLYGON)",
+        "Union"
+      ],
+      "tempExportFrameId": "1281:10064",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v38.2": {
+      "file": "v38.2.svg",
+      "sourceId": "524:18373",
+      "sourceName": "V38.2 - Horizontal Fortune Reveal - odd number flaps",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 98.228,
+        "w": 340.514,
+        "h": 322.798,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 323",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap (POLYGON)",
+        "Union"
+      ],
+      "tempExportFrameId": "1281:10108",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v39": {
+      "file": "v39.svg",
+      "sourceId": "541:3334",
+      "sourceName": "V39 - Veritcal Fortune Reveal",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 179.208,
+        "w": 340.514,
+        "h": 241.818,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 242",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "tempExportFrameId": "1281:10152",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v39.1": {
+      "file": "v39.1.svg",
+      "sourceId": "541:3298",
+      "sourceName": "V39.1 - Vertical Fortune Reveal",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 179.208,
+        "w": 340.514,
+        "h": 241.817,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 242",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "tempExportFrameId": "1281:10179",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v39.2": {
+      "file": "v39.2.svg",
+      "sourceId": "541:3262",
+      "sourceName": "V39.2 - Vertical Fortune Reveal",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 171.569,
+        "w": 340.514,
+        "h": 249.456,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 250",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "tempExportFrameId": "1281:10206",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v40.1": {
+      "file": "v40.1.svg",
+      "sourceId": "541:3152",
+      "sourceName": "V40.1 - Vertical Fortune Reveal - even number flaps",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 98.228,
+        "w": 340.514,
+        "h": 322.798,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 323",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap (POLYGON)",
+        "Union"
+      ],
+      "tempExportFrameId": "1281:10233",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v40.2": {
+      "file": "v40.2.svg",
+      "sourceId": "541:3207",
+      "sourceName": "V40.2 - Vertical Fortune Reveal - odd number flaps",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 551.922,
+        "y": 98.228,
+        "w": 340.514,
+        "h": 322.798,
+        "pad": 8
+      },
+      "exportViewBox": "0 0 341 323",
+      "parts": [
+        "BASE",
+        "top",
+        "fortune message flap (POLYGON)",
+        "Union"
+      ],
+      "tempExportFrameId": "1281:10277",
+      "note": "Re-exported without baked Fills group. Placeholder paint colors stripped; runtime uses reveal face masks 540:2933. Illustration kept (BASE/top/fortune message flap/Union). Empty fill-less VECTOR twins of fortune flap excluded (null ARB). Live fortune text stays out."
+    },
+    "v41": {
+      "file": "v41.svg",
+      "sourceId": "573:7045",
+      "sourceName": "V41- Horizontal open.play",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 829.928,
+        "y": 365.589,
+        "w": 308,
+        "h": 235,
+        "pad": 8
+      },
+      "parts": [
+        "folded paper",
+        "top",
+        "Fills"
+      ]
+    },
+    "v42": {
+      "file": "v42.svg",
+      "sourceId": "590:7924",
+      "sourceName": "V42 Post Reveal Screen",
+      "sourceFrame": {
+        "w": 1440,
+        "h": 900
+      },
+      "crop": {
+        "x": 564.945,
+        "y": 98.228,
+        "w": 640,
+        "h": 487,
+        "pad": 8
+      },
+      "parts": [
+        "BASE",
+        "top",
+        "Fills",
+        "fortune message flap",
+        "Union"
+      ]
+    }
+  },
+  "overlays": {
+    "post-reveal-overlay": {
+      "file": "../overlays/post-reveal-overlay.png",
+      "sourceId": "590:8059",
+      "sourceName": "V37 / V38 Fortune Reveal/Post Reveal Overlay",
+      "sourceFrame": {
+        "w": 477,
+        "h": 260
+      },
+      "export": {
+        "format": "png",
+        "scale": 2,
+        "pixelWidth": 1954,
+        "pixelHeight": 1520
+      },
+      "crop": {
+        "x": 0,
+        "y": 0,
+        "w": 477,
+        "h": 260,
+        "pad": 0
+      },
+      "note": "SVG export unavailable via MCP for this component; PNG @2x used. Raster bounds (1954\u00d71520) exceed logical 477\u00d7260\u00d72 due to effects/overflow \u2014 position using logical size centered or measure against Figma instance placement on reveal screens."
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "sourceFrame": {
+    "id": "573:6020",
+    "name": "V41.1 - Horizontal open.play",
+    "page": "Screens",
+    "note": "Closed-fill instances composed with folded paper / top. Chatterbox origin bridged via back-left-base landmark (play 573:6037 ↔ decorate 874:19605)."
+  },
+  "chatterboxOriginInFrame": {
+    "x": 588.7576904296875,
+    "y": 141.44384765625
+  },
+  "landmark": {
+    "playNode": "573:6037",
+    "decorateNode": "874:19605",
+    "name": "back left base",
+    "decorateLocal": {
+      "x": 24.109375,
+      "y": 39.022705078125
+    }
+  },
+  "masks": [
+    {
+      "file": "closed-top-left.svg",
+      "node": "492:14791",
+      "flap": "top_left",
+      "instanceLocal": {
+        "x": 23.9410400390625,
+        "y": 38.47900390625,
+        "w": 109.54279327392578,
+        "h": 106.22081756591797
+      },
+      "exportOrigin": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "file": "closed-top-right.svg",
+      "node": "492:14892",
+      "flap": "top_right",
+      "instanceLocal": {
+        "x": 132.4102783203125,
+        "y": 38.67236328125,
+        "w": 110.28459167480469,
+        "h": 106.09484100341797
+      },
+      "exportOrigin": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "file": "closed-bottom-left.svg",
+      "node": "494:14926",
+      "flap": "bottom_left",
+      "instanceLocal": {
+        "x": 29.210212469100952,
+        "y": 143.93774986267084,
+        "w": 104,
+        "h": 116
+      },
+      "exportOrigin": {
+        "x": -0.171142578125,
+        "y": 0.748291015625
+      },
+      "contentLocalFromRenderBounds": {
+        "x": 29.399665594100952,
+        "y": 144.81152915954584,
+        "w": 102.9912109375,
+        "h": 114.929443359375
+      },
+      "playInstance": {
+        "id": "573:6055",
+        "mainId": "492:14914",
+        "mainName": "color=blue, flap=bottom left, selected=no"
+      },
+      "playChildRel": {
+        "x": 0.18947601318359375,
+        "y": 0.8739013671875
+      },
+      "redMasterChildRel": {
+        "x": 0.36061859130859375,
+        "y": 0.1256103515625
+      },
+      "placementNote": "Source: composed instance 573:6055 on frame 573:6020 (NOT flap-coords). viewBox is native Figma export 0 0 104 116 — never modified (unlike BR). Play uses blue master 492:14914 whose path is translated vs red export 494:14926; exportOrigin = playChildRel - redMasterChildRel. place = instanceLocal + exportOrigin aligns red SVG to play content bounds."
+    },
+    {
+      "file": "closed-bottom-right.svg",
+      "node": "496:14949",
+      "flap": "bottom_right",
+      "instanceLocal": {
+        "x": 132.262451171875,
+        "y": 146.9189453125,
+        "w": 110.28459167480469,
+        "h": 106.09484100341797
+      },
+      "exportOrigin": {
+        "x": -0.0540008544921875,
+        "y": -2.2161865234375
+      },
+      "viewBoxNote": "Export viewBox ~111x111 includes path overflow above component. Shrinking viewBox to component size was shifting BR high."
+    }
+  ]
+}

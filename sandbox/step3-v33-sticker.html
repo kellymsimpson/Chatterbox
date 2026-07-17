@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Step 3 — V33 + paint + sticker</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <style>
+    html { min-width: 0 !important; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: #5c4033;
+      font-family: system-ui, sans-serif;
+      color: #fff;
+      padding: 24px;
+    }
+    h1 { margin: 0; font-size: 18px; font-weight: 600; }
+    .note { margin: 0; font-size: 13px; opacity: 0.85; max-width: 820px; text-align: center; line-height: 1.45; }
+    .row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .col { text-align: center; }
+    .col label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+    .stage {
+      width: 267px;
+      height: 294px;
+      position: relative;
+      background: transparent;
+      outline: 1px dashed rgba(255, 255, 255, 0.35);
+      overflow: visible;
+    }
+    /* Paper as img — same stack as PaintStickerLayer (HTML overlays above paper) */
+    .stage > .paper {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 267px;
+      height: 294px;
+      display: block;
+      z-index: 0;
+    }
+    .stage > svg.fills {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 267px;
+      height: 294px;
+      display: block;
+      overflow: visible;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .stage > .sticker-layer {
+      position: absolute;
+      inset: 0;
+      width: 267px;
+      height: 294px;
+      overflow: visible;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .sticker-on-flap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform-origin: 0 0;
+      will-change: transform;
+      pointer-events: none;
+    }
+    .sticker-on-flap img {
+      position: absolute;
+      display: block;
+      pointer-events: none;
+    }
+    .stage > .frame-ref {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 267px;
+      height: 294px;
+      display: block;
+      object-fit: fill;
+    }
+    code { font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Step 3 — V33 + paint + sticker</h1>
+  <p class="note" id="note">Loading…</p>
+  <div class="row">
+    <div class="col">
+      <label>Render (paper → fills → sticker)</label>
+      <div class="stage" id="stage"></div>
+    </div>
+    <div class="col">
+      <label>Figma ref (fills @ 0.70 + sticker)</label>
+      <div class="stage">
+        <img class="frame-ref" src="./refs/figma-v33-with-sticker.png?v=2" width="267" height="294" alt="Figma V33 with sticker" />
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    /**
+     * Stack (bottom → top): paper → closed Fill masks → sticker.
+     * Fills: locked closed-placements.json (decorate-local, NORMAL @ 0.70).
+     * Sticker: PRD §8.7 UV on decorate flap quad via matrix3dFromUnitSquare.
+     */
+    import { decorateQuadsVisual } from '../components/flap-coords.js';
+    import { matrix3dFromRect } from '../components/geometry.js';
+
+    const PAINT = { r: 234, g: 105, b: 73 };
+    const PAINT_OPACITY = 0.70;
+    /** UV plane size in CSS px — must be >>1 so <img> rasterizes before matrix3d. */
+    const UV_PX = 100;
+    const STICKER = {
+      flap: 'top_left',
+      id: 'sticker-01',
+      u: 0.42,
+      v: 0.48,
+      scale: 0.32,
+    };
+
+    const placements = await fetch(new URL('../assets/fills/closed-placements.json?v=1', import.meta.url)).then((r) => r.json());
+    const note = document.getElementById('note');
+    note.innerHTML = `
+      Closed fills locked. Sticker <code>${STICKER.id}</code> on
+      <code>${STICKER.flap}</code> at <code>(u,v)=(${STICKER.u}, ${STICKER.v})</code>,
+      scale ${STICKER.scale} — above paint, UV-warped onto decorate quad.
+    `;
+
+    const stage = document.getElementById('stage');
+    const NS = 'http://www.w3.org/2000/svg';
+
+    const paper = document.createElement('img');
+    paper.className = 'paper';
+    paper.src = new URL('../assets/frames/v33.svg?v=1', import.meta.url).href;
+    paper.width = 267;
+    paper.height = 294;
+    paper.alt = '';
+    paper.draggable = false;
+    stage.appendChild(paper);
+
+    const fillSvg = document.createElementNS(NS, 'svg');
+    fillSvg.setAttribute('class', 'fills');
+    fillSvg.setAttribute('viewBox', '0 0 267 294');
+    fillSvg.setAttribute('width', '267');
+    fillSvg.setAttribute('height', '294');
+    fillSvg.setAttribute('xmlns', NS);
+
+    const fillG = document.createElementNS(NS, 'g');
+    fillG.setAttribute('data-layer', 'Fill');
+    fillG.setAttribute('style', 'mix-blend-mode: normal');
+
+    for (const m of placements.masks) {
+      const placeX = m.instanceLocal.x + m.exportOrigin.x;
+      const placeY = m.instanceLocal.y + m.exportOrigin.y;
+      const svgText = await fetch(new URL(`../assets/fills/${m.file}?v=1`, import.meta.url)).then((r) => r.text());
+      const doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+      const maskSvg = doc.querySelector('svg');
+      const path = maskSvg.querySelector('path');
+
+      const g = document.createElementNS(NS, 'g');
+      g.setAttribute('data-flap', m.flap);
+      g.setAttribute('transform', `translate(${placeX} ${placeY})`);
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', path.getAttribute('d'));
+      p.setAttribute('fill', `rgb(${PAINT.r}, ${PAINT.g}, ${PAINT.b})`);
+      p.setAttribute('fill-opacity', String(PAINT_OPACITY));
+      p.setAttribute('style', 'mix-blend-mode: normal');
+      g.appendChild(p);
+      fillG.appendChild(g);
+    }
+    fillSvg.appendChild(fillG);
+    stage.appendChild(fillSvg);
+
+    // Sticker above paint (HTML overlay — same as PaintStickerLayer)
+    const stickerLayer = document.createElement('div');
+    stickerLayer.className = 'sticker-layer';
+    const quads = decorateQuadsVisual();
+    const quad = quads[STICKER.flap];
+    const wrap = document.createElement('div');
+    wrap.className = 'sticker-on-flap';
+    wrap.style.width = `${UV_PX}px`;
+    wrap.style.height = `${UV_PX}px`;
+    wrap.style.transform = matrix3dFromRect(UV_PX, UV_PX, quad);
+    // Sticker SVGs currently include Figma export chrome (gray plate + artboard guides).
+    // Strip those for the confirm view so we compare sticker art only.
+    const stickerText = await fetch(new URL(`../assets/stickers/${STICKER.id}.svg?v=1`, import.meta.url)).then((r) => r.text());
+    const stickerDoc = new DOMParser().parseFromString(stickerText, 'image/svg+xml');
+    const stickerSvg = stickerDoc.querySelector('svg');
+    for (const el of [...stickerSvg.querySelectorAll('rect')]) {
+      const fill = (el.getAttribute('fill') || '').toUpperCase();
+      if (fill === '#BEBEBE' || el.getAttribute('stroke') === '#9747FF') el.remove();
+    }
+    const decorateChrome = stickerSvg.querySelector('#Decorate\\ Mode > path, [id="Decorate Mode"] > path');
+    if (decorateChrome) decorateChrome.remove();
+    const blob = new Blob([new XMLSerializer().serializeToString(stickerSvg)], { type: 'image/svg+xml' });
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(blob);
+    img.alt = '';
+    img.draggable = false;
+    const sizePx = STICKER.scale * UV_PX;
+    img.style.left = `${STICKER.u * UV_PX - sizePx / 2}px`;
+    img.style.top = `${STICKER.v * UV_PX - sizePx / 2}px`;
+    img.style.width = `${sizePx}px`;
+    img.style.height = 'auto';
+    wrap.appendChild(img);
+    stickerLayer.appendChild(wrap);
+    stage.appendChild(stickerLayer);
+  </script>
+</body>
+</html>

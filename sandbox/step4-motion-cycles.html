@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Step 4 — H/V motion cycles (paint + sticker)</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <style>
+    html { min-width: 0 !important; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: #5c4033;
+      font-family: system-ui, sans-serif;
+      color: #fff;
+      padding: 24px;
+    }
+    h1 { margin: 0; font-size: 18px; font-weight: 600; }
+    .note {
+      margin: 0;
+      font-size: 13px;
+      opacity: 0.85;
+      max-width: 720px;
+      text-align: center;
+      line-height: 1.45;
+    }
+    .frame-label {
+      font-family: ui-monospace, monospace;
+      font-size: 14px;
+      color: #f0c674;
+    }
+    .stage-wrap {
+      width: 360px;
+      height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stage {
+      position: relative;
+      overflow: visible;
+      outline: 1px dashed rgba(255, 255, 255, 0.3);
+      transform-origin: 50% 50%;
+    }
+    .stage .paper {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 0;
+    }
+    .stage .decor {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: visible;
+      opacity: 1;
+    }
+    .stage .fills {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .stage .sticker-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .sticker-on-flap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform-origin: 0 0;
+      will-change: transform;
+      pointer-events: none;
+    }
+    .sticker-on-flap img {
+      position: absolute;
+      display: block;
+      pointer-events: none;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    button {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover { background: rgba(0,0,0,0.4); }
+    button:disabled { opacity: 0.45; cursor: default; }
+    code { font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Step 4 — H/V open/close with paint + sticker</h1>
+  <p class="note">
+    Runtime: <strong>V33 ↔ V34</strong> (H) and <strong>V33 ↔ V36</strong> (V) only.
+    Intermediates cut by design decision — assets/quads/fade helpers kept offline
+    (<code>legacy-intermediate-fade-cycle.js</code>).
+    Decorations always full opacity. Swap uses ~120ms scale-squash pop; hold 200ms (Figma <code>568:*</code> V duration).
+  </p>
+  <p class="frame-label" id="label">Frame: V33</p>
+  <p class="note" id="timing-label" style="opacity:0.7;font-family:ui-monospace,monospace;font-size:12px;">
+    Timing: Figma real speed
+  </p>
+  <div class="stage-wrap"><div class="stage" id="stage"></div></div>
+  <div class="controls">
+    <button type="button" id="btn-both">▶ Both @ Figma speed</button>
+    <button type="button" id="btn-h">▶ H open/close</button>
+    <button type="button" id="btn-v">▶ V open/close</button>
+    <button type="button" id="btn-loop">Loop both</button>
+    <button type="button" id="btn-stop">Stop</button>
+    <button type="button" id="btn-reset">Reset V33</button>
+  </div>
+
+  <script type="module">
+    import {
+      FRAME_COORD_KEY,
+      playQuadsVisual,
+      play_flap_coords,
+      decorateQuadsVisual,
+    } from '../components/flap-coords.js?v=stables1';
+    import { matrix3dFromRect } from '../components/geometry.js?v=stables1';
+    import { SWAP_SQUASH_MS, STABLE_HOLD_MS } from '../components/chatterbox.js?v=stables1';
+
+    const PAINT_OPACITY = 0.70;
+    const UV_PX = 100;
+    const CORAL = '#EA6949';
+    const COLORS = {
+      top_left: CORAL,
+      top_right: CORAL,
+      bottom_left: CORAL,
+      bottom_right: CORAL,
+    };
+    const STICKER = { flap: 'top_left', id: 'sticker-01', u: 0.42, v: 0.48, scale: 0.32 };
+
+    /** Runtime sequences — stables only (matches chatterbox.js). */
+    const H_CYCLE = ['V33', 'V34', 'V33'];
+    const V_CYCLE = ['V33', 'V36', 'V33'];
+
+    /** Stable frames only in the runtime path. Intermediate metas kept for asset reference. */
+    const FRAMES = {
+      V33: {
+        file: 'v33.svg', w: 267, h: 294,
+        paint: 'closed-placements',
+        quads: 'decorate',
+      },
+      V34: {
+        file: 'v34.svg', w: 292, h: 209,
+        crop: { x: 579.10009765625, y: 192.3262481689453 },
+        paint: 'h-placements',
+        quads: 'play',
+      },
+      V36: {
+        file: 'v36.svg', w: 273, h: 330,
+        crop: { x: 591.3331909179688, y: 126.23858642578125 },
+        paint: 'v-placements',
+        quads: 'play',
+      },
+      // Offline reference only — not in H_CYCLE / V_CYCLE:
+      'V33.1': {
+        file: 'v33.1.svg', w: 261, h: 279,
+        crop: { x: 597.419921875, y: 156.69361877441406 },
+        paint: 'none',
+        quads: 'play',
+      },
+      'V33.2': {
+        file: 'v33.2.svg', w: 308, h: 272,
+        crop: { x: 571.099609375, y: 163.52806091308594 },
+        paint: 'none',
+        quads: 'play',
+      },
+      'V35.1': {
+        file: 'v35.1.svg', w: 286, h: 292,
+        crop: { x: 579.9102478027344, y: 143.02243041992188 },
+        paint: 'none',
+        quads: 'play',
+      },
+      'V35.2': {
+        file: 'v35.2.svg', w: 289, h: 274,
+        crop: { x: 583.3309020996094, y: 190.19976806640625 },
+        paint: 'none',
+        quads: 'play',
+      },
+    };
+
+    const stage = document.getElementById('stage');
+    const label = document.getElementById('label');
+    const NS = 'http://www.w3.org/2000/svg';
+
+    const [closedPlacements, hPlacements, vPlacements] = await Promise.all([
+      fetch('../assets/fills/closed-placements.json').then((r) => r.json()),
+      fetch('../assets/fills/h-placements.json').then((r) => r.json()),
+      fetch('../assets/fills/v-placements.json').then((r) => r.json()),
+    ]);
+
+    const pathCache = new Map();
+    async function maskPath(file) {
+      if (pathCache.has(file)) return pathCache.get(file);
+      const text = await fetch(`../assets/fills/${file}`).then((r) => r.text());
+      const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+      const d = doc.querySelector('path').getAttribute('d');
+      pathCache.set(file, d);
+      return d;
+    }
+
+    let stickerUrl = null;
+    async function getStickerUrl() {
+      if (stickerUrl) return stickerUrl;
+      const text = await fetch(`../assets/stickers/${STICKER.id}.svg`).then((r) => r.text());
+      const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+      const svg = doc.querySelector('svg');
+      for (const el of [...svg.querySelectorAll('rect')]) {
+        const fill = (el.getAttribute('fill') || '').toUpperCase();
+        if (fill === '#BEBEBE' || el.getAttribute('stroke') === '#9747FF') el.remove();
+      }
+      const chrome = svg.querySelector('[id="Decorate Mode"] > path');
+      if (chrome) chrome.remove();
+      stickerUrl = URL.createObjectURL(
+        new Blob([new XMLSerializer().serializeToString(svg)], { type: 'image/svg+xml' }),
+      );
+      return stickerUrl;
+    }
+
+    function playQuadsCropLocal(frameName, crop) {
+      const key = FRAME_COORD_KEY[frameName];
+      const visual = playQuadsVisual(play_flap_coords[key]);
+      const out = {};
+      for (const [flap, q] of Object.entries(visual)) {
+        out[flap] = {
+          C0: [q.C0[0] - crop.x, q.C0[1] - crop.y],
+          C1: [q.C1[0] - crop.x, q.C1[1] - crop.y],
+          C2: [q.C2[0] - crop.x, q.C2[1] - crop.y],
+          C3: [q.C3[0] - crop.x, q.C3[1] - crop.y],
+        };
+      }
+      return out;
+    }
+
+    function quadsFor(frameName, meta) {
+      if (meta.quads === 'decorate') return decorateQuadsVisual();
+      return playQuadsCropLocal(frameName, meta.crop);
+    }
+
+    async function appendPlacementFills(fillSvg, placements) {
+      const g = document.createElementNS(NS, 'g');
+      g.setAttribute('data-layer', 'Fill');
+      for (const m of placements.masks) {
+        const d = await maskPath(m.file);
+        const x = m.instanceLocal.x + m.exportOrigin.x;
+        const y = m.instanceLocal.y + m.exportOrigin.y;
+        const gg = document.createElementNS(NS, 'g');
+        gg.setAttribute('transform', `translate(${x} ${y})`);
+        const path = document.createElementNS(NS, 'path');
+        path.setAttribute('d', d);
+        path.setAttribute('fill', COLORS[m.flap] || CORAL);
+        path.setAttribute('fill-opacity', String(PAINT_OPACITY));
+        gg.appendChild(path);
+        g.appendChild(gg);
+      }
+      fillSvg.appendChild(g);
+    }
+
+    async function appendSticker(layer, quads) {
+      const quad = quads[STICKER.flap];
+      const wrap = document.createElement('div');
+      wrap.className = 'sticker-on-flap';
+      wrap.style.width = `${UV_PX}px`;
+      wrap.style.height = `${UV_PX}px`;
+      wrap.style.transform = matrix3dFromRect(UV_PX, UV_PX, quad);
+      const img = document.createElement('img');
+      img.src = await getStickerUrl();
+      img.alt = '';
+      img.draggable = false;
+      const sizePx = STICKER.scale * UV_PX;
+      img.style.left = `${STICKER.u * UV_PX - sizePx / 2}px`;
+      img.style.top = `${STICKER.v * UV_PX - sizePx / 2}px`;
+      img.style.width = `${sizePx}px`;
+      img.style.height = 'auto';
+      wrap.appendChild(img);
+      layer.appendChild(wrap);
+    }
+
+    /** Stables only — decorations always at full opacity. */
+    async function showFrame(frameName) {
+      const meta = FRAMES[frameName];
+      if (!meta || meta.paint === 'none') return;
+      label.textContent = `Frame: ${frameName}`;
+
+      stage.style.width = `${meta.w}px`;
+      stage.style.height = `${meta.h}px`;
+      stage.innerHTML = '';
+
+      const paper = document.createElement('img');
+      paper.className = 'paper';
+      paper.src = `../assets/frames/${meta.file}?v=stables1`;
+      paper.width = meta.w;
+      paper.height = meta.h;
+      paper.alt = '';
+      paper.draggable = false;
+      stage.appendChild(paper);
+
+      const decor = document.createElement('div');
+      decor.className = 'decor';
+
+      const fillSvg = document.createElementNS(NS, 'svg');
+      fillSvg.setAttribute('class', 'fills');
+      fillSvg.setAttribute('viewBox', `0 0 ${meta.w} ${meta.h}`);
+      fillSvg.setAttribute('width', String(meta.w));
+      fillSvg.setAttribute('height', String(meta.h));
+
+      const quads = quadsFor(frameName, meta);
+      if (meta.paint === 'closed-placements') {
+        await appendPlacementFills(fillSvg, closedPlacements);
+      } else if (meta.paint === 'h-placements') {
+        await appendPlacementFills(fillSvg, hPlacements);
+      } else if (meta.paint === 'v-placements') {
+        await appendPlacementFills(fillSvg, vPlacements);
+      }
+      decor.appendChild(fillSvg);
+
+      const stickerLayer = document.createElement('div');
+      stickerLayer.className = 'sticker-layer';
+      await appendSticker(stickerLayer, quads);
+      decor.appendChild(stickerLayer);
+      stage.appendChild(decor);
+    }
+
+    let loop = false;
+    let gen = 0;
+    const timingLabel = document.getElementById('timing-label');
+
+    function sleep(ms) {
+      return new Promise((r) => setTimeout(r, ms));
+    }
+
+    async function squashPop(ms = SWAP_SQUASH_MS) {
+      timingLabel.textContent = `Squash-pop ${ms}ms ease-out`;
+      const anim = stage.animate(
+        [
+          { transform: 'scale(1, 1)' },
+          { transform: 'scale(1.05, 0.90)', offset: 0.4 },
+          { transform: 'scale(1, 1)' },
+        ],
+        { duration: ms, easing: 'ease-out', fill: 'none' },
+      );
+      await anim.finished;
+    }
+
+    async function swapFrame(frameName, my) {
+      if (my !== gen) return false;
+      await showFrame(frameName);
+      await squashPop(SWAP_SQUASH_MS);
+      return my === gen;
+    }
+
+    /** V33 → open stable → V33, full decor, squash on each swap. */
+    async function runCycle(frames, my) {
+      for (let i = 0; i < frames.length; i++) {
+        if (my !== gen) return false;
+        const f = frames[i];
+        if (i === 0) {
+          await showFrame(f);
+        } else {
+          timingLabel.textContent = `Swap → ${f}`;
+          if (!(await swapFrame(f, my))) return false;
+        }
+        if (i < frames.length - 1) {
+          timingLabel.textContent = `Frame ${f} · hold ${STABLE_HOLD_MS}ms`;
+          await sleep(STABLE_HOLD_MS);
+        }
+      }
+      return my === gen;
+    }
+
+    async function startRun(runner, { keepLooping = false } = {}) {
+      const my = ++gen;
+      loop = keepLooping;
+      setBusy(true);
+      try {
+        await runner(my);
+      } finally {
+        if (my === gen) {
+          loop = false;
+          setBusy(false);
+          timingLabel.textContent = 'Timing: Figma real speed (idle)';
+        }
+      }
+    }
+
+    function setBusy(busy) {
+      for (const id of ['btn-h', 'btn-v', 'btn-both', 'btn-loop', 'btn-reset']) {
+        document.getElementById(id).disabled = busy;
+      }
+    }
+
+    document.getElementById('btn-h').onclick = () =>
+      startRun((my) => runCycle(H_CYCLE, my));
+    document.getElementById('btn-v').onclick = () =>
+      startRun((my) => runCycle(V_CYCLE, my));
+    document.getElementById('btn-both').onclick = () =>
+      startRun(async (my) => {
+        if (!(await runCycle(H_CYCLE, my))) return;
+        await runCycle(V_CYCLE, my);
+      });
+    document.getElementById('btn-loop').onclick = () =>
+      startRun(async (my) => {
+        while (loop && my === gen) {
+          if (!(await runCycle(H_CYCLE, my))) return;
+          if (!(await runCycle(V_CYCLE, my))) return;
+        }
+      }, { keepLooping: true });
+    document.getElementById('btn-stop').onclick = () => {
+      loop = false;
+      gen++;
+      setBusy(false);
+      timingLabel.textContent = 'Timing: Figma real speed (stopped)';
+    };
+    document.getElementById('btn-reset').onclick = () => {
+      loop = false;
+      gen++;
+      setBusy(false);
+      showFrame('V33');
+      timingLabel.textContent = 'Timing: Figma real speed (idle)';
+    };
+
+    window.__showFrame = showFrame;
+    window.__H_CYCLE = H_CYCLE;
+    window.__V_CYCLE = V_CYCLE;
+
+    const params = new URLSearchParams(location.search);
+    const boot = params.get('frame') || 'V33';
+    await showFrame(FRAMES[boot] && FRAMES[boot].paint !== 'none' ? boot : 'V33');
+
+    const auto = (params.get('autoplay') ?? 'both').toLowerCase();
+    if (auto === 'none' || auto === '0' || auto === 'off') {
+      timingLabel.textContent = 'Timing: Figma real speed (idle)';
+    } else if (auto === 'both' || auto === '1') {
+      document.getElementById('btn-both').click();
+    } else if (auto === 'h') {
+      document.getElementById('btn-h').click();
+    } else if (auto === 'v') {
+      document.getElementById('btn-v').click();
+    } else if (auto === 'loop') {
+      document.getElementById('btn-loop').click();
+    }
+  </script>
+</body>
+</html>

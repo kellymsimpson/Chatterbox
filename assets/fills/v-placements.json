@@ -1,0 +1,188 @@
+{
+  "sourceFrame": {
+    "id": "573:6085",
+    "name": "V41.2 - Vertical open.play",
+    "page": "Screens",
+    "note": "V-open fills with folded paper / top. Crop = union of folded paper + top absoluteRenderBounds. Fills group: TL INSTANCE + TR/BL/BR BOOLEAN_OPERATION \u2014 use absoluteRenderBounds (not absXY; 180\u00b0 flips)."
+  },
+  "paperExport": {
+    "tempFrameId": "1278:9822",
+    "screensSourceFrame": "431:5905",
+    "screensSourceName": "V36 - Vertical open.Deco",
+    "parts": [
+      "431:5930 folded paper",
+      "431:5937 top",
+      "431:5962 Vertical Flap Numbers"
+    ],
+    "viewBox": "0 0 273 330",
+    "note": "Re-exported from Screens (not Sandbox isolate 573:7400). Includes Vertical Flap Numbers instance at crop-local position.",
+    "refFrameId": "1278:26165",
+    "numbers": {
+      "node": "431:5962",
+      "component": "413:1703",
+      "frameXY": {
+        "x": 674.667,
+        "y": 235.684,
+        "w": 93,
+        "h": 101
+      },
+      "cropLocal": {
+        "x": 82.853,
+        "y": 109.445,
+        "w": 93.48,
+        "h": 101
+      }
+    }
+  },
+  "cropOriginInPlayFrame": {
+    "x": 1531.9495239257812,
+    "y": 4626.344055175781,
+    "w": 272.55059814453125,
+    "h": 329.86199951171875
+  },
+  "compositing": {
+    "blend": "NORMAL",
+    "stack": "folded paper \u2192 top (shading/creases) \u2192 Fills \u2192 UI",
+    "fillPaintOpacity": 0.7,
+    "instanceOpacity": 1
+  },
+  "masks": [
+    {
+      "file": "v-top-left.svg",
+      "node": "499:14985",
+      "flap": "top_left",
+      "variant": "color=red, flap=top left",
+      "playNode": "573:6122",
+      "playNodeType": "INSTANCE",
+      "instanceLocal": {
+        "x": 43.40606689453125,
+        "y": 32.50897216796875,
+        "w": 86.64835357666016,
+        "h": 127.37060546875
+      },
+      "contentLocal": {
+        "x": 43.40606689453125,
+        "y": 32.50897216796875,
+        "w": 86.64835357666016,
+        "h": 127.37060546875
+      },
+      "pathBoundsInExport": {
+        "x": 0.00020374677990325774,
+        "y": -2.0086547251330078e-05,
+        "w": 86.64820564834977,
+        "h": 127.37102008654725
+      },
+      "exportOrigin": {
+        "x": -0.00020374677990275813,
+        "y": 2.0086547252162745e-05
+      },
+      "exportSize": {
+        "w": 87,
+        "h": 128
+      }
+    },
+    {
+      "file": "v-top-right.svg",
+      "node": "499:15021",
+      "flap": "top_right",
+      "variant": "color=red, flap=top right",
+      "playNode": "573:6116",
+      "playNodeType": "BOOLEAN_OPERATION",
+      "instanceLocal": {
+        "x": 130.59649658203125,
+        "y": 36.45770263671875,
+        "w": 91.8095703125,
+        "h": 123.97412109375
+      },
+      "contentLocal": {
+        "x": 130.59649658203125,
+        "y": 36.45770263671875,
+        "w": 91.8095703125,
+        "h": 123.97412109375
+      },
+      "pathBoundsInExport": {
+        "x": -7.62939e-06,
+        "y": 1.6981464099835946,
+        "w": 91.80954443140322,
+        "h": 123.9738535900164
+      },
+      "exportOrigin": {
+        "x": 7.6293900121982006e-06,
+        "y": -1.6981464099835932
+      },
+      "exportSize": {
+        "w": 92,
+        "h": 128
+      }
+    },
+    {
+      "file": "v-bottom-left.svg",
+      "node": "499:15045",
+      "flap": "bottom_left",
+      "variant": "color=red, flap=bottom left",
+      "playNode": "573:6120",
+      "playNodeType": "BOOLEAN_OPERATION",
+      "instanceLocal": {
+        "x": 46.11212158203125,
+        "y": 158.72821044921875,
+        "w": 81.587890625,
+        "h": 141.365234375
+      },
+      "contentLocal": {
+        "x": 46.11212158203125,
+        "y": 158.72821044921875,
+        "w": 81.587890625,
+        "h": 141.365234375
+      },
+      "pathBoundsInExport": {
+        "x": 0.030273399222423277,
+        "y": 0.00285339,
+        "w": 81.58792660077758,
+        "h": 141.36570710041306
+      },
+      "exportOrigin": {
+        "x": -0.030273399222423336,
+        "y": -0.0028533900000127232
+      },
+      "exportSize": {
+        "w": 82,
+        "h": 142
+      }
+    },
+    {
+      "file": "v-bottom-right.svg",
+      "node": "499:15069",
+      "flap": "bottom_right",
+      "variant": "color=red, flap=bottom right",
+      "playNode": "573:6118",
+      "playNodeType": "BOOLEAN_OPERATION",
+      "instanceLocal": {
+        "x": 127.81317138671875,
+        "y": 159.11346435546875,
+        "w": 93.9486083984375,
+        "h": 141.67236328125
+      },
+      "contentLocal": {
+        "x": 127.81317138671875,
+        "y": 159.11346435546875,
+        "w": 93.9486083984375,
+        "h": 141.67236328125
+      },
+      "pathBoundsInExport": {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 93.9486462089885,
+        "h": 141.67220176232982
+      },
+      "exportOrigin": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "exportSize": {
+        "w": 94,
+        "h": 143
+      }
+    }
+  ],
+  "placementNote": "place = instanceLocal + exportOrigin; instanceLocal = play fill absoluteRenderBounds (crop-local). Path origin compensated via exportOrigin. Native export viewBoxes kept. Not from quads."
+}

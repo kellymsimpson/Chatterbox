@@ -1,0 +1,347 @@
+{
+  "$note": "Audit of top-level (or nested unwrap) layers on each frame source vs what the export cleaner kept. Chrome should be excluded; illustration must be included. Fills are composited at runtime (excluded from paper frame assets unless historically baked into reveal exports).",
+  "policy": {
+    "exclude_chrome": [
+      "Screen background",
+      "Fortune Selector",
+      "close",
+      "Title Menu",
+      "Select Flaps / Selected Flaps",
+      "Select which flap to open. (instruction text)"
+    ],
+    "include_illustration": [
+      "folded paper / BASE / bottom / top",
+      "creases / shadows / paper vectors",
+      "Flap Numbers (Horizontal or Vertical)",
+      "fortune message flap",
+      "Union (reveal)"
+    ],
+    "runtime_not_in_paper_asset": [
+      "Fills / Fill"
+    ]
+  },
+  "frames": {
+    "v33": {
+      "sourceId": "933:22940",
+      "sourceName": "Chatterbox - undecorated",
+      "included": [
+        "paper artwork from decorate instance (top + nested paper groups)"
+      ],
+      "excluded": [
+        "parent Screen #F5F5F5 / chrome paths stripped from raw SVG"
+      ],
+      "over_stripped": [],
+      "notes": "No separate Flap Numbers instance on this undecorated component; closed outer labels are part of the paper vectors if present."
+    },
+    "v33.1": {
+      "sourceId": "544:5624",
+      "included": [
+        "bottom",
+        "folded paper",
+        "top"
+      ],
+      "excluded": [
+        "Screen background"
+      ],
+      "over_stripped": []
+    },
+    "v33.2": {
+      "sourceId": "544:5677",
+      "included": [
+        "bottom",
+        "folded paper",
+        "top"
+      ],
+      "excluded": [
+        "Screen background"
+      ],
+      "over_stripped": []
+    },
+    "v34": {
+      "sourceId": "417:4683",
+      "included": [
+        "folded paper (contains nested Horizontal Flap Numbers 417:4738)",
+        "top"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime)",
+        "Selected Flaps (chrome highlights)",
+        "Fortune Selector",
+        "close",
+        "V36 vertical fills/Title Menu"
+      ],
+      "over_stripped": [],
+      "notes": "Numbers were NOT over-stripped \u2014 they live inside folded paper, so the paper-only export kept them."
+    },
+    "v35.1": {
+      "sourceId": "544:5789",
+      "included": [
+        "bottom",
+        "folded paper",
+        "top"
+      ],
+      "excluded": [
+        "Screen background"
+      ],
+      "over_stripped": []
+    },
+    "v35.2": {
+      "sourceId": "544:5843",
+      "included": [
+        "bottom",
+        "folded paper",
+        "top"
+      ],
+      "excluded": [
+        "Screen background"
+      ],
+      "over_stripped": []
+    },
+    "v36": {
+      "sourceId": "431:5905",
+      "included": [
+        "folded paper 431:5930",
+        "top 431:5937",
+        "Vertical Flap Numbers 431:5962 (component 413:1703) \u2014 FIXED; crop-local \u2248 82.85, 109.45"
+      ],
+      "excluded": [
+        "Screen background 431:5906",
+        "Fills 460:6429 (runtime)",
+        "Select Flaps 541:3542",
+        "Fortune Selector 431:5963",
+        "Select which flap to open. 431:6000",
+        "close 555:4314",
+        "V36 vertical fills/Title Menu 556:8834"
+      ],
+      "over_stripped": [],
+      "was_over_stripped_before_fix": [
+        "Vertical Flap Numbers 431:5962"
+      ],
+      "notes": "Unlike V34, Vertical Flap Numbers is a top-level sibling (not nested under folded paper)."
+    },
+    "v37": {
+      "sourceId": "511:17237",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v37.1": {
+      "sourceId": "511:17199",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v37.2": {
+      "sourceId": "511:17120",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v38.1": {
+      "sourceId": "524:18316",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap (POLYGON)",
+        "Union"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu",
+        "\u2726 Your fortune will appear here \u2726 (live text)",
+        "Post Reveal Overlay (separate asset)",
+        "empty fortune message flap VECTOR ['524:18349'] (fills=[], null ARB \u2014 not painted)"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v38.2": {
+      "sourceId": "524:18373",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap (POLYGON)",
+        "Union"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu",
+        "\u2726 Your fortune will appear here \u2726 (live text)",
+        "Post Reveal Overlay (separate asset)",
+        "empty fortune message flap VECTOR ['524:18406'] (fills=[], null ARB \u2014 not painted)"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v39": {
+      "sourceId": "541:3334",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v39.1": {
+      "sourceId": "541:3298",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v39.2": {
+      "sourceId": "541:3262",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v40.1": {
+      "sourceId": "541:3152",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap (POLYGON)",
+        "Union"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu",
+        "\u2726 Your fortune will appear here \u2726 (live text)",
+        "Post Reveal Overlay (separate asset)",
+        "empty fortune message flap VECTOR ['541:3183'] (fills=[], null ARB \u2014 not painted)"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v40.2": {
+      "sourceId": "541:3207",
+      "included": [
+        "BASE",
+        "top",
+        "fortune message flap (POLYGON)",
+        "Union"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fills (runtime \u2014 reveal face masks 540:2933)",
+        "Fortune Selector",
+        "close",
+        "Title Menu",
+        "\u2726 Your fortune will appear here \u2726 (live text)",
+        "Post Reveal Overlay (separate asset)",
+        "empty fortune message flap VECTOR ['541:3238'] (fills=[], null ARB \u2014 not painted)"
+      ],
+      "over_stripped": [],
+      "notes": "Fills no longer baked into SVG. No flap-numbers instances on these frames (none in source)."
+    },
+    "v41": {
+      "sourceId": "573:7045",
+      "included_claimed": [
+        "folded paper (nested Horizontal Flap Numbers)",
+        "top",
+        "Fills"
+      ],
+      "excluded": [
+        "Screen background",
+        "close",
+        "Title Menu",
+        "Selected Flaps"
+      ],
+      "over_stripped": [],
+      "notes": "Horizontal Flap Numbers nested under folded paper \u2014 included with paper group."
+    },
+    "v42": {
+      "sourceId": "590:7924",
+      "included_claimed": [
+        "BASE",
+        "top",
+        "Fills",
+        "fortune message flap",
+        "Union"
+      ],
+      "excluded": [
+        "Screen background",
+        "Fortune Selector",
+        "close",
+        "Title Menu"
+      ],
+      "review_excluded": [
+        "fortune body text (lorem)",
+        "Post Reveal Overlay"
+      ],
+      "over_stripped": []
+    }
+  }
+}

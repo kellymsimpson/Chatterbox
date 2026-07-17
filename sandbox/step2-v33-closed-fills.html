@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Step 2 — V33 + closed fill masks (measured)</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <style>
+    html { min-width: 0 !important; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: #5c4033;
+      font-family: system-ui, sans-serif;
+      color: #fff;
+      padding: 24px;
+    }
+    h1 { margin: 0; font-size: 18px; font-weight: 600; }
+    .note { margin: 0; font-size: 13px; opacity: 0.85; max-width: 780px; text-align: center; line-height: 1.45; }
+    .row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .col { text-align: center; }
+    .col label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+    .stage {
+      width: 267px;
+      height: 294px;
+      position: relative;
+      background: transparent;
+      outline: 1px dashed rgba(255, 255, 255, 0.35);
+      overflow: visible;
+    }
+    /* Single SVG stage: paper then Fill group — same painter order as Figma */
+    .stage > svg.composite {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 267px;
+      height: 294px;
+      display: block;
+      overflow: visible;
+    }
+    .stage > .frame-ref {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 267px;
+      height: 294px;
+      display: block;
+      object-fit: fill;
+    }
+    table {
+      border-collapse: collapse;
+      font-size: 11px;
+      font-family: ui-monospace, monospace;
+      margin-top: 8px;
+      max-width: 960px;
+    }
+    td, th {
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 4px 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>Step 2 — V33 + closed masks (Figma compositing)</h1>
+  <p class="note" id="note">Loading…</p>
+  <div class="row">
+    <div class="col">
+      <label>Render (stage)</label>
+      <div class="stage" id="stage"></div>
+    </div>
+    <div class="col">
+      <label>Figma ref (NORMAL @ 0.70 fill paint, above paper)</label>
+      <div class="stage">
+        <img class="frame-ref" src="./refs/figma-v33-with-closed-fills.png?v=comp1" width="267" height="294" alt="Figma V33 with fills" />
+      </div>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>File</th><th>Node</th><th>Instance (decorate-local)</th>
+        <th>Export origin</th><th>Placed at</th>
+      </tr>
+    </thead>
+    <tbody id="mask-table"></tbody>
+  </table>
+
+  <script type="module">
+    /**
+     * Figma compositing (573:6020 / Fill group 573:6054):
+     * (a) Blend: NORMAL on the solid fill paint (instance/group PASS_THROUGH)
+     * (b) Stack (bottom→top): folded paper → top (faces/creases/shading) → Fill → UI
+     * (c) Opacity: 0.70 on the solid fill paint; instance opacity = 1
+     * Placements unchanged from closed-placements.json.
+     */
+    const PAINT_RGB = { r: 234, g: 105, b: 73 }; // #EA6949
+    const PAINT_OPACITY = 0.70;
+
+    const placements = await fetch('../assets/fills/closed-placements.json').then((r) => r.json());
+    const note = document.getElementById('note');
+    note.innerHTML = `
+      Figma <code>${placements.sourceFrame.id}</code> Fill group:
+      <strong>blend NORMAL</strong> (paint),
+      <strong>above</strong> folded paper + top/crease shading,
+      <strong>opacity 0.70 on fill paint</strong> (instance opacity 1).
+      CSS mirrors that: paper then fills in one SVG, <code>fill-opacity="${PAINT_OPACITY}"</code>,
+      <code>mix-blend-mode: normal</code>. Placements unchanged.
+    `;
+
+    const stage = document.getElementById('stage');
+    const table = document.getElementById('mask-table');
+
+    // Load paper SVG and mask paths; composite in one SVG (Figma painter order)
+    const paperText = await fetch(new URL('../assets/frames/v33.svg', import.meta.url)).then((r) => r.text());
+    const paperDoc = new DOMParser().parseFromString(paperText, 'image/svg+xml');
+    const paperSvg = paperDoc.querySelector('svg');
+
+    const NS = 'http://www.w3.org/2000/svg';
+    const root = document.createElementNS(NS, 'svg');
+    root.setAttribute('class', 'composite');
+    root.setAttribute('viewBox', paperSvg.getAttribute('viewBox') || '0 0 267 294');
+    root.setAttribute('width', '267');
+    root.setAttribute('height', '294');
+    root.setAttribute('fill', 'none');
+    root.setAttribute('xmlns', NS);
+
+    // Paper group (behind fills) — copy defs + children
+    const paperG = document.createElementNS(NS, 'g');
+    paperG.setAttribute('data-layer', 'paper');
+    for (const child of [...paperSvg.childNodes]) {
+      paperG.appendChild(document.importNode(child, true));
+    }
+    root.appendChild(paperG);
+
+    // Fill group (above paper shading) — Figma Fill 573:6054
+    const fillG = document.createElementNS(NS, 'g');
+    fillG.setAttribute('data-layer', 'Fill');
+    fillG.setAttribute('style', 'mix-blend-mode: normal');
+
+    for (const m of placements.masks) {
+      const placeX = m.instanceLocal.x + m.exportOrigin.x;
+      const placeY = m.instanceLocal.y + m.exportOrigin.y;
+
+      const svgUrl = new URL(`../assets/fills/${m.file}`, import.meta.url);
+      svgUrl.searchParams.set('v', 'comp1');
+      const svgText = await fetch(svgUrl).then((r) => r.text());
+      const doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
+      const maskSvg = doc.querySelector('svg');
+      const exportW = parseFloat(maskSvg.getAttribute('width')) || maskSvg.viewBox.baseVal.width;
+      const exportH = parseFloat(maskSvg.getAttribute('height')) || maskSvg.viewBox.baseVal.height;
+
+      const g = document.createElementNS(NS, 'g');
+      g.setAttribute('data-flap', m.flap);
+      g.setAttribute('data-node', m.node);
+      // Place in decorate-local; size = native export (placements unchanged)
+      g.setAttribute('transform', `translate(${placeX} ${placeY})`);
+
+      const path = maskSvg.querySelector('path');
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', path.getAttribute('d'));
+      // Figma: solid paint NORMAL @ 0.70 — not layer opacity
+      p.setAttribute('fill', `rgb(${PAINT_RGB.r}, ${PAINT_RGB.g}, ${PAINT_RGB.b})`);
+      p.setAttribute('fill-opacity', String(PAINT_OPACITY));
+      p.setAttribute('style', 'mix-blend-mode: normal');
+      g.appendChild(p);
+
+      // Scale path coordinate system if export size ≠ viewBox (usually 1:1)
+      const vb = maskSvg.viewBox.baseVal;
+      if (vb && (vb.width !== exportW || vb.height !== exportH)) {
+        g.setAttribute(
+          'transform',
+          `translate(${placeX} ${placeY}) scale(${exportW / vb.width} ${exportH / vb.height})`,
+        );
+      }
+
+      fillG.appendChild(g);
+
+      table.insertAdjacentHTML(
+        'beforeend',
+        `<tr>
+          <td>${m.file}</td>
+          <td>${m.node}</td>
+          <td>x=${m.instanceLocal.x.toFixed(3)}, y=${m.instanceLocal.y.toFixed(3)}, ${m.instanceLocal.w.toFixed(2)}×${m.instanceLocal.h.toFixed(2)}</td>
+          <td>(${m.exportOrigin.x.toFixed(3)}, ${m.exportOrigin.y.toFixed(3)})</td>
+          <td>x=${placeX.toFixed(3)}, y=${placeY.toFixed(3)}, ${exportW}×${exportH}</td>
+        </tr>`,
+      );
+    }
+
+    root.appendChild(fillG);
+    stage.appendChild(root);
+  </script>
+</body>
+</html>

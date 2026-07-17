@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Step 1 — V33 frame only</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <style>
+    html { min-width: 0 !important; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: #5c4033;
+      font-family: system-ui, sans-serif;
+      color: #fff;
+    }
+    h1 { margin: 0; font-size: 18px; font-weight: 600; }
+    .note { margin: 0; font-size: 13px; opacity: 0.85; max-width: 480px; text-align: center; }
+    /* Stage: exact PRD size, transparent — no white fill */
+    .stage {
+      width: 267px;
+      height: 294px;
+      position: relative;
+      background: transparent;
+      outline: 1px dashed rgba(255, 255, 255, 0.35);
+    }
+    .stage img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 267px;
+      height: 294px;
+      display: block;
+      /* SVG viewBox is 0 0 267 294 — 1:1 with stage */
+      object-fit: fill;
+    }
+    .row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .col { text-align: center; }
+    .col label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <h1>Step 1 — V33 frame only (267×294)</h1>
+  <p class="note">
+    Source: Decorate instance <code>933:22940</code>, chrome stripped.
+    White box was <code>#F5F5F5</code> frame fill + Screen background paths in prior exports — removed.
+    No paint, no stickers.
+  </p>
+  <div class="row">
+    <div class="col">
+      <label>Render (stage)</label>
+      <div class="stage" id="stage">
+        <img src="../assets/frames/v33.svg" width="267" height="294" alt="V33" />
+      </div>
+    </div>
+    <div class="col">
+      <label>Figma ref (933:22940)</label>
+      <div class="stage">
+        <img src="./refs/figma-v33-decorate-267.png" width="267" height="294" alt="Figma V33" />
+      </div>
+    </div>
+  </div>
+</body>
+</html>

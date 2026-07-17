@@ -1,0 +1,75 @@
+{
+  "sourceFrame": {
+    "id": "573:5921",
+    "name": "V41- Horizontal open.play",
+    "page": "Screens",
+    "note": "H-open fill instances composed with folded paper / top. Crop origin = union of folded paper + top absoluteRenderBounds."
+  },
+  "paperExport": {
+    "tempFrameId": "1264:26059",
+    "screensSourceFrame": "417:4683",
+    "screensSourceName": "V34- Horizontal open.Deco",
+    "parts": ["417:4708 folded paper", "417:4715 top"],
+    "viewBox": "0 0 292 209",
+    "note": "Re-exported from Screens (not Sandbox isolate 573:7369). Gray #F5F5F5 plate stripped."
+  },
+  "cropOriginInPlayFrame": {
+    "x": 579.0999755859375,
+    "y": 192.3262481689453,
+    "w": 291.50390625,
+    "h": 208.3260955810547
+  },
+  "compositing": {
+    "blend": "NORMAL",
+    "stack": "folded paper → top (shading/creases) → Fills → UI",
+    "fillPaintOpacity": 0.7,
+    "instanceOpacity": 1
+  },
+  "masks": [
+    {
+      "file": "h-top-left.svg",
+      "node": "499:15368",
+      "flap": "top_left",
+      "variant": "color=red, flap=top left",
+      "instanceLocal": { "x": 8.6904296875, "y": 6.8976287841796875, "w": 132.23741149902344, "h": 86.62947845458984 },
+      "contentLocal": { "x": 8.6904296875, "y": 6.8976287841796875, "w": 132.2374267578125, "h": 86.62939453125 },
+      "pathBoundsInExport": { "x": 0.0, "y": 0.0, "w": 132.237, "h": 86.6295 },
+      "exportOrigin": { "x": 0.0, "y": 0.0 },
+      "exportSize": { "w": 133, "h": 87 },
+      "placementFix": "Reconciled to V41 instance 573:5953: Figma x=8.690 w=132.237 (=ARB). Export viewBox is 133 wide but path ink is 132.237 flush-left (padding all on the right, not symmetric) — place unscaled path at instance x. Do not nudge to back left fold."
+    },
+    {
+      "file": "h-top-right.svg",
+      "node": "499:15401",
+      "flap": "top_right",
+      "variant": "color=red, flap=top right",
+      "instanceLocal": { "x": 140.7591552734375, "y": 6.8973846435546875, "w": 132.23741149902344, "h": 86.62947845458984 },
+      "contentLocal": { "x": 140.185546875, "y": 6.8915252685546875, "w": 133.384765625, "h": 86.64111328125 },
+      "pathBoundsInExport": { "x": 0.0, "y": 0.0, "w": 133.3847, "h": 86.6412 },
+      "exportOrigin": { "x": 0.0, "y": 0.0 },
+      "exportSize": { "w": 134, "h": 87 },
+      "placementFix": "SVG path is already baked into export/ARB space (path min≈0, width=ARB width 133.385). Prior contentLocal correction (−0.574) double-shifted left. place = instanceLocal; right edge then matches back right fold (573:5937) at x+w≈274.143."
+    },
+    {
+      "file": "h-bottom-left.svg",
+      "node": "499:15412",
+      "flap": "bottom_left",
+      "variant": "color=red, flap=bottom left",
+      "instanceLocal": { "x": 7.9481201171875, "y": 94.63273620605469, "w": 132.23741149902344, "h": 86.62947845458984 },
+      "contentLocal": { "x": 7.04541015625, "y": 93.12931823730469, "w": 134.04296875, "h": 89.63623046875 },
+      "exportOrigin": { "x": -0.9027099609375, "y": -1.50341796875 },
+      "exportSize": { "w": 135, "h": 90 }
+    },
+    {
+      "file": "h-bottom-right.svg",
+      "node": "499:15442",
+      "flap": "bottom_right",
+      "variant": "color=red, flap=bottom right",
+      "instanceLocal": { "x": 141.987548828125, "y": 93.37004089355469, "w": 132.23741149902344, "h": 86.62947845458984 },
+      "contentLocal": { "x": 140.898193359375, "y": 93.04411315917969, "w": 134.416015625, "h": 87.28125 },
+      "exportOrigin": { "x": -1.08935546875, "y": -0.325927734375 },
+      "exportSize": { "w": 135, "h": 88 }
+    }
+  ],
+  "placementNote": "place = instanceLocal + exportOrigin. Native Figma export viewBoxes kept. Not from flap-coords quads. TR: exportOrigin 0 (no ARB double-shift). TL: exact V41 instance x/w (8.690 / 132.237); export 133 pad is right-only. Bottoms unchanged."
+}

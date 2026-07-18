@@ -157,6 +157,27 @@ export function extractPaperSilhouettePathDs(svgDoc) {
   return out;
 }
 
+/**
+ * Point-in-convex-quad test (C0→C1→C2→C3 winding).
+ * @param {number} x
+ * @param {number} y
+ * @param {Quad} quad
+ */
+export function pointInQuad(x, y, quad) {
+  const pts = [quad.C0, quad.C1, quad.C2, quad.C3];
+  let sign = 0;
+  for (let i = 0; i < 4; i++) {
+    const [x1, y1] = pts[i];
+    const [x2, y2] = pts[(i + 1) % 4];
+    const cross = (x2 - x1) * (y - y1) - (y2 - y1) * (x - x1);
+    if (Math.abs(cross) < 1e-9) continue;
+    const s = cross > 0 ? 1 : -1;
+    if (sign === 0) sign = s;
+    else if (s !== sign) return false;
+  }
+  return sign !== 0;
+}
+
 /** Convert play-space point → decorate-local using V35_close ↔ decorate bridge. */
 export function playPointToLocal(pt, origin) {
   return [pt[0] - origin[0], pt[1] - origin[1]];

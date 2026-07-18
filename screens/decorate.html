@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decorate — Magic Paint · Chatterbox</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/decorate.css" />
+</head>
+<body>
+  <main class="decorate-screen">
+    <p class="decorate-review-banner">
+      Review increment 1 — Magic Paint only. Vibe / stickers / save land next after your OK.
+    </p>
+    <div class="decorate-top">
+      <h1 class="decorate-title">Decorate</h1>
+      <a class="decorate-close" href="../index.html" aria-label="Close">×</a>
+    </div>
+
+    <div class="decorate-columns">
+      <section class="decorate-left">
+        <div class="decorate-canvas-wrap">
+          <div id="canvas-host" class="decorate-canvas" aria-label="Chatterbox canvas"></div>
+        </div>
+        <p class="decorate-label" id="maker-label">Your Chatterbox</p>
+        <p class="decorate-helper" id="paint-helper">Paint 4 flaps to save</p>
+      </section>
+
+      <section class="decorate-center">
+        <div class="decorate-step" aria-disabled="true">
+          <div class="decorate-step-head">
+            <span class="decorate-step-num">1</span>
+            <span class="decorate-step-title">Choose a vibe.</span>
+          </div>
+          <p class="decorate-placeholder">Vibe selector — next increment</p>
+        </div>
+
+        <div class="decorate-step">
+          <div class="decorate-step-head">
+            <span class="decorate-step-num">2</span>
+            <span class="decorate-step-title">Paint the flaps.</span>
+          </div>
+          <p class="decorate-step-hint">
+            Click the brush to pick it up, then click a colour and paint a flap.
+          </p>
+          <div id="paint-tray"></div>
+        </div>
+
+        <div class="decorate-step">
+          <div class="decorate-step-head">
+            <span class="decorate-step-num is-tip">TIP</span>
+            <span class="decorate-step-title">Use the eraser to make changes.</span>
+          </div>
+          <div id="eraser-host"></div>
+        </div>
+      </section>
+
+      <section class="decorate-right">
+        <div class="decorate-step" aria-disabled="true">
+          <div class="decorate-step-head">
+            <span class="decorate-step-num">3</span>
+            <span class="decorate-step-title">Add stickers (or not).</span>
+          </div>
+          <p class="decorate-placeholder">Sticker sheet — next increment</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    const helper = document.getElementById('paint-helper');
+    try {
+      const { DecorateCanvas } = await import('../components/decorate-canvas.js?v=paint1c');
+      const { mountMagicPaint } = await import('../components/magic-paint.js?v=paint1c');
+      const { getDisplayName } = await import('../components/identity.js?v=paint1c');
+
+      const label = document.getElementById('maker-label');
+      const name = getDisplayName();
+      label.textContent = name ? `${name}'s Chatterbox` : 'Your Chatterbox';
+
+      const canvas = new DecorateCanvas(document.getElementById('canvas-host'));
+      await canvas.ready();
+
+      mountMagicPaint({
+        trayHost: document.getElementById('paint-tray'),
+        eraserHost: document.getElementById('eraser-host'),
+        canvas,
+        onChange({ painted, mode, color }) {
+          const remain = 4 - painted;
+          if (mode === 'brush' && !color) {
+            helper.textContent = 'Pick a colour, then click a flap';
+          } else if (mode === 'brush' && color) {
+            helper.textContent = remain > 0
+              ? `Painting… ${remain} flap${remain === 1 ? '' : 's'} left`
+              : 'All flaps painted — click a flap to repaint';
+          } else if (mode === 'eraser') {
+            helper.textContent = 'Eraser ready — click a flap to clear paint';
+          } else if (remain <= 0) {
+            helper.textContent = 'All flaps painted';
+          } else {
+            helper.textContent = `Paint ${remain} more flap${remain === 1 ? '' : 's'} to save`;
+          }
+        },
+      });
+
+      window.__decorateCanvas = canvas;
+    } catch (err) {
+      console.error(err);
+      helper.textContent = `Boot error: ${err.message}`;
+    }
+  </script>
+</body>
+</html>

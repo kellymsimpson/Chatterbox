@@ -1,0 +1,325 @@
+/* Decorate mode — paint tray increment */
+
+.decorate-screen {
+  min-height: 100vh;
+  min-width: var(--layout-min-width);
+  background-color: var(--color-desk-brown);
+  background-image: url('../assets/textures/desk-wood.png');
+  background-size: cover;
+  background-position: center;
+  color: var(--color-bright-white);
+  padding: 48px 80px 40px;
+}
+
+.decorate-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.decorate-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h1);
+  font-weight: 700;
+}
+
+.decorate-close {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(254, 251, 251, 0.15);
+  color: var(--color-bright-white);
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+.decorate-close:hover { background: rgba(254, 251, 251, 0.28); }
+
+.decorate-columns {
+  display: grid;
+  grid-template-columns: 301px 423px 352px;
+  gap: 27px;
+  align-items: start;
+}
+
+.decorate-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-left: 17px;
+}
+
+.decorate-canvas-wrap {
+  width: 267px;
+  height: 294px;
+  filter: drop-shadow(
+    var(--schoolyard-shadow-x)
+    var(--schoolyard-shadow-y)
+    var(--schoolyard-shadow-blur)
+    rgba(0, 0, 0, var(--schoolyard-shadow-opacity))
+  );
+}
+
+.decorate-canvas {
+  cursor: inherit;
+}
+
+body[data-decorate-tool='brush'] .decorate-canvas,
+body[data-decorate-tool='eraser'] .decorate-canvas {
+  cursor: none;
+}
+
+.decorate-label {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  text-align: center;
+  color: var(--color-bright-white);
+}
+
+.decorate-helper {
+  font-family: var(--font-body);
+  font-size: var(--text-help);
+  color: var(--color-soft-white);
+  text-align: center;
+  min-height: 1.4em;
+}
+
+.decorate-center {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-top: 40px;
+}
+
+.decorate-step {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.decorate-step-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.decorate-step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-bright-teal);
+  color: var(--color-bright-white);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.decorate-step-num.is-tip {
+  background: transparent;
+  border: 2px solid var(--color-soft-white);
+  font-size: 12px;
+  width: auto;
+  padding: 0 10px;
+  border-radius: 999px;
+}
+
+.decorate-step-title {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: 500;
+}
+
+.decorate-step-hint {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-soft-white);
+  margin-left: 44px;
+  margin-top: -8px;
+}
+
+.decorate-placeholder {
+  opacity: 0.45;
+  pointer-events: none;
+  font-size: 14px;
+  color: var(--color-soft-white);
+  border: 1px dashed rgba(254, 251, 251, 0.35);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.decorate-right .decorate-placeholder {
+  min-height: 200px;
+}
+
+/* ── Magic Paint tray ── */
+.magic-paint-tray {
+  position: relative;
+  width: 371px;
+  height: 106px;
+  border-radius: 8px;
+  background: var(--color-soft-white);
+  box-shadow:
+    0 0 20px rgba(38, 70, 83, 0.18),
+    inset 0 0 2px 2px #fff,
+    inset 0 0 4px 3px rgba(38, 70, 83, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px 16px;
+}
+
+.magic-paint-brush-slot {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 4px 0;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 28px;
+}
+
+.magic-paint-brush-slot.is-empty {
+  outline: 1px dashed rgba(38, 70, 83, 0.25);
+  border-radius: 6px;
+  min-height: 28px;
+}
+
+.magic-paint-brush {
+  display: block;
+  height: 14px;
+  width: auto;
+  max-width: 309px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 1px rgba(38, 70, 83, 0.5));
+  transform: rotate(0deg);
+}
+
+.magic-paint-pods {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 8px rgba(38, 70, 83, 0.28));
+}
+
+.magic-paint-pod {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 120ms ease-out, opacity 120ms ease-out, filter 120ms ease-out;
+}
+
+.magic-paint-pod img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+}
+
+.magic-paint-pod:hover:not(.is-disabled) {
+  transform: scale(1.08);
+}
+
+.magic-paint-pod.is-selected {
+  transform: scale(1.12);
+  outline: 2px solid var(--color-dark-teal);
+  outline-offset: 2px;
+}
+
+.magic-paint-pod.is-disabled {
+  opacity: 0.38;
+  filter: grayscale(0.55);
+}
+
+.magic-paint-pod.is-muted {
+  /* idle: pods available but brush not up — still clickable */
+  opacity: 1;
+}
+
+/* ── Eraser tip ── */
+.magic-eraser-btn {
+  appearance: none;
+  border: 2px solid var(--color-dark-teal);
+  background: var(--color-soft-white);
+  color: var(--color-dark-teal);
+  border-radius: 12px;
+  padding: 12px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.magic-eraser-btn.is-active {
+  background: var(--color-dark-teal);
+  color: var(--color-bright-white);
+}
+
+.magic-eraser-glyph {
+  width: 28px;
+  height: 18px;
+  border-radius: 3px 3px 6px 6px;
+  background: linear-gradient(180deg, #f4a4b8 0%, #e8789a 55%, #d4c4a8 55%, #cbb89a 100%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Floating tool cursor */
+.tool-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 120px;
+  height: 16px;
+  margin-left: -8px;
+  margin-top: -8px;
+  pointer-events: none;
+  z-index: 9999;
+  transform-origin: 12px 8px;
+}
+
+.tool-cursor img {
+  display: block;
+  width: 120px;
+  height: auto;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+
+.tool-cursor.is-eraser::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 22px;
+  border-radius: 3px 3px 8px 8px;
+  background: linear-gradient(180deg, #f4a4b8 0%, #e8789a 55%, #d4c4a8 55%, #cbb89a 100%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.tool-cursor.is-eraser img {
+  display: none;
+}
+
+.decorate-review-banner {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-warm-amber);
+  margin-bottom: 16px;
+}

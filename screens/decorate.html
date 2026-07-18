@@ -24,7 +24,7 @@
           <div id="canvas-host" class="decorate-canvas" aria-label="Chatterbox canvas"></div>
         </div>
         <p class="decorate-label" id="maker-label">Your Chatterbox</p>
-        <p class="decorate-helper" id="paint-helper">Paint 4 flaps to save</p>
+        <p class="decorate-helper" id="paint-helper">Loading paint…</p>
       </section>
 
       <section class="decorate-center">
@@ -69,16 +69,16 @@
   </main>
 
   <script type="module">
+    import { DecorateCanvas } from '../components/decorate-canvas.js?v=img-paper';
+    import { mountMagicPaint } from '../components/magic-paint.js?v=img-paper';
+    import { getDisplayName } from '../components/identity.js?v=img-paper';
+
     const helper = document.getElementById('paint-helper');
+    const label = document.getElementById('maker-label');
+    const name = getDisplayName();
+    label.textContent = name ? `${name}'s Chatterbox` : 'Your Chatterbox';
+
     try {
-      const { DecorateCanvas } = await import('../components/decorate-canvas.js');
-      const { mountMagicPaint } = await import('../components/magic-paint.js');
-      const { getDisplayName } = await import('../components/identity.js');
-
-      const label = document.getElementById('maker-label');
-      const name = getDisplayName();
-      label.textContent = name ? `${name}'s Chatterbox` : 'Your Chatterbox';
-
       const canvas = new DecorateCanvas(document.getElementById('canvas-host'));
       await canvas.ready();
 
@@ -104,6 +104,7 @@
         },
       });
 
+      helper.textContent = 'Paint 4 flaps to save';
       window.__decorateCanvas = canvas;
     } catch (err) {
       console.error(err);

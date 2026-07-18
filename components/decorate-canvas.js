@@ -34,6 +34,8 @@ export class DecorateCanvas {
     this.flap_colors = { ...Object.fromEntries(FLAP_KEYS.map((k) => [k, null])), ...(state.flap_colors || {}) };
     this.quads = decorateQuadsVisual();
     this.placements = null;
+    this.fillsG = null;
+    this._booted = false;
     this._ready = this._boot();
   }
 
@@ -42,34 +44,53 @@ export class DecorateCanvas {
     this.host.style.width = '267px';
     this.host.style.height = '294px';
     this.host.style.position = 'relative';
+    this.host.innerHTML = '';
 
-    this.placements = await fetch(new URL('closed-placements.json', FILLS_BASE)).then((r) => r.json());
+    this.placements = await fetch(new URL('closed-placements.json', FILLS_BASE)).then((r) => {
+      if (!r.ok) throw new Error(`placements ${r.status}`);
+      return r.json();
+    });
+
+    // Paper as <img> — avoids cloning the huge V33 SVG DOM into the page.
+    const paper = document.createElement('img');
+    paper.className = 'decorate-paper';
+    paper.src = new URL('v33.svg', FRAMES_BASE).href;
+    paper.width = 267;
+    paper.height = 294;
+    paper.alt = '';
+    paper.draggable = false;
+    Object.assign(paper.style, {
+      position: 'absolute',
+      inset: '0',
+      width: '267px',
+      height: '294px',
+      display: 'block',
+      zIndex: '0',
+    });
+    this.host.appendChild(paper);
 
     this.root = document.createElementNS(NS, 'svg');
-    this.root.setAttribute('class', 'decorate-composite');
+    this.root.setAttribute('class', 'decorate-fills');
     this.root.setAttribute('viewBox', '0 0 267 294');
     this.root.setAttribute('width', '267');
     this.root.setAttribute('height', '294');
     this.root.setAttribute('xmlns', NS);
+    Object.assign(this.root.style, {
+      position: 'absolute',
+      inset: '0',
+      zIndex: '1',
+      pointerEvents: 'none',
+      overflow: 'visible',
+    });
 
-    const paperText = await fetch(new URL('v33.svg', FRAMES_BASE)).then((r) => r.text());
-    const paperDoc = new DOMParser().parseFromString(paperText, 'image/svg+xml');
-    const paperSvg = paperDoc.querySelector('svg');
-    const paperG = document.createElementNS(NS, 'g');
-    paperG.setAttribute('data-layer', 'paper');
-    for (const child of [...paperSvg.childNodes]) {
-      paperG.appendChild(document.importNode(child, true));
-    }
-    this.root.appendChild(paperG);
-
-    this.fillG = document.createElementNS(NS, 'g');
-    this.fillG.setAttribute('data-layer', 'Fill');
-    this.fillG.style.mixBlendMode = 'normal';
-    this.root.appendChild(this.fillG);
-
-    this.host.innerHTML = '';
+    this.fillsG = document.createElementNS(NS, 'g');
+    this.fillsG.setAttribute('data-layer', 'Fill');
+    this.fillsG.style.mixBlendMode = 'normal';
+    this.root.appendChild(this.fillsG);
     this.host.appendChild(this.root);
-    await this.renderFills();
+
+    this._booted = true;
+    await this._paintFills();
   }
 
   async ready() {
@@ -90,9 +111,16 @@ export class DecorateCanvas {
     return FLAP_KEYS.filter((k) => this.flap_colors[k]).length;
   }
 
+  /** Public: waits for boot, then paints. */
   async renderFills() {
     await this._ready;
-    this.fillG.innerHTML = '';
+    return this._paintFills();
+  }
+
+  /** Internal: assumes placements + fillsG exist (or no-op). */
+  async _paintFills() {
+    if (!this.fillsG || !this.placements) return;
+    this.fillsG.innerHTML = '';
     const opacity = getComputedStyle(document.documentElement)
       .getPropertyValue('--paint-opacity')
       .trim() || '0.70';
@@ -112,15 +140,10 @@ export class DecorateCanvas {
       path.setAttribute('fill-opacity', opacity);
       path.style.mixBlendMode = 'normal';
       g.appendChild(path);
-      this.fillG.appendChild(g);
+      this.fillsG.appendChild(g);
     }
   }
 
-  /**
-   * Hit-test decorate-local point → visual flap key, or null.
-   * @param {number} localX
-   * @param {number} localY
-   */
   hitFlap(localX, localY) {
     for (const flap of FLAP_KEYS) {
       if (pointInQuad(localX, localY, this.quads[flap])) return flap;
@@ -128,7 +151,6 @@ export class DecorateCanvas {
     return null;
   }
 
-  /** Client (viewport) coords → decorate-local, then hit. */
   hitFlapFromClient(clientX, clientY) {
     const rect = this.host.getBoundingClientRect();
     const scaleX = 267 / rect.width;

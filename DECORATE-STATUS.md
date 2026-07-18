@@ -29,7 +29,7 @@ PLAN.md lists the same order for Decorate internals (paint → stickers → vibe
 
 ## Half-done / known gaps (paint increment)
 
-- **Boot reliability:** module imports used cache-bust query strings after a stale `geometry.js` export miss; needs a clean smoke pass on `/screens/decorate.html`.
+- **Boot deadlock (fixed 2026-07-17):** `DecorateCanvas._boot` → `renderFills` → `await this._ready` deadlocked; paint tray never mounted. Guarded so `_boot` can finish.
 - **Brush visuals:** tray/cursor use `brush-handle.png` (large fragment), not a fully composed Figma brush-in-slot asset; ferrule/tip/union PNGs are present but unused.
 - **Eraser:** functional for paint clear, but not the Figma Magic Eraser component; no sticker-aware erase yet (stickers not on canvas); no Cmd/Ctrl+Z undo (PRD §8.6).
 - **Save / Start Over CTAs:** not in the left column yet (PRD §8.3); helper text only.

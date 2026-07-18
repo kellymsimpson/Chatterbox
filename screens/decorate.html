@@ -71,9 +71,9 @@
   <script type="module">
     const helper = document.getElementById('paint-helper');
     try {
-      const { DecorateCanvas } = await import('../components/decorate-canvas.js?v=paint1c');
-      const { mountMagicPaint } = await import('../components/magic-paint.js?v=paint1c');
-      const { getDisplayName } = await import('../components/identity.js?v=paint1c');
+      const { DecorateCanvas } = await import('../components/decorate-canvas.js');
+      const { mountMagicPaint } = await import('../components/magic-paint.js');
+      const { getDisplayName } = await import('../components/identity.js');
 
       const label = document.getElementById('maker-label');
       const name = getDisplayName();

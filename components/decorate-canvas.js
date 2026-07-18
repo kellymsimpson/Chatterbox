@@ -3,8 +3,8 @@
  * in decorate-local space (placements from closed-placements.json).
  */
 
-import { decorateQuadsVisual } from './flap-coords.js?v=paint1';
-import { pointInQuad } from './geometry.js?v=paint1';
+import { decorateQuadsVisual } from './flap-coords.js';
+import { pointInQuad } from './geometry.js';
 
 const FRAMES_BASE = new URL('../assets/frames/', import.meta.url);
 const FILLS_BASE = new URL('../assets/fills/', import.meta.url);

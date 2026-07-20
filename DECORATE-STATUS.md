@@ -1,57 +1,62 @@
 # Decorate mode — status
 
-Last updated: 2026-07-17 (post-merge of `cursor/decorate-magic-paint` → `main`).
+**Status: COMPLETE / LOCKED** (2026-07-20)
 
-## Build cadence (agreed)
+Do not change paint, stickers, vibe, or save behaviour unless the product owner unlocks an increment. Confirmation sheet content structure is stable; a later Figma redesign may restyle it without changing the fields or actions.
 
-Ship one interaction at a time; wait for confirmation before the next:
+## Build cadence (shipped)
 
-1. **Magic Paint** (tray / brush / flap wash) ← current review
-2. **Sticker sheet**
-3. **Vibe selector overlay**
-4. **Save & release flow**
-
-PLAN.md lists the same order for Decorate internals (paint → stickers → vibe → save).
+1. **Magic Paint** — locked
+2. **Sticker sheet** — locked
+3. **Vibe selector overlay** — locked
+4. **Save & release flow** — locked (confirmation sheet approved 2026-07-20)
 
 ## What's built
 
 | Piece | Location | Notes |
 |---|---|---|
-| Desk 3-column shell | `screens/decorate.html`, `styles/decorate.css` | Left canvas, centre steps, right sticker stub |
-| V33 canvas + closed fills | `components/decorate-canvas.js` | Verified decorate-local placements from `closed-placements.json`; NORMAL @ `--paint-opacity` 0.70 |
-| Flap hit-testing | `decorate-canvas.js` + `geometry.pointInQuad` | Uses `decorateQuadsVisual()` (left/right name swap → visual bottom_*) |
-| Magic Paint tray | `components/magic-paint.js` | Brush pickup, 7 pods (Figma PNGs), selected/disabled pods, Esc to idle |
-| Floating brush cursor | `magic-paint.js` / CSS | Follows pointer at −45° while brush/eraser active |
-| Eraser tip (paint only) | `magic-paint.js` | Clears flap paint; CSS stub glyph (not Figma Magic Eraser asset yet) |
-| Paint helper copy | `decorate.html` | “Paint N more flaps…”, mode-specific prompts |
-| Paint UI assets | `assets/ui/magic-paint/` | Pods + brush fragment PNGs from Figma MCP |
-| Upstream locked rendering | fills / frames / stickers / motion | Closed fills + sticker UV locked earlier; open/close is V33↔V34 / V33↔V36 + squash |
+| Desk 3-column shell | `screens/decorate.html`, `styles/decorate.css` | Left canvas + CTAs, centre steps, right stickers |
+| V33 canvas + closed fills | `components/decorate-canvas.js` | Paint washes + sticker UV warp; NORMAL @ `--paint-opacity` 0.70 |
+| Magic Paint tray | `components/magic-paint.js` | Brush, 7 pods, eraser (paint), floating cursor |
+| Sticker sheet | `components/sticker-sheet.js`, `sticker-catalog.js`, `sticker-art.js` | Place / move / remove on flaps |
+| Vibe selector | `components/vibe-selector.js`, `fortunes.js` | Overlay cards; Confirm; change-vibe dialog; `pickFortunes` |
+| Save & Finish | `components/save-flow.js`, `supabase-api.js` | Always-clickable; validation; Supabase insert; confirmation sheet |
+| Identity | `components/identity.js` | `maker_token` + display name / “A Mysterious Maker” |
+| Placeholders | `screens/play-placeholder.html`, `screens/schoolyard-placeholder.html` | Linked from confirmation sheet |
 
-## Half-done / known gaps (paint increment)
+## Save validation (locked copy)
 
-- **Boot deadlock (fixed 2026-07-17):** `DecorateCanvas._boot` → `renderFills` → `await this._ready` deadlocked; paint tray never mounted. Guarded so `_boot` can finish.
-- **Brush visuals:** tray/cursor use `brush-handle.png` (large fragment), not a fully composed Figma brush-in-slot asset; ferrule/tip/union PNGs are present but unused.
-- **Eraser:** functional for paint clear, but not the Figma Magic Eraser component; no sticker-aware erase yet (stickers not on canvas); no Cmd/Ctrl+Z undo (PRD §8.6).
-- **Save / Start Over CTAs:** not in the left column yet (PRD §8.3); helper text only.
-- **Tray polish:** hover glow on brush slot, exact Figma recess/union under brush, pod active variants beyond CSS grayscale.
-
-## Not started (next increments)
-
-| Increment | Status |
+| Condition | Helper (coral warning) |
 |---|---|
-| Sticker sheet (50 stickers, place/warp on flaps, optional) | Placeholder only |
-| Stickers on decorate canvas (UV warp, z above paint) | Not wired |
-| Vibe selector button + full-screen overlay + edit badge | Placeholder only |
-| Fortune seeding on vibe confirm (`pickFortunes`) | Not wired |
-| Save & Finish validation + Supabase insert + confirmation sheet | Not wired |
-| Start Over | Not wired |
+| No vibe, flaps incomplete | `Choose a vibe and paint your flaps.` |
+| No vibe only | `Choose a vibe before saving.` |
+| Flaps incomplete only | `Paint all four flaps before saving.` |
 
-## Infra context (outside Decorate UI)
+## Supabase insert (locked shape)
 
-- Supabase `chatterboxes` table + RLS: created (empty).
-- Vercel: project linked; `main` deploys (confirm after this merge).
-- Env: `.env.example` has `VITE_SUPABASE_*` placeholders; frontend not reading them yet.
+- `maker_name` — display name or `null`
+- `maker_token`
+- `vibe` — Wildcard assigns one of Mystical / Funny / Wholesome / Dramatic at save; store assigned vibe
+- `flap_colors` — `{ top_left, top_right, bottom_left, bottom_right }`
+- `stickers` — `[{ sticker_id, flap, u, v }]`
+- `fortunes` — keys `"1"`–`"8"` sequential (`fortune[0]` → `"1"`, …)
 
-## Immediate next step
+Env: `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env.local` / Vercel. Generate browser env with `node scripts/write-supabase-env.mjs` → gitignored `components/supabase-env.js`.
 
-**Review Magic Paint on** `/screens/decorate.html` — brush → colour → paint flaps → eraser. After confirmation, build the sticker sheet increment.
+## Confirmation sheet (locked structure)
+
+Slide-up panel after successful insert. Dismiss (scrim / Esc) does **not** undo the save.
+
+1. Thumbnail (~200px) — canvas clone + schoolyard drop-shadow (padded so shadow isn’t clipped)
+2. Vibe pill — assigned/stored vibe label (Comfortaa optical pad)
+3. Maker line — display name or “A Mysterious Maker”
+4. Primary — “Play this chatterbox” → play placeholder `?id=`
+5. Secondary — “Go to Schoolyard” → schoolyard placeholder `?spotlight=`
+
+## Demo
+
+Local: `http://127.0.0.1:8877/screens/decorate.html`
+
+## Next session
+
+**Play mode** — see `PLAY-STATUS.md`.

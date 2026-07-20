@@ -7,3 +7,7 @@ node_modules/
 *.log
 .vscode/
 .idea/
+
+components/supabase-env.js
+.env.supabase.tmp
+tmp/

@@ -191,3 +191,52 @@ export function playQuadToLocal(quad, origin) {
     C3: playPointToLocal(quad.C3, origin),
   };
 }
+
+/**
+ * Inverse bilinear map: local point → (u,v) in the unit square for quad
+ * C0(0,0) C1(1,0) C2(1,1) C3(0,1). Returns null if outside / degenerate.
+ * @param {number} x
+ * @param {number} y
+ * @param {Quad} quad
+ * @returns {{ u: number, v: number } | null}
+ */
+export function uvFromPointInQuad(x, y, quad) {
+  const [x0, y0] = quad.C0;
+  const [x1, y1] = quad.C1;
+  const [x2, y2] = quad.C2;
+  const [x3, y3] = quad.C3;
+
+  // P = C0 + u(C1-C0) + v(C3-C0) + uv(C0-C1+C2-C3)
+  const ax = x0;
+  const ay = y0;
+  const bx = x1 - x0;
+  const by = y1 - y0;
+  const cx = x3 - x0;
+  const cy = y3 - y0;
+  const dx = x0 - x1 + x2 - x3;
+  const dy = y0 - y1 + y2 - y3;
+  const px = x - ax;
+  const py = y - ay;
+
+  let u = 0.5;
+  let v = 0.5;
+  for (let i = 0; i < 8; i++) {
+    const fx = bx * u + cx * v + dx * u * v - px;
+    const fy = by * u + cy * v + dy * u * v - py;
+    const fux = bx + dx * v;
+    const fuy = by + dy * v;
+    const fvx = cx + dx * u;
+    const fvy = cy + dy * u;
+    const det = fux * fvy - fuy * fvx;
+    if (Math.abs(det) < 1e-12) break;
+    u -= (fx * fvy - fy * fvx) / det;
+    v -= (fy * fux - fx * fuy) / det;
+  }
+
+  if (!Number.isFinite(u) || !Number.isFinite(v)) return null;
+  if (u < -0.02 || u > 1.02 || v < -0.02 || v > 1.02) return null;
+  return {
+    u: Math.min(1, Math.max(0, u)),
+    v: Math.min(1, Math.max(0, v)),
+  };
+}

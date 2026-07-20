@@ -1,4 +1,20 @@
-/* Decorate mode — paint tray increment */
+/* Decorate — chrome from Figma 915:8868
+ *
+ * Shared button/number stroke (read from 462:9334 / 462:13164):
+ *   GRADIENT_LINEAR opacity 0.20
+ *   stops: #264653 @0 → #FFFFFF @0.226 → #FFFFFF @0.755 → #264653 @1
+ *   direction atan2 ≈ 163.6° (CSS angle ≈ 163.6deg from +x)
+ */
+
+:root {
+  --figma-stroke-highlight: linear-gradient(
+    163.6deg,
+    rgba(38, 70, 83, 0.2) 0%,
+    rgba(255, 255, 255, 0.2) 22.6%,
+    rgba(255, 255, 255, 0.2) 75.5%,
+    rgba(38, 70, 83, 0.2) 100%
+  );
+}
 
 .decorate-screen {
   min-height: 100vh;
@@ -8,53 +24,130 @@
   background-size: cover;
   background-position: center;
   color: var(--color-bright-white);
-  padding: 48px 80px 40px;
 }
 
+.decorate-frame {
+  width: 1320px;
+  margin: 0 auto;
+  padding: 48px 0 40px;
+}
+
+/* ── Header: title menu 556:4469 / 915:8889 ── */
 .decorate-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 32px;
+  margin-bottom: 12px;
+  min-height: 79px;
 }
 
-.decorate-title {
+.decorate-title-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 256px;
+  min-height: 77px;
+}
+
+/* Logo + wordmark 556:8322 — 160×20; wordmark aspect 347/54; diamond 20×20 */
+.decorate-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 160px;
+  height: 20px;
+}
+
+.decorate-wordmark-text {
+  display: block;
+  width: 139px;
+  height: 15.64px; /* viewBox 136.808×15.3965 — do not stretch */
+  object-fit: fill;
+  flex-shrink: 0;
+}
+
+.decorate-wordmark-logo {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.decorate-heading {
+  margin: 0;
   font-family: var(--font-heading);
-  font-size: var(--text-h1);
+  font-size: 44px;
   font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-bright-white);
+  white-space: nowrap;
 }
 
 .decorate-close {
+  display: grid;
+  place-items: center;
   width: 44px;
   height: 44px;
+  margin-top: 1px;
   border: none;
-  border-radius: 50%;
-  background: rgba(254, 251, 251, 0.15);
-  color: var(--color-bright-white);
-  font-size: 22px;
-  cursor: pointer;
-  line-height: 1;
+  background: transparent;
+  text-decoration: none;
+  line-height: 0;
+  flex-shrink: 0;
 }
-.decorate-close:hover { background: rgba(254, 251, 251, 0.28); }
 
-.decorate-columns {
-  display: grid;
-  grid-template-columns: 301px 423px 352px;
+.decorate-close img {
+  display: block;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.decorate-close:hover {
+  opacity: 0.85;
+}
+
+/* ── Body: preview 915:8896 + tool container 915:8903 ── */
+.decorate-body {
+  display: flex;
+  align-items: flex-start;
   gap: 27px;
-  align-items: start;
 }
 
-.decorate-left {
+/* Chatterbox container 915:8896 — 301×647; Frame 120 vertically centered */
+.decorate-preview {
+  width: 301px;
+  min-height: 647px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding-left: 17px;
+  justify-content: center;
+}
+
+.decorate-preview-inner {
+  width: 301px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Frame 123 961:23028 — label @ y=30 h=25, chatterbox @ y=55 */
+.decorate-preview-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 301px;
+  padding-top: 30px;
 }
 
 .decorate-canvas-wrap {
-  width: 267px;
-  height: 294px;
+  width: 267.028px;
+  height: 294.127px;
+  flex-shrink: 0;
   filter: drop-shadow(
     var(--schoolyard-shadow-x)
     var(--schoolyard-shadow-y)
@@ -67,31 +160,219 @@
   cursor: inherit;
 }
 
-body[data-decorate-tool='brush'] .decorate-canvas,
-body[data-decorate-tool='eraser'] .decorate-canvas {
-  cursor: none;
+/* Focus: mouse/programmatic = no ring; keyboard Tab = :focus-visible ring */
+.decorate-screen :is(
+  .magic-paint-brush-slot,
+  .magic-paint-pod,
+  .magic-eraser-btn,
+  .decorate-btn-save,
+  .decorate-btn-start-over,
+  .decorate-btn-vibe,
+  .decorate-close
+):focus {
+  outline: none;
 }
 
-.decorate-label {
+.decorate-screen :is(
+  .magic-paint-brush-slot,
+  .magic-paint-pod,
+  .magic-eraser-btn,
+  .decorate-btn-save,
+  .decorate-btn-start-over,
+  .decorate-btn-vibe,
+  .decorate-close
+):focus-visible {
+  outline: 2px solid #fefbfb;
+  outline-offset: 3px;
+}
+
+/* Hide system pointer while a tool cursor is active */
+body[data-decorate-tool='brush'],
+body[data-decorate-tool='eraser'],
+body[data-decorate-tool='brush'] *,
+body[data-decorate-tool='eraser'] * {
+  cursor: none !important;
+}
+
+/* 961:23027 — Outfit Medium 20 / #FEFBFB; box h=25 → chatterbox at y=55 */
+.decorate-maker-label {
+  margin: 0;
+  width: 209px;
+  height: 25px;
   font-family: var(--font-body);
-  font-size: var(--text-body);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 25px;
   text-align: center;
-  color: var(--color-bright-white);
+  color: #fefbfb;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.decorate-helper {
-  font-family: var(--font-body);
-  font-size: var(--text-help);
-  color: var(--color-soft-white);
-  text-align: center;
-  min-height: 1.4em;
-}
-
-.decorate-center {
+/* CTAs 915:8899 — 281×149; Save→Start Over gap = 100.13−76.13 = 24pt
+ * Bottom-anchored so helper validation grows upward (Save stays put).
+ */
+.decorate-ctas {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  padding-top: 40px;
+  align-items: center;
+  justify-content: flex-end;
+  width: 281px;
+  min-height: 149px;
+  height: auto;
+  gap: 24px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  margin-top: -9.87px;
+  padding-top: 2px;
+}
+
+/* Frame 130 1332:25902 — helper y=2 h=20 → Save y=38 → gap 16pt; width 282 */
+.decorate-cta-save-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  width: 282px;
+  flex-shrink: 0;
+}
+
+/* Inside stroke ring (Figma strokeAlign INSIDE) — gradient sits within bounds */
+.figma-stroke-inside {
+  position: relative;
+  isolation: isolate;
+}
+
+.figma-stroke-inside::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--figma-stroke-w, 2px);
+  background: var(--figma-stroke-highlight);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Primary Save — 462:13167 default / 548:3423 hover
+ * default: fill #217D72; stroke 2px INSIDE; shadow 0 4 blur 6 #264653@0.4
+ * hover:   fill #217D72 + white@0.1; shadow 0 4 blur 8 #264653@0.8
+ */
+.decorate-btn-save {
+  --figma-stroke-w: 2px;
+  box-sizing: border-box;
+  width: 193px;
+  height: 48px;
+  border-radius: 60px;
+  border: none;
+  background: #217d72;
+  color: #e8e7e7;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(38, 70, 83, 0.4);
+  opacity: 1;
+  transition: box-shadow 120ms ease, background 120ms ease;
+}
+
+.decorate-btn-save:hover {
+  background-color: #217d72;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  box-shadow: 0 4px 8px rgba(38, 70, 83, 0.8);
+}
+
+.decorate-btn-save.is-saving {
+  cursor: wait;
+  opacity: 0.85;
+}
+
+.decorate-btn-start-over {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--color-soft-white);
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 8px 32px;
+  height: 48px;
+}
+
+/* 1332:25900 — Outfit Regular 16; single line; frame width 282
+ * Warning colour: Coral Red (PRD §8.9 inline validation)
+ */
+.decorate-helper {
+  margin: 0;
+  width: 282px;
+  height: 20px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #fefbfb;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.decorate-helper.is-warning {
+  color: var(--color-coral-red);
+}
+
+/* Tool container — 915:8903
+ * fill GRADIENT_LINEAR opacity 0.05: #635B4C → #FFFFFF, angle 180deg
+ * effects: INNER 0 4 blur40 #264653@0.2; DROP 0 2 blur2 #FFF@0.3; INNER 0 4 blur4 #000@0.25
+ */
+.decorate-tools {
+  width: 951px;
+  min-height: 648px;
+  border-radius: 40px;
+  padding: 40px 63px;
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+  background: linear-gradient(
+    180deg,
+    rgba(99, 91, 76, 0.05) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  box-shadow:
+    0 2px 2px rgba(255, 255, 255, 0.3),
+    inset 0 4px 40px rgba(38, 70, 83, 0.2),
+    inset 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.decorate-tools-left {
+  width: 423px;
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  flex-shrink: 0;
+}
+
+.decorate-tools-right {
+  width: 352px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
 }
 
 .decorate-step {
@@ -100,226 +381,853 @@ body[data-decorate-tool='eraser'] .decorate-canvas {
   gap: 16px;
 }
 
+.decorate-step-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 .decorate-step-head {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  min-height: 32px;
 }
 
-.decorate-step-num {
-  width: 32px;
+/* Number / TIP — 1079:24762 Default (462:9334)
+ * no fill; solid Soft White #E8E7E7 2pt INSIDE stroke; shadow 0 2 blur 8 #264653@0.6
+ * text Comfortaa Bold 20 / Soft White — replaces prior teal fill + gradient stroke
+ */
+.decorate-step-num,
+.decorate-tip {
+  --figma-stroke-w: 2px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background: var(--color-bright-teal);
-  color: var(--color-bright-white);
+  /* Comfortaa Bold sits high in the em-box — top pad optically centers in 32px */
+  padding: 5px 12px 0;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: #e8e7e7;
   font-family: var(--font-heading);
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
-  display: grid;
-  place-items: center;
+  text-transform: uppercase;
+  line-height: 1;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(38, 70, 83, 0.6);
 }
 
-.decorate-step-num.is-tip {
-  background: transparent;
-  border: 2px solid var(--color-soft-white);
-  font-size: 12px;
+/* Solid Soft White inside stroke (override shared gradient highlight) */
+.decorate-step-num.figma-stroke-inside::before,
+.decorate-tip.figma-stroke-inside::before {
+  background: #e8e7e7;
+}
+
+/* TIP instance 1112:28903 — width 56 for "tip" label; same stroke/padding as Number */
+.decorate-tip {
+  min-width: 56px;
   width: auto;
-  padding: 0 10px;
-  border-radius: 999px;
 }
 
 .decorate-step-title {
   font-family: var(--font-body);
-  font-size: var(--text-body);
+  font-size: 20px;
   font-weight: 500;
+  color: var(--color-bright-white);
 }
 
 .decorate-step-hint {
   font-family: var(--font-body);
-  font-size: 14px;
-  color: var(--color-soft-white);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-bright-white);
   margin-left: 44px;
-  margin-top: -8px;
+  margin-top: 0;
 }
 
-.decorate-placeholder {
-  opacity: 0.45;
+/* Secondary Pick a Vibe — 462:13166 / 1112:28964
+ * fill #E8E7E7; stroke 2px INSIDE gradient @0.2; shadow 0 4 blur 6 #264653@0.4
+ * gap 8; icon 24×24; text Dark Teal #264653 — auto-width, one line
+ */
+.decorate-btn-vibe {
+  --figma-stroke-w: 2px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start; /* column flex parent otherwise stretches to 423px */
+  gap: 8px;
+  width: max-content;
+  max-width: 100%;
+  height: 48px;
+  padding: 8px 32px;
+  border-radius: 60px;
+  border: none;
+  background: #e8e7e7;
+  color: #264653;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 4px 6px rgba(38, 70, 83, 0.4);
+  cursor: pointer;
+  transition: box-shadow 120ms ease, background 120ms ease;
+}
+
+/* Secondary hover — 462:13173: fill #FEFBFB; shadow 0 4 blur 8 #264653@0.8 */
+.decorate-btn-vibe:hover {
+  background: #fefbfb;
+  box-shadow: 0 4px 8px rgba(38, 70, 83, 0.8);
+}
+
+.decorate-btn-vibe:disabled {
+  cursor: not-allowed;
+}
+
+.decorate-btn-vibe[hidden] {
+  display: none;
+}
+
+.decorate-btn-vibe-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Sticker Sheet — Figma 258:1671 / 915:8933
+ * fill #E8E7E7; drop shadow 0 2 blur4 #264653@0.18; scrollable 352×519
+ */
+.sticker-sheet {
+  position: relative;
+  width: 352px;
+  flex-shrink: 0;
+}
+
+.sticker-sheet-scroll {
+  width: 352px;
+  height: 518.97px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #e8e7e7;
+  box-shadow: 0 2px 4px rgba(38, 70, 83, 0.18);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(38, 70, 83, 0.35) transparent;
+}
+
+.sticker-sheet-grid {
+  position: relative;
+  width: 352px;
+  height: 518.97px;
+}
+
+.sticker-sheet-cell {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  cursor: pointer;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.sticker-sheet-cell svg {
+  width: 100%;
+  height: 100%;
+  display: block;
   pointer-events: none;
+}
+
+.sticker-sheet-message {
+  margin: 8px 0 0;
+  font-family: var(--font-body);
   font-size: 14px;
-  color: var(--color-soft-white);
-  border: 1px dashed rgba(254, 251, 251, 0.35);
-  border-radius: 12px;
-  padding: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #fefbfb;
 }
 
-.decorate-right .decorate-placeholder {
-  min-height: 200px;
+.sticker-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  z-index: 10000;
+  pointer-events: none;
+  will-change: transform;
 }
 
-/* ── Magic Paint tray ── */
+.sticker-cursor img {
+  display: block;
+  width: 48px;
+  height: auto;
+}
+
+body[data-sticker-holding='1'],
+body[data-sticker-holding='1'] * {
+  cursor: none !important;
+}
+
+.decorate-sticker-layer,
+.decorate-sticker-preview {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sticker-on-flap.is-preview {
+  opacity: 0.85;
+}
+
+/* ── Magic Paint tray — 665:7965
+ * Three full tray images (2× PNG → CSS 371×106). Hover = swap whole image.
+ * Pods: separate layer at exact Frame 38 x/y/w/h.
+ */
 .magic-paint-tray {
   position: relative;
   width: 371px;
   height: 106px;
-  border-radius: 8px;
-  background: var(--color-soft-white);
-  box-shadow:
-    0 0 20px rgba(38, 70, 83, 0.18),
-    inset 0 0 2px 2px #fff,
-    inset 0 0 4px 3px rgba(38, 70, 83, 0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 24px 16px;
+  flex-shrink: 0;
 }
 
+.magic-paint-tray-art {
+  position: absolute;
+  inset: 0;
+  width: 371px;
+  height: 106px;
+  object-fit: fill;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  /* Figma DROP_SHADOW on Rectangle 6 — CSS so PNG edges stay crisp (no baked bleed) */
+  filter: drop-shadow(0 0 10px rgba(38, 70, 83, 0.18));
+}
+
+/* Frame 39 hit target only — brush is baked into tray art */
 .magic-paint-brush-slot {
   appearance: none;
   border: none;
   background: transparent;
-  padding: 4px 0;
+  padding: 0;
   cursor: pointer;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 28px;
-}
-
-.magic-paint-brush-slot.is-empty {
-  outline: 1px dashed rgba(38, 70, 83, 0.25);
-  border-radius: 6px;
-  min-height: 28px;
-}
-
-.magic-paint-brush {
-  display: block;
-  height: 14px;
-  width: auto;
-  max-width: 309px;
-  pointer-events: none;
-  filter: drop-shadow(0 0 1px rgba(38, 70, 83, 0.5));
-  transform: rotate(0deg);
+  position: absolute;
+  left: 28.466px;
+  top: 20.942px;
+  width: 317.644px;
+  height: 32.1px;
+  z-index: 2;
 }
 
 .magic-paint-pods {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  justify-content: center;
-  filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 8px rgba(38, 70, 83, 0.28));
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
 }
 
+/* Paint pods 258:2382 — inline left/top/width/height from Figma Frame 38 */
 .magic-paint-pod {
   appearance: none;
   border: none;
   background: transparent;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  position: absolute;
+  pointer-events: auto;
   cursor: pointer;
-  border-radius: 50%;
-  transition: transform 120ms ease-out, opacity 120ms ease-out, filter 120ms ease-out;
+  overflow: visible;
 }
 
 .magic-paint-pod img {
-  display: block;
-  width: 30px;
-  height: 30px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+
+.magic-paint-pod[data-variant='disabled'] {
+  cursor: default;
   pointer-events: none;
 }
 
-.magic-paint-pod:hover:not(.is-disabled) {
-  transform: scale(1.08);
+/* ── Magic Eraser — 725:8374
+ * Approved deviation: hover scale ≤ 3%, uniform, centered on 154×75 box.
+ */
+.magic-eraser {
+  width: 154px;
+  height: 75px;
 }
 
-.magic-paint-pod.is-selected {
-  transform: scale(1.12);
-  outline: 2px solid var(--color-dark-teal);
-  outline-offset: 2px;
-}
-
-.magic-paint-pod.is-disabled {
-  opacity: 0.38;
-  filter: grayscale(0.55);
-}
-
-.magic-paint-pod.is-muted {
-  /* idle: pods available but brush not up — still clickable */
-  opacity: 1;
-}
-
-/* ── Eraser tip ── */
 .magic-eraser-btn {
   appearance: none;
-  border: 2px solid var(--color-dark-teal);
-  background: var(--color-soft-white);
-  color: var(--color-dark-teal);
-  border-radius: 12px;
-  padding: 12px 18px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 154px;
+  height: 75px;
   cursor: pointer;
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 500;
+  display: grid;
+  place-items: center;
+  transform-origin: center center;
+  transition: transform 120ms ease;
 }
 
-.magic-eraser-btn.is-active {
-  background: var(--color-dark-teal);
-  color: var(--color-bright-white);
+.magic-eraser-btn[data-variant='hover'] {
+  transform: scale(1.03);
 }
 
-.magic-eraser-glyph {
-  width: 28px;
-  height: 18px;
-  border-radius: 3px 3px 6px 6px;
-  background: linear-gradient(180deg, #f4a4b8 0%, #e8789a 55%, #d4c4a8 55%, #cbb89a 100%);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+.magic-eraser-btn[data-variant='selected'],
+.magic-eraser-btn[data-variant='default'] {
+  transform: scale(1);
 }
 
-/* Floating tool cursor */
+.magic-eraser-btn img {
+  display: block;
+  width: 154px;
+  height: 75px;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Cursors — 978:26444
+ * Paintbrush: 107.541² — tip hotspot (~0.51, 106.51) applied in JS
+ * Eraser: 49.333² — lowest-corner hotspot (~14.65, 47.89) applied in JS
+ */
 .tool-cursor {
   position: fixed;
   left: 0;
   top: 0;
-  width: 120px;
-  height: 16px;
-  margin-left: -8px;
-  margin-top: -8px;
+  width: 107.541px;
+  height: 107.541px;
+  margin: 0;
   pointer-events: none;
   z-index: 9999;
-  transform-origin: 12px 8px;
+  will-change: transform;
 }
 
 .tool-cursor img {
   display: block;
-  width: 120px;
-  height: auto;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+  width: 107.541px;
+  height: 107.541px;
+  object-fit: contain;
 }
 
-.tool-cursor.is-eraser::before {
-  content: '';
-  display: block;
-  width: 36px;
-  height: 22px;
-  border-radius: 3px 3px 8px 8px;
-  background: linear-gradient(180deg, #f4a4b8 0%, #e8789a 55%, #d4c4a8 55%, #cbb89a 100%);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+.tool-cursor.is-eraser {
+  width: 49.333px;
+  height: 49.333px;
 }
 
 .tool-cursor.is-eraser img {
+  width: 49.333px;
+  height: 49.333px;
+}
+
+/* ── Vibe selector — Card Menu Overlay 1133:9509 / Card 704:9298 ── */
+
+.vibe-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vibe-overlay[hidden] {
   display: none;
 }
 
-.decorate-review-banner {
+.vibe-overlay-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 1, 1, 0.55);
+}
+
+.vibe-overlay-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: 371.42px;
+}
+
+.vibe-overlay-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+/* Card — default / hover / selected / disabled (704:9298) */
+.vibe-card {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 371.42px;
+  min-height: 90px;
+  padding: 20px 24px 20px 20px;
+  border: none;
+  border-radius: 30px;
+  background: #e8e7e7;
+  color: #264653;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 8px 12px rgba(38, 70, 83, 0.24);
+  transition: background 120ms ease, box-shadow 120ms ease;
+}
+
+.vibe-card:focus-visible {
+  outline: none;
+}
+
+.vibe-card[data-variant='hover'] {
+  background: #fefbfb;
+  background-image: none;
+  box-shadow: 0 8px 12px rgba(38, 70, 83, 0.24);
+}
+
+.vibe-card[data-variant='selected'] {
+  /* Card Property 1=selected (712:7377) — Soft White fill, 4px INSIDE Bright White stroke, white@0.2 shadow. No extra chrome. */
+  background: #e8e7e7;
+  background-image: none;
+  box-shadow:
+    inset 0 0 0 4px #fefbfb,
+    0 8px 12px rgba(254, 251, 251, 0.2);
+}
+
+.vibe-card[data-variant='disabled'] {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
+  background-color: #e8e7e7;
+  box-shadow: 0 8px 30px rgba(38, 70, 83, 0.48);
+  cursor: pointer;
+}
+
+.vibe-card-icon {
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.vibe-card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 271.42px;
+  min-width: 0;
+}
+
+.vibe-card-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 24px;
+}
+
+.vibe-card-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #264653;
+  line-height: normal;
+}
+
+.vibe-card-blurb {
   font-family: var(--font-body);
-  font-size: 13px;
-  color: var(--color-warm-amber);
-  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #264653;
+  line-height: normal;
+}
+
+/* Confirm — Main Buttons primary
+ * disabled: 1365:10060 fill #767676, no shadow, 2px inside gradient stroke
+ * enabled:  462:13167 fill #217D72, shadow 0 4 blur 6 #264653@0.4
+ * Always present in overlay; disabled until a card is selected.
+ */
+.vibe-confirm-btn {
+  --figma-stroke-w: 2px;
+  box-sizing: border-box;
+  width: 193px;
+  height: 48px;
+  border: none;
+  border-radius: 60px;
+  background: #217d72;
+  color: #e8e7e7;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(38, 70, 83, 0.4);
+}
+
+.vibe-confirm-btn:hover:not(:disabled) {
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  box-shadow: 0 4px 8px rgba(38, 70, 83, 0.8);
+}
+
+.vibe-confirm-btn:disabled,
+.vibe-confirm-btn[data-state='disabled'] {
+  background: #767676;
+  background-image: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Panel selected card — V33.6 / 1086:26553 at button scale */
+.vibe-selected-slot {
+  align-self: flex-start;
+  width: 371.42px;
+  max-width: 100%;
+}
+
+.vibe-selected-slot[hidden] {
+  display: none;
+}
+
+.vibe-card--panel {
+  width: 100%;
+  max-width: 371.42px;
+}
+
+.vibe-card--panel .vibe-card-copy {
+  width: auto;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Edit pill — selected + edt on (1112:28348) */
+.vibe-edit-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 24px;
+  padding: 3px 12px 3px 8px;
+  border-radius: 20px;
+  background:
+    linear-gradient(rgba(143, 183, 179, 0.5), rgba(143, 183, 179, 0.5)),
+    #fefbfb;
+  color: #287271;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  flex-shrink: 0;
+  /* slight overlap past card edge like a notification badge */
+  margin-right: -10px;
+  margin-top: -10px;
+  align-self: flex-start;
+}
+
+.vibe-edit-badge img {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.vibe-card--panel .vibe-card-title-row {
+  align-items: flex-start;
+}
+
+/* Change-vibe confirmation — PRD §8.4 exact copy */
+.vibe-change-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 13000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vibe-change-dialog[hidden] {
+  display: none;
+}
+
+.vibe-change-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 1, 1, 0.45);
+}
+
+.vibe-change-panel {
+  position: relative;
+  z-index: 1;
+  width: min(420px, calc(100vw - 48px));
+  padding: 28px 32px;
+  border-radius: 30px;
+  background: #e8e7e7;
+  box-shadow: 0 8px 24px rgba(38, 70, 83, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.vibe-change-copy {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #264653;
+  text-align: center;
+}
+
+.vibe-change-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.vibe-change-confirm {
+  --figma-stroke-w: 2px;
+  box-sizing: border-box;
+  min-width: 140px;
+  height: 48px;
+  padding: 8px 32px;
+  border: none;
+  border-radius: 60px;
+  background: #217d72;
+  color: #e8e7e7;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(38, 70, 83, 0.4);
+}
+
+.vibe-change-confirm:hover {
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  box-shadow: 0 4px 8px rgba(38, 70, 83, 0.8);
+}
+
+.vibe-change-cancel {
+  box-sizing: border-box;
+  min-width: 140px;
+  height: 48px;
+  padding: 8px 32px;
+  border: none;
+  border-radius: 60px;
+  background: #e8e7e7;
+  color: #264653;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(38, 70, 83, 0.4);
+}
+
+.vibe-change-cancel:hover {
+  background: #fefbfb;
+  box-shadow: 0 4px 8px rgba(38, 70, 83, 0.8);
+}
+
+body[data-vibe-overlay='1'] {
+  overflow: hidden;
+}
+
+/* ── Save confirmation sheet (PRD §8.9) ──
+ * No dedicated Figma frame found in Screens/Design System —
+ * assembled from brand tokens + Post Reveal sheet patterns.
+ */
+.save-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 14000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.save-sheet[hidden] {
+  display: none;
+}
+
+.save-sheet-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 1, 1, 0.55);
+}
+
+.save-sheet-panel {
+  position: relative;
+  z-index: 1;
+  width: min(480px, 100%);
+  padding: 36px 40px 40px;
+  border-radius: 40px 40px 0 0;
+  background: #e8e7e7;
+  box-shadow: 0 -8px 32px rgba(38, 70, 83, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  animation: save-sheet-up 280ms ease-out;
+}
+
+@keyframes save-sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* Thumbnail + schoolyard shadow.
+ * Filter output is clipped to the filtered element’s border box in Blink —
+ * so the shadow host must be larger than the paper, with padding so the
+ * full 17/12 blur-12 bleed paints inside that box (not outside it). */
+.save-sheet-thumb {
+  --thumb-w: 200px;
+  --thumb-h: calc(294px * 200 / 267);
+  --shadow-pad-t: 14px;
+  --shadow-pad-r: 34px; /* ≥ offset-x 17 + blur 12 */
+  --shadow-pad-b: 28px; /* ≥ offset-y 12 + blur 12 */
+  --shadow-pad-l: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.save-sheet-thumb-shadow {
+  box-sizing: border-box;
+  width: calc(var(--thumb-w) + var(--shadow-pad-l) + var(--shadow-pad-r));
+  height: calc(var(--thumb-h) + var(--shadow-pad-t) + var(--shadow-pad-b));
+  padding: var(--shadow-pad-t) var(--shadow-pad-r) var(--shadow-pad-b) var(--shadow-pad-l);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  filter: drop-shadow(
+    var(--schoolyard-shadow-x)
+    var(--schoolyard-shadow-y)
+    var(--schoolyard-shadow-blur)
+    rgba(0, 0, 0, var(--schoolyard-shadow-opacity))
+  );
+}
+
+.save-sheet-thumb-frame {
+  width: 267px;
+  height: 294px;
+  transform: scale(calc(200 / 267));
+  transform-origin: center center;
+  flex-shrink: 0;
+  /* Collapse pre-transform layout box to the visual paper size */
+  margin: calc((var(--thumb-h) - 294px) / 2) calc((var(--thumb-w) - 267px) / 2);
+}
+
+.save-sheet-thumb-frame .decorate-canvas {
+  pointer-events: none;
+}
+
+.save-sheet-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.save-sheet-vibe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 32px;
+  /* Comfortaa Bold sits high in the em-box — same optical top pad as TIP/nums */
+  padding: 8px 16px 0;
+  border-radius: 100px;
+  background: #264653;
+  color: #e8e7e7;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.save-sheet-maker {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 500;
+  color: #264653;
+  text-align: center;
+}
+
+.save-sheet-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.save-sheet-play {
+  --figma-stroke-w: 2px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 280px;
+  max-width: 100%;
+  height: 48px;
+  border-radius: 60px;
+  background: #217d72;
+  color: #e8e7e7;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(38, 70, 83, 0.4);
+}
+
+.save-sheet-play:hover {
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  box-shadow: 0 4px 8px rgba(38, 70, 83, 0.8);
+}
+
+.save-sheet-schoolyard {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 8px 32px;
+  color: #264653;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+body[data-save-sheet='1'] {
+  overflow: hidden;
 }

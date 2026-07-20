@@ -3,112 +3,221 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Decorate — Magic Paint · Chatterbox</title>
+  <title>Decorate — Chatterbox</title>
   <link rel="stylesheet" href="../styles/tokens.css" />
   <link rel="stylesheet" href="../styles/base.css" />
-  <link rel="stylesheet" href="../styles/decorate.css" />
+  <link rel="stylesheet" href="../styles/decorate.css?v=r12-sheet2" />
 </head>
 <body>
-  <main class="decorate-screen">
-    <p class="decorate-review-banner">
-      Review increment 1 — Magic Paint only. Vibe / stickers / save land next after your OK.
-    </p>
-    <div class="decorate-top">
-      <h1 class="decorate-title">Decorate</h1>
-      <a class="decorate-close" href="../index.html" aria-label="Close">×</a>
-    </div>
-
-    <div class="decorate-columns">
-      <section class="decorate-left">
-        <div class="decorate-canvas-wrap">
-          <div id="canvas-host" class="decorate-canvas" aria-label="Chatterbox canvas"></div>
-        </div>
-        <p class="decorate-label" id="maker-label">Your Chatterbox</p>
-        <p class="decorate-helper" id="paint-helper">Loading paint…</p>
-      </section>
-
-      <section class="decorate-center">
-        <div class="decorate-step" aria-disabled="true">
-          <div class="decorate-step-head">
-            <span class="decorate-step-num">1</span>
-            <span class="decorate-step-title">Choose a vibe.</span>
+  <!-- Canonical frame: Figma 915:8868 (V33.5 - new layout); vibe selected: V33.6 1086:24774 -->
+  <main class="decorate-screen" data-node-id="915:8868">
+    <div class="decorate-frame">
+      <header class="decorate-top" data-node-id="915:8888">
+        <div class="decorate-title-menu" data-node-id="556:4469">
+          <div class="decorate-wordmark" aria-hidden="true" data-node-id="556:8322">
+            <img
+              class="decorate-wordmark-text"
+              src="../assets/ui/decorate-chrome/wordmark.svg"
+              width="139"
+              height="16"
+              alt=""
+              draggable="false"
+            />
+            <img
+              class="decorate-wordmark-logo"
+              src="../assets/ui/decorate-chrome/logo-diamond.svg"
+              width="20"
+              height="20"
+              alt=""
+              draggable="false"
+            />
           </div>
-          <p class="decorate-placeholder">Vibe selector — next increment</p>
+          <h1 class="decorate-heading">Decorate</h1>
         </div>
+        <a
+          class="decorate-close"
+          href="../index.html"
+          aria-label="Close"
+          data-node-id="550:5976"
+        >
+          <img src="../assets/ui/decorate-chrome/close.svg" width="44" height="44" alt="" draggable="false" />
+        </a>
+      </header>
 
-        <div class="decorate-step">
-          <div class="decorate-step-head">
-            <span class="decorate-step-num">2</span>
-            <span class="decorate-step-title">Paint the flaps.</span>
+      <div class="decorate-body" data-node-id="915:8892">
+        <!-- Left column 915:8896 — spacing from Figma metadata -->
+        <section class="decorate-preview" data-node-id="915:8896">
+          <div class="decorate-preview-inner" data-node-id="915:8897">
+            <!-- Frame 123: label y=30 h=25, chatterbox y=55 → 0pt between boxes -->
+            <div class="decorate-preview-stack" data-node-id="961:23028">
+              <p class="decorate-maker-label" id="maker-label" data-node-id="961:23027">
+                Your Chatterbox
+              </p>
+              <div class="decorate-canvas-wrap" data-node-id="933:22940">
+                <div id="canvas-host" class="decorate-canvas" aria-label="Chatterbox canvas"></div>
+              </div>
+            </div>
+            <!-- CTAs 915:8899: Frame 130 helper→16pt→Save; Save bottom→24pt→Start Over -->
+            <div class="decorate-ctas" data-node-id="915:8899">
+              <div class="decorate-cta-save-stack" data-node-id="1332:25902">
+                <p class="decorate-helper" id="paint-helper" data-node-id="1332:25900">
+                  Paint all 4 flaps to save.
+                </p>
+                <button type="button" class="decorate-btn-save figma-stroke-inside" data-node-id="915:8900">
+                  Save &amp; Finish
+                </button>
+              </div>
+              <button type="button" class="decorate-btn-start-over" data-node-id="915:8901">
+                Start Over
+              </button>
+            </div>
           </div>
-          <p class="decorate-step-hint">
-            Click the brush to pick it up, then click a colour and paint a flap.
-          </p>
-          <div id="paint-tray"></div>
-        </div>
+        </section>
 
-        <div class="decorate-step">
-          <div class="decorate-step-head">
-            <span class="decorate-step-num is-tip">TIP</span>
-            <span class="decorate-step-title">Use the eraser to make changes.</span>
-          </div>
-          <div id="eraser-host"></div>
-        </div>
-      </section>
+        <section class="decorate-tools" data-node-id="915:8903">
+          <div class="decorate-tools-left" data-node-id="1112:28883">
+            <div class="decorate-step decorate-step--vibe" data-node-id="1112:28884">
+              <div class="decorate-step-head">
+                <span class="decorate-step-num figma-stroke-inside" aria-hidden="true">1</span>
+                <span class="decorate-step-title">Choose a vibe.</span>
+              </div>
+              <button type="button" class="decorate-btn-vibe figma-stroke-inside" data-node-id="1112:28964">
+                <img
+                  class="decorate-btn-vibe-icon"
+                  src="../assets/ui/decorate-chrome/vibe-icon.png"
+                  width="24"
+                  height="24"
+                  alt=""
+                  draggable="false"
+                />
+                Pick a Vibe
+              </button>
+            </div>
 
-      <section class="decorate-right">
-        <div class="decorate-step" aria-disabled="true">
-          <div class="decorate-step-head">
-            <span class="decorate-step-num">3</span>
-            <span class="decorate-step-title">Add stickers (or not).</span>
+            <div class="decorate-step decorate-step--paint" data-node-id="1112:28891">
+              <div class="decorate-step-copy">
+                <div class="decorate-step-head">
+                  <span class="decorate-step-num figma-stroke-inside" aria-hidden="true">2</span>
+                  <span class="decorate-step-title">Paint the flaps.</span>
+                </div>
+                <p class="decorate-step-hint">
+                  Tap the brush to pick it up and tap to choose a color.
+                </p>
+              </div>
+              <div id="paint-tray" data-node-id="665:7965"></div>
+            </div>
+
+            <div class="decorate-step decorate-step--eraser" data-node-id="1112:28901">
+              <div class="decorate-step-head">
+                <span class="decorate-tip figma-stroke-inside" data-node-id="1079:24762">tip</span>
+                <span class="decorate-step-title">Use the eraser to make changes.</span>
+              </div>
+              <div id="eraser-host" data-node-id="725:8374"></div>
+            </div>
           </div>
-          <p class="decorate-placeholder">Sticker sheet — next increment</p>
-        </div>
-      </section>
+
+          <div class="decorate-tools-right" data-node-id="915:8929">
+            <div class="decorate-step-head">
+              <span class="decorate-step-num figma-stroke-inside" aria-hidden="true">3</span>
+              <span class="decorate-step-title">Add stickers (or not).</span>
+            </div>
+            <div id="sticker-sheet" data-node-id="915:8933"></div>
+          </div>
+        </section>
+      </div>
     </div>
   </main>
 
   <script type="module">
-    import { DecorateCanvas } from '../components/decorate-canvas.js?v=img-paper';
-    import { mountMagicPaint } from '../components/magic-paint.js?v=img-paper';
-    import { getDisplayName } from '../components/identity.js?v=img-paper';
+    import { DecorateCanvas } from '../components/decorate-canvas.js?v=r9d';
+    import { mountMagicPaint } from '../components/magic-paint.js?v=r9d';
+    import { mountStickerSheet } from '../components/sticker-sheet.js?v=r9d';
+    import { mountVibeSelector } from '../components/vibe-selector.js?v=r10c';
+    import { mountSaveFlow } from '../components/save-flow.js?v=r12';
 
     const helper = document.getElementById('paint-helper');
-    const label = document.getElementById('maker-label');
-    const name = getDisplayName();
-    label.textContent = name ? `${name}'s Chatterbox` : 'Your Chatterbox';
+    const HELPER_IDLE = 'Paint all 4 flaps to save.';
+    // Approved deviation from Figma "[Username]'s Chatterbox"
+    document.getElementById('maker-label').textContent = 'Your Chatterbox';
+
+    /** @type {ReturnType<typeof mountSaveFlow>|null} */
+    let save = null;
+
+    function setPaintHelper(text) {
+      if (save) save.setHelper(text, { warning: false });
+      else {
+        helper.textContent = text;
+        helper.classList.remove('is-warning');
+      }
+    }
 
     try {
       const canvas = new DecorateCanvas(document.getElementById('canvas-host'));
       await canvas.ready();
 
-      mountMagicPaint({
+      const paint = mountMagicPaint({
         trayHost: document.getElementById('paint-tray'),
         eraserHost: document.getElementById('eraser-host'),
         canvas,
         onChange({ painted, mode, color }) {
           const remain = 4 - painted;
           if (mode === 'brush' && !color) {
-            helper.textContent = 'Pick a colour, then click a flap';
+            setPaintHelper('Pick a colour, then click a flap');
           } else if (mode === 'brush' && color) {
-            helper.textContent = remain > 0
+            setPaintHelper(remain > 0
               ? `Painting… ${remain} flap${remain === 1 ? '' : 's'} left`
-              : 'All flaps painted — click a flap to repaint';
+              : 'All flaps painted — click a flap to repaint');
           } else if (mode === 'eraser') {
-            helper.textContent = 'Eraser ready — click a flap to clear paint';
+            setPaintHelper('Eraser ready — click a flap to clear paint');
           } else if (remain <= 0) {
-            helper.textContent = 'All flaps painted';
+            setPaintHelper('All flaps painted');
           } else {
-            helper.textContent = `Paint ${remain} more flap${remain === 1 ? '' : 's'} to save`;
+            setPaintHelper(HELPER_IDLE);
           }
         },
       });
 
-      helper.textContent = 'Paint 4 flaps to save';
+      mountStickerSheet({
+        sheetHost: document.getElementById('sticker-sheet'),
+        canvas,
+        getPaintMode: () => paint.getMode(),
+        onPaintIdle: () => paint.idle(),
+      });
+
+      const vibe = mountVibeSelector({
+        slotHost: document.querySelector('.decorate-step--vibe'),
+        triggerBtn: document.querySelector('.decorate-btn-vibe'),
+        hasDecorations: () => canvas.paintedCount() > 0 || canvas.stickerCount() > 0,
+        onChange({ vibe: vibeId, fortunes }) {
+          window.__decorateVibe = { vibe: vibeId, fortunes };
+          save?.clearValidation();
+        },
+      });
+
+      save = mountSaveFlow({
+        saveBtn: document.querySelector('.decorate-btn-save'),
+        helperEl: helper,
+        canvas,
+        getVibeState: () => ({
+          vibe: vibe.getVibe(),
+          fortunes: vibe.getFortunes(),
+        }),
+        getIdleHelper: () => {
+          const painted = canvas.paintedCount();
+          if (painted >= 4) return 'All flaps painted';
+          return HELPER_IDLE;
+        },
+      });
+
+      setPaintHelper(HELPER_IDLE);
       window.__decorateCanvas = canvas;
+      window.__decoratePaint = paint;
+      window.__decorateVibeApi = vibe;
+      window.__decorateSave = save;
     } catch (err) {
       console.error(err);
       helper.textContent = `Boot error: ${err.message}`;
+      helper.classList.add('is-warning');
     }
   </script>
 </body>

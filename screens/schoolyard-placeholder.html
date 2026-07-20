@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schoolyard — Chatterbox (placeholder)</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <link rel="stylesheet" href="../styles/base.css" />
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-schoolyard-concrete);
+      color: var(--color-bright-white);
+      font-family: var(--font-body);
+      text-align: center;
+      padding: 40px;
+    }
+    h1 { font-family: var(--font-heading); font-size: 32px; margin: 0 0 12px; }
+    p { margin: 0 0 8px; opacity: 0.9; }
+    a { color: var(--color-hover-teal); }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Schoolyard</h1>
+    <p>Placeholder — Schoolyard wiring comes next.</p>
+    <p id="id-line"></p>
+    <p><a href="./decorate.html">← Back to Decorate</a></p>
+  </div>
+  <script>
+    const id = new URLSearchParams(location.search).get('spotlight');
+    document.getElementById('id-line').textContent = id
+      ? `Spotlight chatterbox: ${id}`
+      : 'No spotlight id in URL.';
+  </script>
+</body>
+</html>

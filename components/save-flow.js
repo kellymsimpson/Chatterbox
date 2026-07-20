@@ -1,11 +1,12 @@
 /**
  * Decorate — Save & Finish flow (PRD §8.9)
  * Always-clickable Save, inline validation, Supabase insert, confirmation sheet.
+ * Confirmation sheet: Figma 1379:10483 “Post save Overlay” (reskin; wiring stable).
  */
 
 import { getDisplayName, getMakerToken, getMakerName } from './identity.js?v=r11';
 import { insertChatterbox } from './supabase-api.js?v=r11';
-import { VIBES } from './vibe-selector.js?v=r10c';
+import { createVibePill, setVibePill } from './vibe-pill.js?v=r13';
 
 const MSG_VIBE = 'Choose a vibe before saving.';
 const MSG_PAINT = 'Paint all four flaps before saving.';
@@ -36,16 +37,19 @@ export function mountSaveFlow({ saveBtn, helperEl, canvas, getVibeState, getIdle
   sheet.setAttribute('role', 'dialog');
   sheet.setAttribute('aria-modal', 'true');
   sheet.setAttribute('aria-label', 'Chatterbox saved');
+  sheet.dataset.nodeId = '1379:10483';
   sheet.innerHTML = `
     <div class="save-sheet-scrim" data-save-scrim></div>
     <div class="save-sheet-panel" data-save-panel>
-      <div class="save-sheet-thumb" data-save-thumb aria-hidden="true"></div>
-      <div class="save-sheet-meta">
-        <span class="save-sheet-vibe" data-save-vibe></span>
-        <p class="save-sheet-maker" data-save-maker></p>
+      <div class="save-sheet-hero">
+        <div class="save-sheet-thumb" data-save-thumb aria-hidden="true"></div>
+        <div class="save-sheet-meta">
+          <div data-save-vibe-host></div>
+          <p class="save-sheet-maker" data-save-maker></p>
+        </div>
       </div>
       <div class="save-sheet-actions">
-        <a class="save-sheet-play figma-stroke-inside" data-save-play href="../screens/play-placeholder.html">Play this chatterbox</a>
+        <a class="save-sheet-play figma-stroke-inside" data-save-play href="../screens/play-placeholder.html">Play this Chatterbox</a>
         <a class="save-sheet-schoolyard" data-save-schoolyard href="../screens/schoolyard-placeholder.html">Go to Schoolyard</a>
       </div>
     </div>
@@ -53,7 +57,9 @@ export function mountSaveFlow({ saveBtn, helperEl, canvas, getVibeState, getIdle
   document.body.appendChild(sheet);
 
   const thumbHost = sheet.querySelector('[data-save-thumb]');
-  const vibeEl = sheet.querySelector('[data-save-vibe]');
+  const vibeHost = sheet.querySelector('[data-save-vibe-host]');
+  const vibePill = createVibePill({ vibe: 'Funny' });
+  vibeHost.appendChild(vibePill);
   const makerEl = sheet.querySelector('[data-save-maker]');
   const playLink = sheet.querySelector('[data-save-play]');
   const yardLink = sheet.querySelector('[data-save-schoolyard]');
@@ -128,20 +134,15 @@ export function mountSaveFlow({ saveBtn, helperEl, canvas, getVibeState, getIdle
     const clone = canvas.host.cloneNode(true);
     clone.removeAttribute('id');
     clone.setAttribute('aria-hidden', 'true');
-    // Drop interactive / preview chrome from clone
     clone.querySelectorAll('[data-sticker-preview], .tool-cursor').forEach((n) => n.remove());
     frame.appendChild(clone);
     shadow.appendChild(frame);
     thumbHost.appendChild(shadow);
   }
 
-  function vibeLabel(id) {
-    return VIBES.find((v) => v.id === id)?.label || id;
-  }
-
   function openSheet({ id, displayVibe }) {
     renderThumbnail();
-    vibeEl.textContent = vibeLabel(displayVibe);
+    setVibePill(vibePill, displayVibe);
     makerEl.textContent = getMakerName();
     playLink.href = `../screens/play-placeholder.html?id=${encodeURIComponent(id)}`;
     yardLink.href = `../screens/schoolyard-placeholder.html?spotlight=${encodeURIComponent(id)}`;
@@ -205,6 +206,7 @@ export function mountSaveFlow({ saveBtn, helperEl, canvas, getVibeState, getIdle
     setHelper,
     getLastSaveId: () => lastSaveId,
     closeSheet,
+    openSheet,
     destroy() {
       sheet.remove();
     },

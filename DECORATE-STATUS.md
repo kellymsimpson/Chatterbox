@@ -2,25 +2,26 @@
 
 **Status: COMPLETE / LOCKED** (2026-07-20)
 
-Do not change paint, stickers, vibe, or save behaviour unless the product owner unlocks an increment. Confirmation sheet content structure is stable; a later Figma redesign may restyle it without changing the fields or actions.
+Do not change paint, stickers, vibe, or save behaviour unless the product owner unlocks an increment. Confirmation sheet is Figma `1379:10483` (Post save Overlay); vibe pill is reusable component `1377:2665`.
 
 ## Build cadence (shipped)
 
 1. **Magic Paint** — locked
 2. **Sticker sheet** — locked
 3. **Vibe selector overlay** — locked
-4. **Save & release flow** — locked (confirmation sheet approved 2026-07-20)
+4. **Save & release flow** — locked (Figma confirmation sheet + vibe pill, 2026-07-20)
 
 ## What's built
 
 | Piece | Location | Notes |
 |---|---|---|
 | Desk 3-column shell | `screens/decorate.html`, `styles/decorate.css` | Left canvas + CTAs, centre steps, right stickers |
-| V33 canvas + closed fills | `components/decorate-canvas.js` | Paint washes + sticker UV warp; NORMAL @ `--paint-opacity` 0.70 |
+| V33 canvas + closed fills | `components/decorate-canvas.js` | Paint washes + sticker UV warp |
 | Magic Paint tray | `components/magic-paint.js` | Brush, 7 pods, eraser (paint), floating cursor |
 | Sticker sheet | `components/sticker-sheet.js`, `sticker-catalog.js`, `sticker-art.js` | Place / move / remove on flaps |
 | Vibe selector | `components/vibe-selector.js`, `fortunes.js` | Overlay cards; Confirm; change-vibe dialog; `pickFortunes` |
 | Save & Finish | `components/save-flow.js`, `supabase-api.js` | Always-clickable; validation; Supabase insert; confirmation sheet |
+| Vibe pill (reusable) | `components/vibe-pill.js`, `assets/ui/vibe-pill/` | Figma `1377:2665` — also for Schoolyard tooltip / Play later |
 | Identity | `components/identity.js` | `maker_token` + display name / “A Mysterious Maker” |
 | Placeholders | `screens/play-placeholder.html`, `screens/schoolyard-placeholder.html` | Linked from confirmation sheet |
 
@@ -43,14 +44,14 @@ Do not change paint, stickers, vibe, or save behaviour unless the product owner 
 
 Env: `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env.local` / Vercel. Generate browser env with `node scripts/write-supabase-env.mjs` → gitignored `components/supabase-env.js`.
 
-## Confirmation sheet (locked structure)
+## Confirmation sheet — Figma `1379:10483`
 
-Slide-up panel after successful insert. Dismiss (scrim / Esc) does **not** undo the save.
+Transparent 560×500 content stack over vibe-overlay scrim (`rgba(2,1,1,0.55)`). Slide-up entrance; Esc / scrim dismiss does **not** undo the save.
 
-1. Thumbnail (~200px) — canvas clone + schoolyard drop-shadow (padded so shadow isn’t clipped)
-2. Vibe pill — assigned/stored vibe label (Comfortaa optical pad)
-3. Maker line — display name or “A Mysterious Maker”
-4. Primary — “Play this chatterbox” → play placeholder `?id=`
+1. Live thumbnail (~189px wide canvas clone + schoolyard drop-shadow)
+2. Vibe pill (`1377:2665`) — icon + label, Comfortaa Bold 13 / line-height 100%, Soft White inside stroke
+3. Maker — Outfit Medium 20 Bright White (`getMakerName()`)
+4. Primary — “Play this Chatterbox” → play placeholder `?id=`
 5. Secondary — “Go to Schoolyard” → schoolyard placeholder `?spotlight=`
 
 ## Demo

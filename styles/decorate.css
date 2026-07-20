@@ -1054,16 +1054,62 @@ body[data-vibe-overlay='1'] {
   overflow: hidden;
 }
 
-/* ── Save confirmation sheet (PRD §8.9) ──
- * No dedicated Figma frame found in Screens/Design System —
- * assembled from brand tokens + Post Reveal sheet patterns.
+/* ── Vibe Pill — Figma 1377:2665 ──
+ * Comfortaa Bold 13 / line-height 100%; pad 8 16 8 14; Soft White 2pt inside stroke.
+ * Inner row align-items: flex-end (Figma counterAxis MAX) — exact vertical centering.
+ */
+.vibe-pill {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 8px 16px 8px 14px;
+  border-radius: 100px;
+  border: none;
+  /* Figma strokeAlign INSIDE — must not shrink the 32× pad box */
+  box-shadow: inset 0 0 0 2px #e8e7e7;
+  background: transparent;
+  color: #fefbfb;
+  flex-shrink: 0;
+}
+
+.vibe-pill-row {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 16px;
+}
+
+.vibe-pill-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.vibe-pill-label {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1; /* Figma Heading 4 lineHeight 100% / AUTO → text node h≈14 */
+  height: 14px;
+  text-transform: uppercase;
+  color: #fefbfb;
+  white-space: nowrap;
+}
+
+/* ── Save confirmation sheet — Figma 1379:10483 “Post save Overlay” 560×500 ──
+ * Transparent content stack over vibe-overlay scrim; live thumbnail + reusable vibe pill.
  */
 .save-sheet {
   position: fixed;
   inset: 0;
   z-index: 14000;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
 }
 
@@ -1074,43 +1120,53 @@ body[data-vibe-overlay='1'] {
 .save-sheet-scrim {
   position: absolute;
   inset: 0;
-  background: rgba(2, 1, 1, 0.55);
+  background: rgba(2, 1, 1, 0.55); /* same as .vibe-overlay-scrim */
 }
 
 .save-sheet-panel {
   position: relative;
   z-index: 1;
-  width: min(480px, 100%);
-  padding: 36px 40px 40px;
-  border-radius: 40px 40px 0 0;
-  background: #e8e7e7;
-  box-shadow: 0 -8px 32px rgba(38, 70, 83, 0.35);
+  box-sizing: border-box;
+  width: 560px;
+  max-width: calc(100vw - 32px);
+  height: 500px;
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  border-radius: 50px;
+  background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  justify-content: center;
+  gap: 26px;
   animation: save-sheet-up 280ms ease-out;
 }
 
 @keyframes save-sheet-up {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-/* Thumbnail + schoolyard shadow.
- * Filter output is clipped to the filtered element’s border box in Blink —
- * so the shadow host must be larger than the paper, with padding so the
- * full 17/12 blur-12 bleed paints inside that box (not outside it). */
+.save-sheet-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Figma thumb ~188.72×196.52; live canvas 267×294 → scale to width */
 .save-sheet-thumb {
-  --thumb-w: 200px;
-  --thumb-h: calc(294px * 200 / 267);
+  --thumb-w: 188.72px;
+  --thumb-h: calc(294px * 188.72 / 267);
   --shadow-pad-t: 14px;
-  --shadow-pad-r: 34px; /* ≥ offset-x 17 + blur 12 */
-  --shadow-pad-b: 28px; /* ≥ offset-y 12 + blur 12 */
+  --shadow-pad-r: 34px;
+  --shadow-pad-b: 28px;
   --shadow-pad-l: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-left: 6px; /* Figma Frame 134 */
   overflow: visible;
 }
 
@@ -1134,10 +1190,9 @@ body[data-vibe-overlay='1'] {
 .save-sheet-thumb-frame {
   width: 267px;
   height: 294px;
-  transform: scale(calc(200 / 267));
+  transform: scale(calc(188.72 / 267));
   transform-origin: center center;
   flex-shrink: 0;
-  /* Collapse pre-transform layout box to the visual paper size */
   margin: calc((var(--thumb-h) - 294px) / 2) calc((var(--thumb-w) - 267px) / 2);
 }
 
@@ -1150,24 +1205,7 @@ body[data-vibe-overlay='1'] {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-}
-
-.save-sheet-vibe {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  height: 32px;
-  /* Comfortaa Bold sits high in the em-box — same optical top pad as TIP/nums */
-  padding: 8px 16px 0;
-  border-radius: 100px;
-  background: #264653;
-  color: #e8e7e7;
-  font-family: var(--font-heading);
-  font-size: 16px;
-  font-weight: 700;
-  text-transform: uppercase;
-  line-height: 1;
+  padding: 1px 0;
 }
 
 .save-sheet-maker {
@@ -1175,8 +1213,10 @@ body[data-vibe-overlay='1'] {
   font-family: var(--font-body);
   font-size: 20px;
   font-weight: 500;
-  color: #264653;
+  line-height: 1;
+  color: #fefbfb;
   text-align: center;
+  white-space: nowrap;
 }
 
 .save-sheet-actions {
@@ -1185,6 +1225,7 @@ body[data-vibe-overlay='1'] {
   align-items: center;
   gap: 12px;
   width: 100%;
+  padding: 0 1px;
 }
 
 .save-sheet-play {
@@ -1193,16 +1234,17 @@ body[data-vibe-overlay='1'] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 280px;
-  max-width: 100%;
   height: 48px;
+  padding: 8px 32px;
   border-radius: 60px;
   background: #217d72;
   color: #e8e7e7;
   font-family: var(--font-body);
   font-size: 20px;
   font-weight: 700;
+  line-height: 1;
   text-decoration: none;
+  white-space: nowrap;
   box-shadow: 0 4px 6px rgba(38, 70, 83, 0.4);
 }
 
@@ -1215,17 +1257,25 @@ body[data-vibe-overlay='1'] {
 }
 
 .save-sheet-schoolyard {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   height: 48px;
   padding: 8px 32px;
-  color: #264653;
+  border-radius: 60px;
+  color: #fefbfb;
   font-family: var(--font-body);
   font-size: 20px;
   font-weight: 700;
+  line-height: 1;
   text-decoration: underline;
   text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.save-sheet-schoolyard:hover {
+  color: #e8e7e7;
 }
 
 body[data-save-sheet='1'] {

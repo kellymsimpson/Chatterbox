@@ -1102,7 +1102,8 @@ body[data-vibe-overlay='1'] {
 }
 
 /* ── Save confirmation sheet — Figma 1379:10483 “Post save Overlay” 560×500 ──
- * Transparent content stack over vibe-overlay scrim; live thumbnail + reusable vibe pill.
+ * Root visual fill = clipped Screen background (desk wood). Opaque card; contents on top.
+ * Scrim matches vibe-overlay; do not skip root/background fills on overlays.
  */
 .save-sheet {
   position: fixed;
@@ -1131,14 +1132,23 @@ body[data-vibe-overlay='1'] {
   max-width: calc(100vw - 32px);
   height: 500px;
   max-height: calc(100vh - 32px);
-  padding: 0;
+  /* Figma overlay: primary CENTER → equal inset; measured content bottom gap = 47.24 */
+  padding: 47.24px 0;
   border-radius: 50px;
-  background: transparent;
+  overflow: hidden; /* Figma clipsContent — wood fill clipped to rounded card */
+  /* Screen background (1379:10444): desk brown + wood texture + 20% black wash */
+  background-color: var(--color-desk-brown);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    url('../assets/textures/desk-wood.png');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 12px 40px rgba(2, 1, 1, 0.55);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 26px;
+  justify-content: flex-start;
+  gap: 26px; /* overlay itemSpacing */
   animation: save-sheet-up 280ms ease-out;
 }
 
@@ -1147,34 +1157,34 @@ body[data-vibe-overlay='1'] {
   to { transform: translateY(0); opacity: 1; }
 }
 
+/* Frame 133 — 194.72×271.52, gap 8, counter CENTER */
 .save-sheet-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  width: 194.72px;
   flex-shrink: 0;
 }
 
-/* Figma thumb ~188.72×196.52; live canvas 267×294 → scale to width */
+/* Frame 134 — 194.72×196.52, paddingLeft 6 (optical center vs drop-shadow) */
 .save-sheet-thumb {
-  --thumb-w: 188.72px;
-  --thumb-h: calc(294px * 188.72 / 267);
-  --shadow-pad-t: 14px;
-  --shadow-pad-r: 34px;
-  --shadow-pad-b: 28px;
-  --shadow-pad-l: 14px;
+  box-sizing: border-box;
+  width: 194.72px;
+  height: 196.52px;
+  padding-left: 6px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-left: 6px; /* Figma Frame 134 */
+  justify-content: flex-start;
   overflow: visible;
+  flex-shrink: 0;
 }
 
+/* Paper 188.72×196.52; shadow bleeds outside without growing the layout box */
 .save-sheet-thumb-shadow {
   box-sizing: border-box;
-  width: calc(var(--thumb-w) + var(--shadow-pad-l) + var(--shadow-pad-r));
-  height: calc(var(--thumb-h) + var(--shadow-pad-t) + var(--shadow-pad-b));
-  padding: var(--shadow-pad-t) var(--shadow-pad-r) var(--shadow-pad-b) var(--shadow-pad-l);
+  width: 188.72px;
+  height: 196.52px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1190,16 +1200,18 @@ body[data-vibe-overlay='1'] {
 .save-sheet-thumb-frame {
   width: 267px;
   height: 294px;
+  /* Cover Figma image box 188.72×196.52 (object-cover) */
   transform: scale(calc(188.72 / 267));
   transform-origin: center center;
   flex-shrink: 0;
-  margin: calc((var(--thumb-h) - 294px) / 2) calc((var(--thumb-w) - 267px) / 2);
+  margin: calc((196.52px - 294px) / 2) calc((188.72px - 267px) / 2);
 }
 
 .save-sheet-thumb-frame .decorate-canvas {
   pointer-events: none;
 }
 
+/* Frame 132 — gap 8, pad [1,0,1,0] → thumb→pill = 8+1 = 9 */
 .save-sheet-meta {
   display: flex;
   flex-direction: column;
@@ -1213,7 +1225,8 @@ body[data-vibe-overlay='1'] {
   font-family: var(--font-body);
   font-size: 20px;
   font-weight: 500;
-  line-height: 1;
+  line-height: 25px; /* Figma text node h=25 (Outfit Medium 20 / AUTO) */
+  height: 25px;
   color: #fefbfb;
   text-align: center;
   white-space: nowrap;

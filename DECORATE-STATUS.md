@@ -46,7 +46,15 @@ Env: `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` in `.env.local` / Vercel. Ge
 
 ## Confirmation sheet — Figma `1379:10483`
 
-Transparent 560×500 content stack over vibe-overlay scrim (`rgba(2,1,1,0.55)`). Slide-up entrance; Esc / scrim dismiss does **not** undo the save.
+Opaque **560×500** wood-desk card (`assets/textures/desk-wood.png` + desk brown + 20% black wash, `border-radius: 50px`, `overflow: hidden`) over vibe-overlay scrim (`rgba(2,1,1,0.55)`). Slide-up entrance; Esc / scrim dismiss does **not** undo the save. Root background fill is required — do not render contents on a transparent panel.
+
+Measured spacing (locked to frame):
+
+| Value | Figma source | Applied |
+|---|---|---|
+| Thumbnail left pad | Frame 134 `paddingLeft` | **6px** (paper x = **188.64** in 560) |
+| Thumb → pill gap | Frame 133 gap 8 + Frame 132 padTop 1 | **9px** |
+| Schoolyard → sheet bottom | Tertiary Button bottom gap | **47.24px** (panel `padding: 47.24px 0`) |
 
 1. Live thumbnail (~189px wide canvas clone + schoolyard drop-shadow)
 2. Vibe pill (`1377:2665`) — icon + label, Comfortaa Bold 13 / line-height 100%, Soft White inside stroke

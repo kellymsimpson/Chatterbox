@@ -1,5 +1,5 @@
 /**
- * Supabase REST helpers for chatterboxes inserts.
+ * Supabase REST helpers for chatterboxes.
  * Credentials from components/supabase-env.js (gitignored; generated from .env.local).
  */
 
@@ -25,6 +25,14 @@ async function loadEnv() {
   return _envPromise;
 }
 
+function authHeaders(key, extra = {}) {
+  return {
+    apikey: key,
+    Authorization: `Bearer ${key}`,
+    ...extra,
+  };
+}
+
 /**
  * @param {object} row
  * @returns {Promise<{ id: string }>}
@@ -33,12 +41,10 @@ export async function insertChatterbox(row) {
   const { url, key } = await loadEnv();
   const res = await fetch(`${url}/rest/v1/chatterboxes`, {
     method: 'POST',
-    headers: {
-      apikey: key,
-      Authorization: `Bearer ${key}`,
+    headers: authHeaders(key, {
       'Content-Type': 'application/json',
       Prefer: 'return=representation',
-    },
+    }),
     body: JSON.stringify(row),
   });
   if (!res.ok) {
@@ -49,4 +55,32 @@ export async function insertChatterbox(row) {
   const record = Array.isArray(data) ? data[0] : data;
   if (!record?.id) throw new Error('Supabase insert returned no id');
   return { id: record.id };
+}
+
+/**
+ * Fetch one chatterbox by UUID.
+ * @param {string} id
+ * @returns {Promise<object>}
+ */
+export async function fetchChatterbox(id) {
+  if (!id || typeof id !== 'string') {
+    throw new Error('Missing chatterbox id');
+  }
+  const { url, key } = await loadEnv();
+  const qs = new URLSearchParams({
+    id: `eq.${id}`,
+    select: '*',
+    limit: '1',
+  });
+  const res = await fetch(`${url}/rest/v1/chatterboxes?${qs}`, {
+    headers: authHeaders(key, { Accept: 'application/json' }),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Supabase fetch failed (${res.status}): ${text || res.statusText}`);
+  }
+  const data = await res.json();
+  const record = Array.isArray(data) ? data[0] : data;
+  if (!record?.id) throw new Error('Chatterbox not found');
+  return record;
 }

@@ -1,0 +1,220 @@
+/* Play — Stage 1 shell (Figma 492:14395 V35 START + DecorateCanvas renderer) */
+
+.play-screen {
+  position: relative;
+  min-height: 100vh;
+  min-width: var(--layout-min-width);
+  background-color: var(--color-desk-brown);
+  background-image: url('../assets/textures/desk-wood.png');
+  background-size: cover;
+  background-position: center;
+  color: var(--color-bright-white);
+  overflow: hidden;
+}
+
+.play-frame {
+  position: relative;
+  width: 1440px;
+  min-height: 900px;
+  margin: 0 auto;
+}
+
+/* Title menu — Figma 556:8654 on 492:14395 */
+.play-title-menu {
+  position: absolute;
+  left: 72.5px;
+  top: 61.42px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  z-index: 2;
+}
+
+.play-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 160px;
+  height: 20px;
+}
+
+.play-heading {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--color-bright-white);
+  text-transform: uppercase;
+}
+
+.play-wordmark-text {
+  display: block;
+  width: 139px;
+  height: 15.64px;
+  object-fit: fill;
+  flex-shrink: 0;
+}
+
+.play-wordmark-logo {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.play-close {
+  position: absolute;
+  left: 1348px;
+  top: 47px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.play-close img {
+  display: block;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.play-close:hover {
+  opacity: 0.85;
+}
+
+.play-close:focus {
+  outline: none;
+}
+
+.play-close:focus-visible {
+  outline: 2px solid var(--color-bright-white);
+  outline-offset: 3px;
+}
+
+/* Chatterbox — closed-placements origin (588.76, 141.44) */
+.play-stage-wrap {
+  position: absolute;
+  left: 588.76px;
+  top: 141.44px;
+  width: 267px;
+  height: 294px;
+  z-index: 1;
+  filter: drop-shadow(
+    var(--schoolyard-shadow-x)
+    var(--schoolyard-shadow-y)
+    var(--schoolyard-shadow-blur)
+    rgba(0, 0, 0, var(--schoolyard-shadow-opacity))
+  );
+}
+
+.play-stage {
+  width: 267px;
+  height: 294px;
+  position: relative;
+  cursor: pointer;
+}
+
+.play-stage.is-locked {
+  cursor: default;
+}
+
+/* Instruction — Figma 492:14465 on frame 492:14395 */
+.play-instruction {
+  position: absolute;
+  left: 601px;
+  top: 504.9px;
+  width: 239px;
+  height: 25px;
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--color-bright-white);
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.play-instruction[hidden] {
+  display: none;
+}
+
+/* Stage 1 — colour name on desk after pick (Comfortaa / Bright White) */
+.play-color-name {
+  position: absolute;
+  left: 50%;
+  top: 504.9px;
+  transform: translateX(-50%);
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1;
+  color: var(--color-bright-white);
+  text-align: center;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.play-color-name.is-visible {
+  opacity: 1;
+}
+
+.play-status {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-bright-white);
+  text-align: center;
+  max-width: 420px;
+  z-index: 3;
+}
+
+.play-status[hidden] {
+  display: none;
+}
+
+/* Same padding/spacing format as .save-sheet-schoolyard */
+.play-status-link {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 8px 32px;
+  border-radius: 60px;
+  color: #fefbfb;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.play-status-link:hover {
+  color: #e8e7e7;
+}

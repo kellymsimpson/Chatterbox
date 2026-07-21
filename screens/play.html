@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play — Chatterbox</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/play.css?v=s1c" />
+</head>
+<body>
+  <!-- Play shell — Figma 492:14395. Stage 1 uses DecorateCanvas (same as Decorate). -->
+  <main class="play-screen" data-node-id="492:14395">
+    <div class="play-frame">
+      <div class="play-title-menu" data-node-id="556:8654">
+        <div class="play-wordmark" aria-hidden="true">
+          <img
+            class="play-wordmark-text"
+            src="../assets/ui/decorate-chrome/wordmark.svg"
+            width="139"
+            height="16"
+            alt=""
+            draggable="false"
+          />
+          <img
+            class="play-wordmark-logo"
+            src="../assets/ui/decorate-chrome/logo-diamond.svg"
+            width="20"
+            height="20"
+            alt=""
+            draggable="false"
+          />
+        </div>
+        <h1 class="play-heading">Play</h1>
+      </div>
+
+      <a class="play-close" href="../index.html" aria-label="Close">
+        <img
+          src="../assets/ui/decorate-chrome/close.svg"
+          width="44"
+          height="44"
+          alt=""
+          draggable="false"
+        />
+      </a>
+
+      <div class="play-stage-wrap">
+        <div
+          id="play-stage"
+          class="play-stage"
+          aria-label="Chatterbox"
+        ></div>
+      </div>
+
+      <p
+        id="play-instruction"
+        class="play-instruction"
+        data-node-id="492:14465"
+        hidden
+      >Select a flap color to spell.</p>
+
+      <p id="play-color-name" class="play-color-name" aria-live="polite"></p>
+
+      <p id="play-status" class="play-status" hidden></p>
+    </div>
+  </main>
+
+  <script type="module">
+    import { mountPlayMode } from '../components/play-mode.js?v=s1c';
+
+    window.__play = mountPlayMode({
+      stageEl: document.getElementById('play-stage'),
+      colorNameEl: document.getElementById('play-color-name'),
+      instructionEl: document.getElementById('play-instruction'),
+      statusEl: document.getElementById('play-status'),
+    });
+  </script>
+</body>
+</html>

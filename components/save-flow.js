@@ -49,7 +49,7 @@ export function mountSaveFlow({ saveBtn, helperEl, canvas, getVibeState, getIdle
         </div>
       </div>
       <div class="save-sheet-actions">
-        <a class="save-sheet-play figma-stroke-inside" data-save-play href="../screens/play-placeholder.html">Play this Chatterbox</a>
+        <a class="save-sheet-play figma-stroke-inside" data-save-play href="../screens/play.html">Play this Chatterbox</a>
         <a class="save-sheet-schoolyard" data-save-schoolyard href="../screens/schoolyard-placeholder.html">Go to Schoolyard</a>
       </div>
     </div>
@@ -144,7 +144,7 @@ export function mountSaveFlow({ saveBtn, helperEl, canvas, getVibeState, getIdle
     renderThumbnail();
     setVibePill(vibePill, displayVibe);
     makerEl.textContent = getMakerName();
-    playLink.href = `../screens/play-placeholder.html?id=${encodeURIComponent(id)}`;
+    playLink.href = `../screens/play.html?id=${encodeURIComponent(id)}`;
     yardLink.href = `../screens/schoolyard-placeholder.html?spotlight=${encodeURIComponent(id)}`;
     sheet.hidden = false;
     document.body.dataset.saveSheet = '1';

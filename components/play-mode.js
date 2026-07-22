@@ -13,7 +13,7 @@
  * Fastest path to reveal: same review URLs (two number picks). No separate ?review=reveal helper.
  */
 
-import { DecorateCanvas } from './decorate-canvas.js?v=r9d';
+import { DecorateCanvas } from './decorate-canvas.js?v=r9e';
 import {
   Chatterbox,
   STABLE_HOLD_MS,
@@ -414,7 +414,7 @@ export function mountPlayMode(els) {
 
     const id = state.record?.id || '';
     actionsEl.innerHTML = `
-      <a class="play-action play-action-primary figma-stroke-inside" href="./schoolyard-placeholder.html${id ? `?spotlight=${encodeURIComponent(id)}` : ''}">Play another</a>
+      <a class="play-action play-action-primary figma-stroke-inside" href="./schoolyard.html${id ? `?spotlight=${encodeURIComponent(id)}` : ''}">Play another</a>
       <a class="play-action play-action-secondary figma-stroke-inside" href="./decorate.html">${makeLabel}</a>
       <a class="play-action play-action-home" href="../index.html">Home</a>
     `;

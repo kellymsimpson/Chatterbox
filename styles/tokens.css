@@ -70,9 +70,10 @@
   /* ── Chatterbox dimensions ── */
   --chatterbox-width:  267px;  /* Same in Decorate AND Play mode. Do not change. */
 
-  /* ── Schoolyard shadow (top-left light source) ── */
+  /* ── Schoolyard (REPEAT tile 1186:11459 — Fill ~122.5; SHADOW +17 / +11.5) ── */
+  --schoolyard-item-size:   124px;
   --schoolyard-shadow-x:    17px;
-  --schoolyard-shadow-y:    12px;
+  --schoolyard-shadow-y:    11.5px;
   --schoolyard-shadow-blur: 12px;
   --schoolyard-shadow-opacity: 0.35;
 

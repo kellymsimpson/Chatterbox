@@ -8,7 +8,13 @@
  * Anonymous chatterboxes always show "A Mysterious Maker" — fixed string, never generated.
  */
 
-const ANON_NAME = 'A Mysterious Maker';
+export const ANON_NAME = 'A Mysterious Maker';
+
+/** Display name for a saved row — DB null/blank → canonical anonymous string. */
+export function displayMakerName(name) {
+  const trimmed = name == null ? '' : String(name).trim();
+  return trimmed || ANON_NAME;
+}
 
 export function getMakerToken() {
   let token = localStorage.getItem('maker_token');

@@ -1,0 +1,292 @@
+/* Schoolyard — Figma 1186:9339 (exact REPEAT scatter + virtual scroll + shadows) */
+
+/*
+ * Body/html stay concrete while rubber-banding — desk brown (#7D5F36) must
+ * never peek through at scroll extremes. Texture on the root covers overscroll.
+ */
+html.schoolyard-page,
+body.schoolyard-page {
+  background-color: var(--color-schoolyard-concrete);
+  background-image: url('../assets/textures/schoolyard-concrete.png');
+  background-repeat: repeat-y;
+  background-size: 1440px auto;
+  background-position: top center;
+}
+
+.schoolyard-screen {
+  position: relative;
+  min-height: 100vh;
+  min-width: var(--layout-min-width);
+  color: var(--color-bright-white);
+  /* Solid fallback; textured layer lives on .schoolyard-bg (content + overscroll) */
+  background-color: var(--color-schoolyard-concrete);
+  /* Clip bg buffer so it doesn't inflate document scrollHeight */
+  overflow: clip;
+}
+
+/*
+ * Tall concrete layer: repeat-y across full scroll range + overscroll buffer.
+ * Height/top set by JS (syncConcreteExtent) from pool content height.
+ */
+.schoolyard-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -160px; /* OVERSCROLL_BUF — JS may override */
+  z-index: 0;
+  min-height: calc(100% + 320px);
+  pointer-events: none;
+  /* Base #464039 + texture 1074:7286 (1920×5999 → 1440×~4499), tiles Y without seams */
+  background-color: var(--color-schoolyard-concrete);
+  background-image: url('../assets/textures/schoolyard-concrete.png');
+  background-repeat: repeat-y;
+  background-size: 1440px auto;
+  background-position: top center;
+  background-attachment: scroll;
+}
+
+.schoolyard-frame {
+  position: relative;
+  z-index: 1;
+  width: 1440px;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+/* Sticky chrome — Figma title 80,47 · close 1316,47 */
+.schoolyard-chrome {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 140px;
+  pointer-events: none;
+}
+
+.schoolyard-title-menu {
+  position: absolute;
+  left: 80px;
+  top: 47px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.schoolyard-wordmark {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 158.74px;
+  height: 20px;
+  overflow: visible;
+}
+
+.schoolyard-wordmark-text {
+  display: block;
+  width: 138.95px;
+  height: 15.4px;
+  object-fit: fill;
+  flex-shrink: 0;
+}
+
+.schoolyard-wordmark-logo {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.schoolyard-heading {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--color-bright-white);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.schoolyard-close {
+  position: absolute;
+  left: 1316px;
+  top: 47px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  pointer-events: auto;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.schoolyard-close img {
+  display: block;
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.schoolyard-close:hover {
+  opacity: 0.85;
+}
+
+/* Scatter canvas — height set by JS from layout / chatterbox count */
+.schoolyard-pool {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 140px);
+}
+
+/* Positioning wrapper — rotation lives on face + shadow children.
+ * Size matches Figma Fill (~122.5) via --schoolyard-item-size. */
+.schoolyard-item {
+  position: absolute;
+  width: var(--schoolyard-item-size);
+  height: var(--schoolyard-item-size);
+  pointer-events: auto;
+  user-select: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+/*
+ * SHADOW REPEAT (Figma 1186:9339): fixed +17px right / +11.5px down for every item.
+ * Same offset regardless of rotation — top-left light source.
+ */
+.schoolyard-item-shadow {
+  position: absolute;
+  left: var(--schoolyard-shadow-x);
+  top: var(--schoolyard-shadow-y);
+  width: var(--schoolyard-item-size);
+  height: var(--schoolyard-item-size);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, var(--schoolyard-shadow-opacity));
+  filter: blur(var(--schoolyard-shadow-blur));
+  transform-origin: center center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.schoolyard-item-face {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  background: transparent;
+  border: none;
+  padding: 0;
+  transform-origin: center center;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Same DecorateCanvas clone + scale pattern as .save-sheet-thumb-frame (~200px).
+ * Unitless calc — `124px / 267` is invalid and drops the transform. */
+.schoolyard-item-thumb-frame {
+  width: 267px;
+  height: 294px;
+  transform: scale(calc(124 / 267));
+  transform-origin: center center;
+  flex-shrink: 0;
+  margin: calc((124px - 294px) / 2) calc((124px - 267px) / 2);
+  pointer-events: none;
+}
+
+.schoolyard-item-thumb-frame .decorate-canvas {
+  pointer-events: none;
+}
+
+/* Maker pill — upright (not rotated with the face); hover reveal per PRD. */
+.schoolyard-item-label {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  z-index: 2;
+  box-sizing: border-box;
+  max-width: 180px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--color-bright-white);
+  color: var(--color-soft-black);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform: translateX(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.schoolyard-item:hover .schoolyard-item-label,
+.schoolyard-item:focus-within .schoolyard-item-label {
+  opacity: 1;
+}
+
+/* Frame 128 — 1189:12964 · Comfortaa Bold 16 · Bright White · uppercase */
+.schoolyard-scroll-hint {
+  position: fixed;
+  left: 50%;
+  bottom: 36px;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  transform: translateX(-50%);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--color-bright-white);
+  text-transform: uppercase;
+  white-space: nowrap;
+  letter-spacing: 0;
+  pointer-events: none;
+  text-align: center;
+}
+
+.schoolyard-scroll-hint[hidden] {
+  display: none;
+}
+
+.schoolyard-scroll-hint-arrow {
+  display: block;
+  margin-top: 0;
+  line-height: 1;
+}
+
+.schoolyard-status {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  z-index: 20;
+  margin: 0;
+  padding: 12px 20px;
+  max-width: min(560px, 90vw);
+  background: rgba(2, 1, 1, 0.72);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: var(--text-help);
+  text-align: center;
+  color: var(--color-bright-white);
+}

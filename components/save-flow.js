@@ -7,6 +7,7 @@
 import { getDisplayName, getMakerToken, getMakerName } from './identity.js?v=r11';
 import { insertChatterbox } from './supabase-api.js?v=r11';
 import { createVibePill, setVibePill } from './vibe-pill.js?v=r13';
+import { buildThumbFromDecorateHost } from './decorate-thumb.js?v=s7';
 
 const MSG_VIBE = 'Choose a vibe before saving.';
 const MSG_PAINT = 'Paint all four flaps before saving.';
@@ -50,7 +51,7 @@ export function mountSaveFlow({ saveBtn, helperEl, canvas, getVibeState, getIdle
       </div>
       <div class="save-sheet-actions">
         <a class="save-sheet-play figma-stroke-inside" data-save-play href="../screens/play.html">Play this Chatterbox</a>
-        <a class="save-sheet-schoolyard" data-save-schoolyard href="../screens/schoolyard-placeholder.html">Go to Schoolyard</a>
+        <a class="save-sheet-schoolyard" data-save-schoolyard href="../screens/schoolyard.html">Go to Schoolyard</a>
       </div>
     </div>
   `;
@@ -124,20 +125,10 @@ export function mountSaveFlow({ saveBtn, helperEl, canvas, getVibeState, getIdle
   }
 
   function renderThumbnail() {
-    thumbHost.innerHTML = '';
+    // Same DecorateCanvas clone + scale path as Schoolyard thumbs.
     // Shadow on a separate wrapper from the scale transform — filter+transform
     // on the same node clips the schoolyard drop-shadow bleed.
-    const shadow = document.createElement('div');
-    shadow.className = 'save-sheet-thumb-shadow';
-    const frame = document.createElement('div');
-    frame.className = 'save-sheet-thumb-frame';
-    const clone = canvas.host.cloneNode(true);
-    clone.removeAttribute('id');
-    clone.setAttribute('aria-hidden', 'true');
-    clone.querySelectorAll('[data-sticker-preview], .tool-cursor').forEach((n) => n.remove());
-    frame.appendChild(clone);
-    shadow.appendChild(frame);
-    thumbHost.appendChild(shadow);
+    thumbHost.replaceChildren(buildThumbFromDecorateHost(canvas.host));
   }
 
   function openSheet({ id, displayVibe }) {
@@ -145,7 +136,7 @@ export function mountSaveFlow({ saveBtn, helperEl, canvas, getVibeState, getIdle
     setVibePill(vibePill, displayVibe);
     makerEl.textContent = getMakerName();
     playLink.href = `../screens/play.html?id=${encodeURIComponent(id)}`;
-    yardLink.href = `../screens/schoolyard-placeholder.html?spotlight=${encodeURIComponent(id)}`;
+    yardLink.href = `../screens/schoolyard.html?spotlight=${encodeURIComponent(id)}`;
     sheet.hidden = false;
     document.body.dataset.saveSheet = '1';
   }

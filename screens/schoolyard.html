@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" class="schoolyard-page">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schoolyard — Chatterbox</title>
+  <link rel="stylesheet" href="../styles/tokens.css?v=s7" />
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="../styles/schoolyard.css?v=s8" />
+</head>
+<body class="schoolyard-page">
+  <!-- Canonical: Figma 1186:9339 Schoolyard — exact REPEAT scatter + shadows + virtual scroll -->
+  <main class="schoolyard-screen concrete-surface" data-node-id="1186:9339">
+    <!-- Tall repeat-y concrete: sized to content + overscroll buffer (no desk brown sliver) -->
+    <div class="schoolyard-bg" aria-hidden="true"></div>
+    <div class="schoolyard-frame">
+      <header class="schoolyard-chrome" aria-label="Schoolyard">
+        <div class="schoolyard-title-menu" data-node-id="1186:10611">
+          <div class="schoolyard-wordmark" aria-hidden="true">
+            <img
+              class="schoolyard-wordmark-text"
+              src="../assets/ui/decorate-chrome/wordmark.svg?v=h2"
+              width="139"
+              height="16"
+              alt=""
+              draggable="false"
+            />
+            <img
+              class="schoolyard-wordmark-logo"
+              src="../assets/ui/decorate-chrome/logo-diamond.svg?v=h2"
+              width="20"
+              height="20"
+              alt=""
+              draggable="false"
+            />
+          </div>
+          <h1 class="schoolyard-heading">Schoolyard</h1>
+        </div>
+
+        <a class="schoolyard-close" href="../index.html" aria-label="Close">
+          <img
+            src="../assets/ui/decorate-chrome/close.svg"
+            width="44"
+            height="44"
+            alt=""
+            draggable="false"
+          />
+        </a>
+      </header>
+
+      <div
+        id="schoolyard-pool"
+        class="schoolyard-pool"
+        aria-label="Community chatterboxes"
+      ></div>
+
+      <p
+        id="schoolyard-scroll-hint"
+        class="schoolyard-scroll-hint"
+        data-node-id="1189:12964"
+        hidden
+      >
+        more chatterboxes below
+        <span class="schoolyard-scroll-hint-arrow" aria-hidden="true">↓</span>
+      </p>
+
+      <p id="schoolyard-status" class="schoolyard-status" hidden></p>
+    </div>
+  </main>
+
+  <script type="module">
+    /* Dynamic import so missing/stale dependency exports surface in #schoolyard-status */
+    import('../components/schoolyard.js?v=s8')
+      .then(({ bootSchoolyard }) => bootSchoolyard())
+      .catch((err) => {
+        console.error('[schoolyard] boot failed', err);
+        const status = document.getElementById('schoolyard-status');
+        if (status) {
+          status.hidden = false;
+          status.textContent = err?.message || 'Couldn’t load the Schoolyard.';
+        }
+      });
+  </script>
+</body>
+</html>

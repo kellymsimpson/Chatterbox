@@ -86,6 +86,27 @@ export async function fetchChatterbox(id) {
 }
 
 /**
+ * Fetch all chatterboxes, newest first (Schoolyard pool).
+ * @returns {Promise<object[]>}
+ */
+export async function fetchAllChatterboxes() {
+  const { url, key } = await loadEnv();
+  const qs = new URLSearchParams({
+    select: 'id,maker_name,maker_token,vibe,flap_colors,stickers,created_at',
+    order: 'created_at.desc',
+  });
+  const res = await fetch(`${url}/rest/v1/chatterboxes?${qs}`, {
+    headers: authHeaders(key, { Accept: 'application/json' }),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Supabase list failed (${res.status}): ${text || res.statusText}`);
+  }
+  const data = await res.json();
+  return Array.isArray(data) ? data : [];
+}
+
+/**
  * How many chatterboxes this maker_token has saved (for "Make one" / "Make another").
  * @param {string|null|undefined} makerToken
  * @returns {Promise<number>}

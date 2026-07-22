@@ -299,41 +299,42 @@ export class DecorateCanvas {
     if (!this.stickerLayer) return;
     this.stickerLayer.innerHTML = '';
     const UV = STICKER_UV_PX;
-    for (const s of this.stickers) {
-      const quad = this.quads[s.flap];
-      if (!quad) continue;
-      const wrap = document.createElement('div');
-      wrap.className = 'sticker-on-flap';
-      wrap.dataset.uid = s.uid;
-      Object.assign(wrap.style, {
-        position: 'absolute',
-        left: '0',
-        top: '0',
-        width: `${UV}px`,
-        height: `${UV}px`,
-        transformOrigin: '0 0',
-        transform: matrix3dFromRect(UV, UV, quad),
-        pointerEvents: 'none',
-      });
-      const sizePx = (s.scale ?? STICKER_SCALE) * UV;
-      const img = document.createElement('img');
-      img.alt = '';
-      img.draggable = false;
-      Object.assign(img.style, {
-        position: 'absolute',
-        left: `${s.u * UV - sizePx / 2}px`,
-        top: `${s.v * UV - sizePx / 2}px`,
-        width: `${sizePx}px`,
-        height: 'auto',
-        display: 'block',
-        pointerEvents: 'none',
-      });
-      wrap.appendChild(img);
-      this.stickerLayer.appendChild(wrap);
-      this._urlFor(s.id).then((url) => {
+    await Promise.all(
+      this.stickers.map(async (s) => {
+        const quad = this.quads[s.flap];
+        if (!quad) return;
+        const wrap = document.createElement('div');
+        wrap.className = 'sticker-on-flap';
+        wrap.dataset.uid = s.uid;
+        Object.assign(wrap.style, {
+          position: 'absolute',
+          left: '0',
+          top: '0',
+          width: `${UV}px`,
+          height: `${UV}px`,
+          transformOrigin: '0 0',
+          transform: matrix3dFromRect(UV, UV, quad),
+          pointerEvents: 'none',
+        });
+        const sizePx = (s.scale ?? STICKER_SCALE) * UV;
+        const img = document.createElement('img');
+        img.alt = '';
+        img.draggable = false;
+        Object.assign(img.style, {
+          position: 'absolute',
+          left: `${s.u * UV - sizePx / 2}px`,
+          top: `${s.v * UV - sizePx / 2}px`,
+          width: `${sizePx}px`,
+          height: 'auto',
+          display: 'block',
+          pointerEvents: 'none',
+        });
+        const url = await this._urlFor(s.id);
         img.src = url;
-      });
-    }
+        wrap.appendChild(img);
+        this.stickerLayer.appendChild(wrap);
+      })
+    );
   }
 
   /**

@@ -98,7 +98,7 @@ Instruction, DecorateCanvas closed, colour pick → state for Stage 2.
 | Land | Even → `V38.1` / `V40.1`; odd → `V38.2` / `V40.2` |
 | Fills | `RevealFrameCompositor` — opposite-pair `flap_colors` + stickers warped onto reveal face diamond quads (`revealFacesForNumber`) |
 | Fortune | After `REVEAL_FORTUNE_BEAT_MS` (500): `#play-fortune` — Patrick Hand 48 / Bright White / centered on desk; text = `fortunes["N"]` for `selectedNumber2` |
-| Actions | **Play another** → schoolyard placeholder; **Make one** / **Make another** (via `countChatterboxesForMaker(maker_token)`); **Home** → `index.html` |
+| Actions | **Play another** → `schoolyard.html`; **Make one** / **Make another** (via `countChatterboxesForMaker(maker_token)`); **Home** → `index.html` |
 
 ## Entry
 
@@ -122,4 +122,4 @@ Reveal shows the **opposite** pair (pre-rotation):
 
 ## Remaining
 
-Play mode Stages 1–6 complete for this handoff. Schoolyard / Home polish still placeholder-routed from post-reveal actions.
+Play mode Stages 1–6 complete for this handoff. Schoolyard approved — see `SCHOOLYARD-STATUS.md`.

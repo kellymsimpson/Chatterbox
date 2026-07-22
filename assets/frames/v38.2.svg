@@ -48,11 +48,11 @@
 <path id="Subtract_3" d="M77.0698 247.444C80.0524 188.203 76.0867 157.049 90.6019 102.754L161.361 175.754L167.768 183.276C163.445 185.33 136.998 198.105 120.029 211.103C101.54 225.264 77.1659 247.357 77.0698 247.444Z" fill="#EFE9DD"/>
 </g>
 </g>
-<path id="Union" d="M149.272 158.156H165.984V153.578H149.272V158.156ZM143.755 149.77H165.984V145.191H143.755V149.77ZM143.755 141.383H165.984V136.805H143.755V141.383ZM129.846 132.996H165.984V128.417H129.846V132.996ZM124.106 120.03V124.608H165.984V120.03H124.106ZM123.358 116.222H165.984V111.644H123.358V116.222ZM110.791 107.835H165.984V103.257H110.791V107.835ZM116.793 99.4482H165.984V94.8691H116.793V99.4482ZM118.119 91.0605H165.984V86.4824H118.119V91.0605ZM123.358 82.6738H165.984V78.0957H123.358V82.6738ZM128.649 74.2871H165.984V69.709H128.649V74.2871ZM133.767 65.9004H165.984V61.3213H133.767V65.9004ZM143.755 57.5127H165.984V52.9346H143.755V57.5127ZM143.755 49.126H165.984V44.5479H143.755V49.126ZM149.272 40.7393H165.984V36.1611H149.272V40.7393ZM153.685 32.3525H165.984V27.7734H153.685V32.3525Z" fill="#020101" fill-opacity="0.5"/>
+
 <g id="fortune message flap">
-<path d="M166.781 8L244.022 105.688H89.5401L166.781 8Z" fill="#FAF7F0"/>
-<path d="M166.781 8L244.022 105.688H89.5401L166.781 8Z" fill="url(#paint8_linear_0_1)" fill-opacity="0.2"/>
-<path d="M166.781 8L244.022 105.688H89.5401L166.781 8Z" fill="url(#paint9_linear_0_1)" fill-opacity="0.3"/>
+<path d="M166.781 8L255.972 138.251H77.591L166.781 8Z" fill="#FAF7F0"/>
+<path d="M166.781 8L255.972 138.251H77.591L166.781 8Z" fill="url(#paint8_linear_0_1)" fill-opacity="0.2"/>
+<path d="M166.781 8L255.972 138.251H77.591L166.781 8Z" fill="url(#paint9_linear_0_1)" fill-opacity="0.3"/>
 </g>
 </g>
 <defs>
@@ -126,12 +126,12 @@
 <stop stop-color="#C9B99A" stop-opacity="0.06"/>
 <stop offset="1" stop-color="#635B4C"/>
 </linearGradient>
-<linearGradient id="paint8_linear_0_1" x1="216.208" y1="73.1255" x2="115.625" y2="73.1255" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint8_linear_0_1" x1="223.85" y1="73.1255" x2="107.71" y2="73.1255" gradientUnits="userSpaceOnUse">
 <stop offset="0.460992" stop-color="#635B4C" stop-opacity="0"/>
 <stop offset="0.491832" stop-color="#635B4C" stop-opacity="0.5"/>
 <stop offset="0.530788" stop-color="#635B4C" stop-opacity="0"/>
 </linearGradient>
-<linearGradient id="paint9_linear_0_1" x1="166.781" y1="8" x2="166.781" y2="104.699" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint9_linear_0_1" x1="166.781" y1="8" x2="166.781" y2="138.251" gradientUnits="userSpaceOnUse">
 <stop offset="0.652756" stop-color="#635B4C" stop-opacity="0"/>
 <stop offset="1" stop-color="#635B4C" stop-opacity="0.5"/>
 </linearGradient>

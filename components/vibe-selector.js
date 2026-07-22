@@ -9,6 +9,13 @@
 import { pickFortunes } from './fortunes.js?v=r10';
 
 const ICON_BASE = new URL('../assets/ui/vibe-icons/', import.meta.url);
+const ICON_VER = 'taupe1';
+
+/** @param {string} id @param {'default'|'selected'|'disabled'} state */
+function iconSrc(id, state) {
+  const key = id.toLowerCase();
+  return new URL(`${key}-${state}.svg?v=${ICON_VER}`, ICON_BASE).href;
+}
 
 export const VIBES = [
   {
@@ -39,12 +46,6 @@ export const VIBES = [
 ];
 
 const CHANGE_COPY = 'Changing your vibe generates new fortunes. Your decorations stay the same.';
-
-/** @param {string} id @param {'default'|'selected'|'disabled'} state */
-function iconSrc(id, state) {
-  const key = id.toLowerCase();
-  return new URL(`${key}-${state}.svg`, ICON_BASE).href;
-}
 
 /**
  * @param {object} opts

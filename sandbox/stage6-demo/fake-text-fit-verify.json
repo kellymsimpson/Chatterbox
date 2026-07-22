@@ -1,0 +1,666 @@
+{
+  "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V36&v=s37",
+  "cache": "s37",
+  "results": {
+    "V38.2": {
+      "label": "H-odd",
+      "expectedFrame": "V38.2",
+      "landedFrame": "V38.2",
+      "short": {
+        "tag": "H-odd-short",
+        "fortuneText": "Yes.",
+        "metrics": {
+          "ok": true,
+          "text": "Yes.",
+          "frame": "V38.2",
+          "boxW": 178.381,
+          "boxH": 130.251,
+          "fontSize": "13.4px",
+          "textAlign": "center",
+          "wordBreak": "normal",
+          "overflowWrap": "normal",
+          "hyphens": "auto",
+          "lang": "en",
+          "wrapOverflow": "hidden",
+          "clipPath": "polygon(50% 0%, 100% 100%, 0% 100%)",
+          "shapeCount": 2,
+          "shapeOutside": [
+            "polygon(0px 0px, 100% 0px, 0px 100%)",
+            "polygon(0px 0px, 100% 0px, 100% 100%)"
+          ],
+          "lineCount": 1,
+          "lineWidths": [
+            {
+              "y": 25,
+              "w": 19.296875,
+              "left": 79.515625,
+              "right": 98.8125
+            }
+          ],
+          "fansOut": null,
+          "insideBounds": true,
+          "inkOverflow": false,
+          "inkDetail": null,
+          "midWordBreaks": 0,
+          "shortWordLetterSplit": false,
+          "wordAwareCss": true
+        },
+        "full": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-H-odd-short.png",
+        "closeup": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-H-odd-short-closeup.png",
+        "desk": "Hope is doing quiet work behind the scenes."
+      },
+      "long": {
+        "tag": "H-odd-long",
+        "fortuneText": "Your invisible thread of destiny is rearranging a spectacular coincidence into an extraordinary opportunity that softens every question before the answer arrives.",
+        "metrics": {
+          "ok": true,
+          "text": "Your invisible thread of destiny is rearranging a spectacular coincidence into an extraordinary opportunity that softens every question before the answer arrives.",
+          "frame": "V38.2",
+          "boxW": 178.381,
+          "boxH": 130.251,
+          "fontSize": "10.6px",
+          "textAlign": "center",
+          "wordBreak": "normal",
+          "overflowWrap": "normal",
+          "hyphens": "auto",
+          "lang": "en",
+          "wrapOverflow": "hidden",
+          "clipPath": "polygon(50% 0%, 100% 100%, 0% 100%)",
+          "shapeCount": 2,
+          "shapeOutside": [
+            "polygon(0px 0px, 100% 0px, 0px 100%)",
+            "polygon(0px 0px, 100% 0px, 100% 100%)"
+          ],
+          "lineCount": 11,
+          "lineWidths": [
+            {
+              "y": 23,
+              "w": 17.28125,
+              "left": 80.53125,
+              "right": 97.8125
+            },
+            {
+              "y": 35.171875,
+              "w": 31.65625,
+              "left": 73.34375,
+              "right": 105
+            },
+            {
+              "y": 47.34375,
+              "w": 35.203125,
+              "left": 71.5625,
+              "right": 106.765625
+            },
+            {
+              "y": 59.515625,
+              "w": 55.609375,
+              "left": 59.21875,
+              "right": 114.828125
+            },
+            {
+              "y": 59.515625,
+              "w": 4.296875,
+              "left": 114.828125,
+              "right": 119.125
+            },
+            {
+              "y": 71.6875,
+              "w": 82.828125,
+              "left": 47.75,
+              "right": 130.578125
+            },
+            {
+              "y": 83.859375,
+              "w": 83.828125,
+              "left": 45.109375,
+              "right": 128.9375
+            },
+            {
+              "y": 83.859375,
+              "w": 4.296875,
+              "left": 128.9375,
+              "right": 133.234375
+            },
+            {
+              "y": 96.03125,
+              "w": 109.921875,
+              "left": 34.21875,
+              "right": 144.140625
+            },
+            {
+              "y": 108.203125,
+              "w": 129.703125,
+              "left": 24.328125,
+              "right": 154.03125
+            },
+            {
+              "y": 120.375,
+              "w": 58.1875,
+              "left": 60.078125,
+              "right": 118.265625
+            }
+          ],
+          "fansOut": true,
+          "insideBounds": true,
+          "inkOverflow": false,
+          "inkDetail": null,
+          "midWordBreaks": 2,
+          "shortWordLetterSplit": false,
+          "wordAwareCss": true
+        },
+        "full": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-H-odd-long.png",
+        "closeup": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-H-odd-long-closeup.png",
+        "desk": "Hope is doing quiet work behind the scenes."
+      },
+      "pass": {
+        "landedOk": true,
+        "shortInside": true,
+        "longInside": true,
+        "shortWordAware": true,
+        "longWordAware": true,
+        "shortNoLetterSplit": true,
+        "longHasShapes": true,
+        "longFansOut": true,
+        "clipIsPolygon": true,
+        "deskUnchanged": true,
+        "boxIsTriangleAABB": true
+      }
+    },
+    "V38.1": {
+      "label": "H-even",
+      "expectedFrame": "V38.1",
+      "landedFrame": "V38.1",
+      "short": {
+        "tag": "H-even-short",
+        "fortuneText": "Yes.",
+        "metrics": {
+          "ok": true,
+          "text": "Yes.",
+          "frame": "V38.1",
+          "boxW": 178.381,
+          "boxH": 130.251,
+          "fontSize": "13.4px",
+          "textAlign": "center",
+          "wordBreak": "normal",
+          "overflowWrap": "normal",
+          "hyphens": "auto",
+          "lang": "en",
+          "wrapOverflow": "hidden",
+          "clipPath": "polygon(50% 0%, 100% 100%, 0% 100%)",
+          "shapeCount": 2,
+          "shapeOutside": [
+            "polygon(0px 0px, 100% 0px, 0px 100%)",
+            "polygon(0px 0px, 100% 0px, 100% 100%)"
+          ],
+          "lineCount": 1,
+          "lineWidths": [
+            {
+              "y": 25,
+              "w": 19.296875,
+              "left": 79.515625,
+              "right": 98.8125
+            }
+          ],
+          "fansOut": null,
+          "insideBounds": true,
+          "inkOverflow": false,
+          "inkDetail": null,
+          "midWordBreaks": 0,
+          "shortWordLetterSplit": false,
+          "wordAwareCss": true
+        },
+        "full": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-H-even-short.png",
+        "closeup": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-H-even-short-closeup.png",
+        "desk": "The universe enjoys surprising you."
+      },
+      "long": {
+        "tag": "H-even-long",
+        "fortuneText": "Your invisible thread of destiny is rearranging a spectacular coincidence into an extraordinary opportunity that softens every question before the answer arrives.",
+        "metrics": {
+          "ok": true,
+          "text": "Your invisible thread of destiny is rearranging a spectacular coincidence into an extraordinary opportunity that softens every question before the answer arrives.",
+          "frame": "V38.1",
+          "boxW": 178.381,
+          "boxH": 130.251,
+          "fontSize": "10.6px",
+          "textAlign": "center",
+          "wordBreak": "normal",
+          "overflowWrap": "normal",
+          "hyphens": "auto",
+          "lang": "en",
+          "wrapOverflow": "hidden",
+          "clipPath": "polygon(50% 0%, 100% 100%, 0% 100%)",
+          "shapeCount": 2,
+          "shapeOutside": [
+            "polygon(0px 0px, 100% 0px, 0px 100%)",
+            "polygon(0px 0px, 100% 0px, 100% 100%)"
+          ],
+          "lineCount": 11,
+          "lineWidths": [
+            {
+              "y": 23,
+              "w": 17.28125,
+              "left": 80.53125,
+              "right": 97.8125
+            },
+            {
+              "y": 35.171875,
+              "w": 31.65625,
+              "left": 73.34375,
+              "right": 105
+            },
+            {
+              "y": 47.34375,
+              "w": 35.203125,
+              "left": 71.5625,
+              "right": 106.765625
+            },
+            {
+              "y": 59.515625,
+              "w": 55.609375,
+              "left": 59.21875,
+              "right": 114.828125
+            },
+            {
+              "y": 59.515625,
+              "w": 4.296875,
+              "left": 114.828125,
+              "right": 119.125
+            },
+            {
+              "y": 71.6875,
+              "w": 82.828125,
+              "left": 47.75,
+              "right": 130.578125
+            },
+            {
+              "y": 83.859375,
+              "w": 83.828125,
+              "left": 45.109375,
+              "right": 128.9375
+            },
+            {
+              "y": 83.859375,
+              "w": 4.296875,
+              "left": 128.9375,
+              "right": 133.234375
+            },
+            {
+              "y": 96.03125,
+              "w": 109.921875,
+              "left": 34.21875,
+              "right": 144.140625
+            },
+            {
+              "y": 108.203125,
+              "w": 129.703125,
+              "left": 24.328125,
+              "right": 154.03125
+            },
+            {
+              "y": 120.375,
+              "w": 58.1875,
+              "left": 60.078125,
+              "right": 118.265625
+            }
+          ],
+          "fansOut": true,
+          "insideBounds": true,
+          "inkOverflow": false,
+          "inkDetail": null,
+          "midWordBreaks": 2,
+          "shortWordLetterSplit": false,
+          "wordAwareCss": true
+        },
+        "full": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-H-even-long.png",
+        "closeup": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-H-even-long-closeup.png",
+        "desk": "The universe enjoys surprising you."
+      },
+      "pass": {
+        "landedOk": true,
+        "shortInside": true,
+        "longInside": true,
+        "shortWordAware": true,
+        "longWordAware": true,
+        "shortNoLetterSplit": true,
+        "longHasShapes": true,
+        "longFansOut": true,
+        "clipIsPolygon": true,
+        "deskUnchanged": true,
+        "boxIsTriangleAABB": true
+      }
+    },
+    "V40.2": {
+      "label": "V-odd",
+      "expectedFrame": "V40.2",
+      "landedFrame": "V40.2",
+      "short": {
+        "tag": "V-odd-short",
+        "fortuneText": "Yes.",
+        "metrics": {
+          "ok": true,
+          "text": "Yes.",
+          "frame": "V40.2",
+          "boxW": 178.381,
+          "boxH": 130.251,
+          "fontSize": "13.4px",
+          "textAlign": "center",
+          "wordBreak": "normal",
+          "overflowWrap": "normal",
+          "hyphens": "auto",
+          "lang": "en",
+          "wrapOverflow": "hidden",
+          "clipPath": "polygon(50% 0%, 100% 100%, 0% 100%)",
+          "shapeCount": 2,
+          "shapeOutside": [
+            "polygon(0px 0px, 100% 0px, 0px 100%)",
+            "polygon(0px 0px, 100% 0px, 100% 100%)"
+          ],
+          "lineCount": 1,
+          "lineWidths": [
+            {
+              "y": 25,
+              "w": 19.296875,
+              "left": 79.515625,
+              "right": 98.8125
+            }
+          ],
+          "fansOut": null,
+          "insideBounds": true,
+          "inkOverflow": false,
+          "inkDetail": null,
+          "midWordBreaks": 0,
+          "shortWordLetterSplit": false,
+          "wordAwareCss": true
+        },
+        "full": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-V-odd-short.png",
+        "closeup": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-V-odd-short-closeup.png",
+        "desk": "You are one good snack away from greatness."
+      },
+      "long": {
+        "tag": "V-odd-long",
+        "fortuneText": "Your invisible thread of destiny is rearranging a spectacular coincidence into an extraordinary opportunity that softens every question before the answer arrives.",
+        "metrics": {
+          "ok": true,
+          "text": "Your invisible thread of destiny is rearranging a spectacular coincidence into an extraordinary opportunity that softens every question before the answer arrives.",
+          "frame": "V40.2",
+          "boxW": 178.381,
+          "boxH": 130.251,
+          "fontSize": "10.6px",
+          "textAlign": "center",
+          "wordBreak": "normal",
+          "overflowWrap": "normal",
+          "hyphens": "auto",
+          "lang": "en",
+          "wrapOverflow": "hidden",
+          "clipPath": "polygon(50% 0%, 100% 100%, 0% 100%)",
+          "shapeCount": 2,
+          "shapeOutside": [
+            "polygon(0px 0px, 100% 0px, 0px 100%)",
+            "polygon(0px 0px, 100% 0px, 100% 100%)"
+          ],
+          "lineCount": 11,
+          "lineWidths": [
+            {
+              "y": 23,
+              "w": 17.28125,
+              "left": 80.53125,
+              "right": 97.8125
+            },
+            {
+              "y": 35.171875,
+              "w": 31.65625,
+              "left": 73.34375,
+              "right": 105
+            },
+            {
+              "y": 47.34375,
+              "w": 35.203125,
+              "left": 71.5625,
+              "right": 106.765625
+            },
+            {
+              "y": 59.515625,
+              "w": 55.609375,
+              "left": 59.21875,
+              "right": 114.828125
+            },
+            {
+              "y": 59.515625,
+              "w": 4.296875,
+              "left": 114.828125,
+              "right": 119.125
+            },
+            {
+              "y": 71.6875,
+              "w": 82.828125,
+              "left": 47.75,
+              "right": 130.578125
+            },
+            {
+              "y": 83.859375,
+              "w": 83.828125,
+              "left": 45.109375,
+              "right": 128.9375
+            },
+            {
+              "y": 83.859375,
+              "w": 4.296875,
+              "left": 128.9375,
+              "right": 133.234375
+            },
+            {
+              "y": 96.03125,
+              "w": 109.921875,
+              "left": 34.21875,
+              "right": 144.140625
+            },
+            {
+              "y": 108.203125,
+              "w": 129.703125,
+              "left": 24.328125,
+              "right": 154.03125
+            },
+            {
+              "y": 120.375,
+              "w": 58.1875,
+              "left": 60.078125,
+              "right": 118.265625
+            }
+          ],
+          "fansOut": true,
+          "insideBounds": true,
+          "inkOverflow": false,
+          "inkDetail": null,
+          "midWordBreaks": 2,
+          "shortWordLetterSplit": false,
+          "wordAwareCss": true
+        },
+        "full": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-V-odd-long.png",
+        "closeup": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-V-odd-long-closeup.png",
+        "desk": "You are one good snack away from greatness."
+      },
+      "pass": {
+        "landedOk": true,
+        "shortInside": true,
+        "longInside": true,
+        "shortWordAware": true,
+        "longWordAware": true,
+        "shortNoLetterSplit": true,
+        "longHasShapes": true,
+        "longFansOut": true,
+        "clipIsPolygon": true,
+        "deskUnchanged": true,
+        "boxIsTriangleAABB": true
+      }
+    },
+    "V40.1": {
+      "label": "V-even",
+      "expectedFrame": "V40.1",
+      "landedFrame": "V40.1",
+      "short": {
+        "tag": "V-even-short",
+        "fortuneText": "Yes.",
+        "metrics": {
+          "ok": true,
+          "text": "Yes.",
+          "frame": "V40.1",
+          "boxW": 178.381,
+          "boxH": 130.251,
+          "fontSize": "13.4px",
+          "textAlign": "center",
+          "wordBreak": "normal",
+          "overflowWrap": "normal",
+          "hyphens": "auto",
+          "lang": "en",
+          "wrapOverflow": "hidden",
+          "clipPath": "polygon(50% 0%, 100% 100%, 0% 100%)",
+          "shapeCount": 2,
+          "shapeOutside": [
+            "polygon(0px 0px, 100% 0px, 0px 100%)",
+            "polygon(0px 0px, 100% 0px, 100% 100%)"
+          ],
+          "lineCount": 1,
+          "lineWidths": [
+            {
+              "y": 25,
+              "w": 19.296875,
+              "left": 79.515625,
+              "right": 98.8125
+            }
+          ],
+          "fansOut": null,
+          "insideBounds": true,
+          "inkOverflow": false,
+          "inkDetail": null,
+          "midWordBreaks": 0,
+          "shortWordLetterSplit": false,
+          "wordAwareCss": true
+        },
+        "full": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-V-even-short.png",
+        "closeup": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-V-even-short-closeup.png",
+        "desk": "Your future is bright, but sunglasses remain optional."
+      },
+      "long": {
+        "tag": "V-even-long",
+        "fortuneText": "Your invisible thread of destiny is rearranging a spectacular coincidence into an extraordinary opportunity that softens every question before the answer arrives.",
+        "metrics": {
+          "ok": true,
+          "text": "Your invisible thread of destiny is rearranging a spectacular coincidence into an extraordinary opportunity that softens every question before the answer arrives.",
+          "frame": "V40.1",
+          "boxW": 178.381,
+          "boxH": 130.251,
+          "fontSize": "10.6px",
+          "textAlign": "center",
+          "wordBreak": "normal",
+          "overflowWrap": "normal",
+          "hyphens": "auto",
+          "lang": "en",
+          "wrapOverflow": "hidden",
+          "clipPath": "polygon(50% 0%, 100% 100%, 0% 100%)",
+          "shapeCount": 2,
+          "shapeOutside": [
+            "polygon(0px 0px, 100% 0px, 0px 100%)",
+            "polygon(0px 0px, 100% 0px, 100% 100%)"
+          ],
+          "lineCount": 11,
+          "lineWidths": [
+            {
+              "y": 23,
+              "w": 17.28125,
+              "left": 80.53125,
+              "right": 97.8125
+            },
+            {
+              "y": 35.171875,
+              "w": 31.65625,
+              "left": 73.34375,
+              "right": 105
+            },
+            {
+              "y": 47.34375,
+              "w": 35.203125,
+              "left": 71.5625,
+              "right": 106.765625
+            },
+            {
+              "y": 59.515625,
+              "w": 55.609375,
+              "left": 59.21875,
+              "right": 114.828125
+            },
+            {
+              "y": 59.515625,
+              "w": 4.296875,
+              "left": 114.828125,
+              "right": 119.125
+            },
+            {
+              "y": 71.6875,
+              "w": 82.828125,
+              "left": 47.75,
+              "right": 130.578125
+            },
+            {
+              "y": 83.859375,
+              "w": 83.828125,
+              "left": 45.109375,
+              "right": 128.9375
+            },
+            {
+              "y": 83.859375,
+              "w": 4.296875,
+              "left": 128.9375,
+              "right": 133.234375
+            },
+            {
+              "y": 96.03125,
+              "w": 109.921875,
+              "left": 34.21875,
+              "right": 144.140625
+            },
+            {
+              "y": 108.203125,
+              "w": 129.703125,
+              "left": 24.328125,
+              "right": 154.03125
+            },
+            {
+              "y": 120.375,
+              "w": 58.1875,
+              "left": 60.078125,
+              "right": 118.265625
+            }
+          ],
+          "fansOut": true,
+          "insideBounds": true,
+          "inkOverflow": false,
+          "inkDetail": null,
+          "midWordBreaks": 2,
+          "shortWordLetterSplit": false,
+          "wordAwareCss": true
+        },
+        "full": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-V-even-long.png",
+        "closeup": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/fake-text-V-even-long-closeup.png",
+        "desk": "Your future is bright, but sunglasses remain optional."
+      },
+      "pass": {
+        "landedOk": true,
+        "shortInside": true,
+        "longInside": true,
+        "shortWordAware": true,
+        "longWordAware": true,
+        "shortNoLetterSplit": true,
+        "longHasShapes": true,
+        "longFansOut": true,
+        "clipIsPolygon": true,
+        "deskUnchanged": true,
+        "boxIsTriangleAABB": true
+      }
+    }
+  },
+  "logs": [
+    "[play] Stage 6 reveal complete {selectedNumber2: 1, rotation: 0, post: V38.2, fortune: Hope is doing quiet work behind the scenes., makeLabel: Make one}",
+    "[play] Stage 6 reveal complete {selectedNumber2: 2, rotation: 0, post: V38.1, fortune: The universe enjoys surprising you., makeLabel: Make one}"
+  ]
+}

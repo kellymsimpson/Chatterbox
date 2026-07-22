@@ -34,6 +34,10 @@
   --color-verdigris:      #8AB17D;
   --color-danish-blue:    #8FB7B3;
 
+  /* ── Disabled ── */
+  --color-disabled-taupe: #B7AA96; /* Disabled Taupe — fills */
+  --color-taupe-text:     #5C5143; /* Taupe Text — disabled labels */
+
   /* ── Backgrounds ── */
   --color-desk-brown:         #7D5F36;
   --color-schoolyard-concrete: #464039;

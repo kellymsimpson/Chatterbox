@@ -13,7 +13,9 @@
  * Intermediate frames (V33.1, V33.2, V35.1, V35.2) remain in asset/coord
  * libraries but are NOT in any runtime sequence.
  *
- * Decorations: full opacity on every displayed frame (no fades / hides).
+ * Decorations on V33 / V34 / V36: StableFrameCompositor — the same
+ * placement-mask path as sandbox/step4-motion-cycles.html
+ * (closed / h / v placements). Do NOT derive open fills from quads.
  *
  * Swap motion — scale-squash pop on the container:
  *   duration:  120ms          (SWAP_SQUASH_MS)
@@ -48,12 +50,11 @@
  *   V41     — H-Open (Play mode variant of V34)
  *   V42     — Post Reveal Screen
  *
- * Chatterbox size: 267px wide in BOTH Decorate and Play modes.
- *
  * Figma file key: dRqS5TWdiu2J4TPhiEyLrb
  */
 
-import { PaintStickerLayer } from './paint-layer.js';
+import { StableFrameCompositor, STABLE_FRAMES } from './stable-frame.js?v=s39';
+import { RevealFrameCompositor, REVEAL_FRAMES } from './reveal-frame.js?v=s39';
 
 const FRAME_FILES = {
   V33: 'v33.svg',
@@ -85,56 +86,41 @@ export const SWAP_SQUASH_MS = 120;
 /** Canonical: hold on a stable after each swap (see file header). */
 export const STABLE_HOLD_MS = 200;
 
+/** Stage 6: wrap rotation duration before flap-lift (top-down → reveal-facing). */
+export const REVEAL_ROTATE_MS = 320;
+
+/** Stage 6: silence after land frame before fortune text fades in (PRD §9.4). */
+export const REVEAL_FORTUNE_BEAT_MS = 500;
+
 export class Chatterbox {
   /**
    * @param {HTMLElement} containerEl
    * @param {{ flap_colors?: Record<string,string>, stickers?: object[] }} [decoration]
+   * @param {{ layoutEl?: HTMLElement|null }} [opts]
+   *   layoutEl — positioned host (Play stage wrap); updated to crop layout per frame.
    */
-  constructor(containerEl, decoration = {}) {
+  constructor(containerEl, decoration = {}, { layoutEl = null } = {}) {
     this.container = containerEl;
+    this.layoutEl = layoutEl;
     this.currentFrame = 'V33';
     this.decoration = {
       flap_colors: decoration.flap_colors || {},
       stickers: decoration.stickers || [],
     };
     this._playing = false;
+    this._showGen = 0;
 
     this.container.classList.add('chatterbox');
-    this.container.style.width = '267px';
-    this.container.style.height = '294px';
     this.container.style.position = 'relative';
     this.container.style.overflow = 'visible';
     this.container.style.transformOrigin = '50% 50%';
 
-    this.frameImg = document.createElement('img');
-    this.frameImg.className = 'chatterbox-frame';
-    this.frameImg.alt = '';
-    this.frameImg.draggable = false;
-    Object.assign(this.frameImg.style, {
-      position: 'absolute',
-      inset: '0',
-      width: '100%',
-      height: '100%',
-      objectFit: 'contain',
-      pointerEvents: 'none',
-      userSelect: 'none',
-    });
-    this.container.appendChild(this.frameImg);
-
-    this.overlay = document.createElement('div');
-    Object.assign(this.overlay.style, {
-      position: 'absolute',
-      left: '0',
-      top: '0',
-      width: '267px',
-      height: '294px',
-      pointerEvents: 'none',
-      overflow: 'visible',
-    });
-    this.container.appendChild(this.overlay);
-
-    this.paintLayer = new PaintStickerLayer(this.overlay, this.decoration);
-    this.showFrame('V33');
+    this.stable = new StableFrameCompositor(this.container, this.decoration);
+    this.reveal = new RevealFrameCompositor(this.container, this.decoration);
+    /** @type {number|null} Stage 5 fortune-flap number for reveal face binding */
+    this.revealNumber = null;
+    /** @type {string} Stage 5 fortune string for Fake Text on land frames */
+    this.revealFortune = '';
   }
 
   setDecoration(decoration) {
@@ -142,18 +128,92 @@ export class Chatterbox {
       flap_colors: decoration.flap_colors || {},
       stickers: decoration.stickers || [],
     };
-    this.paintLayer.setDecoration(this.decoration);
-    this.paintLayer.render(this.currentFrame);
+    this.stable.setDecoration(this.decoration);
+    this.reveal.setDecoration(this.decoration);
+    return this.showFrame(this.currentFrame);
   }
 
-  showFrame(frameName) {
-    this.currentFrame = frameName;
-    const file = FRAME_FILES[frameName];
-    if (file) {
-      this.frameImg.src = new URL(file, FRAMES_BASE).href;
+  /**
+   * Bind Stage 5 selectedNumber2 so reveal faces pull the correct outer-flap décor.
+   * @param {number|null} num
+   */
+  setRevealNumber(num) {
+    this.revealNumber = num == null ? null : Number(num);
+    this.reveal.setSelectedNumber(this.revealNumber);
+  }
+
+  /**
+   * Bind fortunes[N] for Fake Text on V38/V40 land frames (same string as desk fortune).
+   * @param {string} text
+   */
+  setRevealFortune(text) {
+    this.revealFortune = text == null ? '' : String(text);
+    this.reveal.setFortuneText(this.revealFortune);
+  }
+
+  /**
+   * Preload Stage 6 lift + land paper/masks before clearing the prior open frame.
+   * @param {string[]} frames
+   */
+  preloadReveal(frames) {
+    this.reveal.setSelectedNumber(this.revealNumber);
+    this.reveal.setFortuneText(this.revealFortune);
+    return this.reveal.preload(frames);
+  }
+
+  _applyLayout(layout, w, h) {
+    if (this.layoutEl && layout) {
+      this.layoutEl.style.left = `${layout.x}px`;
+      this.layoutEl.style.top = `${layout.y}px`;
+      this.layoutEl.style.width = `${w}px`;
+      this.layoutEl.style.height = `${h}px`;
     }
-    this.paintLayer.render(frameName);
+    this.container.style.width = `${w}px`;
+    this.container.style.height = `${h}px`;
+  }
+
+  /**
+   * @param {string} frameName
+   * @returns {Promise<void>}
+   */
+  async showFrame(frameName) {
+    const gen = ++this._showGen;
+    this.currentFrame = frameName;
     this.container.dataset.frame = frameName;
+
+    if (STABLE_FRAMES[frameName]) {
+      const { w, h, layout } = await this.stable.showFrame(frameName);
+      if (gen !== this._showGen) return;
+      this._applyLayout(layout, w, h);
+    } else if (REVEAL_FRAMES[frameName]) {
+      this.reveal.setSelectedNumber(this.revealNumber);
+      this.reveal.setFortuneText(this.revealFortune);
+      const { w, h, layout } = await this.reveal.showFrame(frameName);
+      if (gen !== this._showGen) return;
+      this._applyLayout(layout, w, h);
+    } else {
+      // Offline / unused frames — paper only.
+      const file = FRAME_FILES[frameName];
+      this.container.innerHTML = '';
+      if (file) {
+        const img = document.createElement('img');
+        img.className = 'chatterbox-frame';
+        img.src = new URL(file, FRAMES_BASE).href;
+        img.alt = '';
+        img.draggable = false;
+        Object.assign(img.style, {
+          position: 'absolute',
+          inset: '0',
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          pointerEvents: 'none',
+          userSelect: 'none',
+        });
+        this.container.appendChild(img);
+      }
+    }
+
     this.container.dispatchEvent(
       new CustomEvent('chatterbox:frame', { detail: { frame: frameName } }),
     );
@@ -165,12 +225,13 @@ export class Chatterbox {
    * @param {{ squashMs?: number }} [opts]
    */
   async swapFrame(frameName, { squashMs = SWAP_SQUASH_MS } = {}) {
-    this.showFrame(frameName);
+    await this.showFrame(frameName);
     await this._squashPop(squashMs);
   }
 
   /** Ease-out scale-squash so a hard frame swap reads as a pop. */
   async _squashPop(ms = SWAP_SQUASH_MS) {
+    // Squash the container only — wrap rotation is Stage 6 only (REVEAL_MAP).
     const el = this.container;
     el.style.transformOrigin = '50% 50%';
     const anim = el.animate(
@@ -199,7 +260,7 @@ export class Chatterbox {
         if (frame !== this.currentFrame) {
           await this.swapFrame(frame);
         } else if (i === 0) {
-          this.showFrame(frame);
+          await this.showFrame(frame);
         }
         if (i < frames.length - 1) {
           await new Promise((r) => setTimeout(r, holdMs));
@@ -219,8 +280,9 @@ export class Chatterbox {
 
 /**
  * Fortune reveal mapping — AUTHORITATIVE (PRD §9.4 Stage 6, v1.5).
+ * Used ONLY at Stage 6 reveal — not during Stage 2 spell or Stage 4 count.
  *
- * Rotation rules:
+ * Rotation rules (Stage 6):
  *   H-mode: 1, 2 → no rotation. 5, 6 → 180°.
  *   V-mode: EVERY selection rotates (reveal frames are frontal; selection
  *   frames are top-down). 8, 7 → 90° right. 3, 4 → 90° left.
@@ -231,6 +293,8 @@ export class Chatterbox {
  *
  * Decorated fills: the fills in the Play mode Figma frames are placeholders.
  * At runtime, render the maker's flap_colors + stickers from Decorate mode.
+ * Visible reveal pair = OPPOSITE the selected numbers (pre-rotation TL/TR/BL/BR):
+ *   1|2 → BL+BR · 5|6 → TL+TR · 3|4 → TL+BL · 7|8 → TR+BR
  * Outer flap ↔ inner number association (fixed by fold geometry, PRD §8.8):
  *   top-left → 1, 8 · top-right → 2, 3 · bottom-right → 4, 5 · bottom-left → 6, 7
  */

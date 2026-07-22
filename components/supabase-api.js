@@ -84,3 +84,33 @@ export async function fetchChatterbox(id) {
   if (!record?.id) throw new Error('Chatterbox not found');
   return record;
 }
+
+/**
+ * How many chatterboxes this maker_token has saved (for "Make one" / "Make another").
+ * @param {string|null|undefined} makerToken
+ * @returns {Promise<number>}
+ */
+export async function countChatterboxesForMaker(makerToken) {
+  if (makerToken == null || String(makerToken).trim() === '') return 0;
+  const { url, key } = await loadEnv();
+  const qs = new URLSearchParams({
+    maker_token: `eq.${String(makerToken).trim()}`,
+    select: 'id',
+  });
+  // GET + Range 0-0 + Prefer count=exact → Content-Range total (PostgREST / Supabase).
+  const res = await fetch(`${url}/rest/v1/chatterboxes?${qs}`, {
+    headers: authHeaders(key, {
+      Accept: 'application/json',
+      Prefer: 'count=exact',
+      Range: '0-0',
+    }),
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Supabase count failed (${res.status}): ${text || res.statusText}`);
+  }
+  const range = res.headers.get('content-range') || '';
+  // content-range: 0-0/3 or */0
+  const m = range.match(/\/(\d+)\s*$/);
+  return m ? Number(m[1]) : 0;
+}

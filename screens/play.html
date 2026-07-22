@@ -6,17 +6,17 @@
   <title>Play — Chatterbox</title>
   <link rel="stylesheet" href="../styles/tokens.css" />
   <link rel="stylesheet" href="../styles/base.css" />
-  <link rel="stylesheet" href="../styles/play.css?v=s1c" />
+  <link rel="stylesheet" href="../styles/play.css?v=s39" />
 </head>
 <body>
-  <!-- Play shell — Figma 492:14395. Stage 1 uses DecorateCanvas (same as Decorate). -->
+  <!-- Play shell — Figma 492:14395. Stage 1 DecorateCanvas; Stage 2–6 Chatterbox. -->
   <main class="play-screen" data-node-id="492:14395">
     <div class="play-frame">
       <div class="play-title-menu" data-node-id="556:8654">
         <div class="play-wordmark" aria-hidden="true">
           <img
             class="play-wordmark-text"
-            src="../assets/ui/decorate-chrome/wordmark.svg"
+            src="../assets/ui/decorate-chrome/wordmark.svg?v=h2"
             width="139"
             height="16"
             alt=""
@@ -24,7 +24,7 @@
           />
           <img
             class="play-wordmark-logo"
-            src="../assets/ui/decorate-chrome/logo-diamond.svg"
+            src="../assets/ui/decorate-chrome/logo-diamond.svg?v=h2"
             width="20"
             height="20"
             alt=""
@@ -44,7 +44,7 @@
         />
       </a>
 
-      <div class="play-stage-wrap">
+      <div class="play-stage-wrap" id="play-stage-wrap">
         <div
           id="play-stage"
           class="play-stage"
@@ -61,19 +61,48 @@
 
       <p id="play-color-name" class="play-color-name" aria-live="polite"></p>
 
+      <p
+        id="play-fortune"
+        class="play-fortune"
+        aria-live="polite"
+        hidden
+      ></p>
+
+      <div id="play-actions" class="play-actions" hidden></div>
+
       <p id="play-status" class="play-status" hidden></p>
     </div>
   </main>
 
   <script type="module">
-    import { mountPlayMode } from '../components/play-mode.js?v=s1c';
+    const statusEl = document.getElementById('play-status');
 
-    window.__play = mountPlayMode({
-      stageEl: document.getElementById('play-stage'),
-      colorNameEl: document.getElementById('play-color-name'),
-      instructionEl: document.getElementById('play-instruction'),
-      statusEl: document.getElementById('play-status'),
-    });
+    /** Same copy/path as play-mode boot() failure (curly apostrophe). */
+    function showLoadError(err) {
+      if (err) console.error(err);
+      if (!statusEl) return;
+      statusEl.hidden = false;
+      statusEl.dataset.error = '1';
+      statusEl.innerHTML =
+        'Couldn’t load this chatterbox.<br /><a class="play-status-link" href="./decorate.html">← Back to Decorate</a>';
+    }
+
+    try {
+      // Dynamic import so missing exports / module parse errors hit this catch
+      // instead of leaving a blank Play screen.
+      const { mountPlayMode } = await import('../components/play-mode.js?v=s39');
+      window.__play = mountPlayMode({
+        stageEl: document.getElementById('play-stage'),
+        stageWrapEl: document.getElementById('play-stage-wrap'),
+        colorNameEl: document.getElementById('play-color-name'),
+        instructionEl: document.getElementById('play-instruction'),
+        fortuneEl: document.getElementById('play-fortune'),
+        actionsEl: document.getElementById('play-actions'),
+        statusEl,
+      });
+    } catch (err) {
+      showLoadError(err);
+    }
   </script>
 </body>
 </html>

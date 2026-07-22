@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open-state review — V34 / V36</title>
+  <link rel="stylesheet" href="../styles/tokens.css" />
+  <link rel="stylesheet" href="../styles/base.css" />
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--color-desk-brown);
+      background-image: url('../assets/textures/desk-wood.png');
+      background-size: cover;
+      color: var(--color-bright-white);
+      font-family: var(--font-body);
+    }
+    header {
+      padding: 24px 32px 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      align-items: baseline;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .meta {
+      opacity: 0.85;
+      font-size: 14px;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px;
+      padding: 24px 32px 48px;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .label {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.04em;
+    }
+    .sub {
+      font-size: 13px;
+      opacity: 0.8;
+      text-align: center;
+      max-width: 320px;
+    }
+    .host {
+      position: relative;
+      filter: drop-shadow(
+        var(--schoolyard-shadow-x)
+        var(--schoolyard-shadow-y)
+        var(--schoolyard-shadow-blur)
+        rgba(0, 0, 0, var(--schoolyard-shadow-opacity))
+      );
+    }
+    .err {
+      color: #ffb4b4;
+      padding: 24px 32px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Open-state review</h1>
+    <p class="meta">
+      Placement compositor (sandbox step4 path) — fills from h/v-placements, not quads.
+      Numbers baked in paper. Stickers on crop-local quads.
+    </p>
+  </header>
+  <p id="err" class="err" hidden></p>
+  <div class="row">
+    <div class="panel">
+      <div class="label">V34 · H-open</div>
+      <div class="sub">Mask set 499:15373 · numbers 1, 2, 5, 6</div>
+      <div id="host-v34" class="host"></div>
+    </div>
+    <div class="panel">
+      <div class="label">V36 · V-open</div>
+      <div class="sub">Mask set 496:14975 · numbers 8, 3, 7, 4</div>
+      <div id="host-v36" class="host"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { StableFrameCompositor } from '../components/stable-frame.js';
+    import { fetchChatterbox } from '../components/supabase-api.js';
+
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id') || '408c846b-8fad-46e1-a5fb-d54021cb38b7';
+    const errEl = document.getElementById('err');
+
+    function normalizeStickers(stickers) {
+      if (!Array.isArray(stickers)) return [];
+      return stickers
+        .map((s) => ({
+          id: s.id || s.sticker_id,
+          flap: s.flap,
+          u: s.u,
+          v: s.v,
+          scale: s.scale,
+        }))
+        .filter((s) => s.id && s.flap);
+    }
+
+    try {
+      const record = await fetchChatterbox(id);
+      const decoration = {
+        flap_colors: record.flap_colors || {},
+        stickers: normalizeStickers(record.stickers),
+      };
+
+      const c34 = new StableFrameCompositor(document.getElementById('host-v34'), decoration);
+      const c36 = new StableFrameCompositor(document.getElementById('host-v36'), decoration);
+      await Promise.all([c34.showFrame('V34'), c36.showFrame('V36')]);
+      document.title = `Open review — ${record.name || id.slice(0, 8)}`;
+    } catch (e) {
+      console.error(e);
+      errEl.hidden = false;
+      errEl.textContent = `Failed to load chatterbox ${id}: ${e.message || e}`;
+    }
+  </script>
+</body>
+</html>

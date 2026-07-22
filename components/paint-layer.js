@@ -19,9 +19,9 @@ import {
   playQuadToLocal,
   quadToPoints,
 } from './geometry.js';
+import { stickerImageUrl } from './sticker-art.js';
 
 const FILL_BASE = new URL('../assets/fills/', import.meta.url);
-const STICKER_BASE = new URL('../assets/stickers/', import.meta.url);
 
 const MASK_FILES = {
   closed: {
@@ -178,9 +178,11 @@ export class PaintStickerLayer {
     const stickers = this.decoration?.stickers || [];
     // UV plane in CSS px — must be >>1 so <img> rasterizes before matrix3d.
     const UV_PX = 100;
+    const gen = this._renderGen;
     for (const s of stickers) {
+      const id = s.id || s.sticker_id;
       const quad = quads[s.flap];
-      if (!quad) continue;
+      if (!id || !quad) continue;
 
       const wrap = document.createElement('div');
       wrap.className = 'sticker-on-flap';
@@ -195,7 +197,6 @@ export class PaintStickerLayer {
       const scale = s.scale ?? 0.28;
       const sizePx = scale * UV_PX;
       const img = document.createElement('img');
-      img.src = new URL(`${s.id}.svg`, STICKER_BASE).href;
       img.alt = '';
       img.draggable = false;
       img.style.position = 'absolute';
@@ -205,6 +206,11 @@ export class PaintStickerLayer {
       img.style.height = 'auto';
       wrap.appendChild(img);
       this.stickerLayer.appendChild(wrap);
+      // Same cleaned assets as DecorateCanvas (strip Figma #BEBEBE plate).
+      stickerImageUrl(id).then((url) => {
+        if (gen !== this._renderGen) return;
+        img.src = url;
+      });
     }
   }
 }

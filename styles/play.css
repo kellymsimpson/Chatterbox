@@ -19,7 +19,8 @@
   margin: 0 auto;
 }
 
-/* Title menu — Figma 556:8654 on 492:14395 */
+/* Title menu — Figma 556:4469 / Play instance 556:8654
+ * gap 8; C of wordmark left-aligns with P of heading */
 .play-title-menu {
   position: absolute;
   left: 72.5px;
@@ -31,12 +32,15 @@
   z-index: 2;
 }
 
+/* Logo + wordmark 556:8322 — logo Frame 82 rotated −135° (diamond) */
 .play-wordmark {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 2px;
-  width: 160px;
+  width: 158.74px;
   height: 20px;
+  overflow: visible;
 }
 
 .play-heading {
@@ -47,12 +51,13 @@
   line-height: 1;
   color: var(--color-bright-white);
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .play-wordmark-text {
   display: block;
-  width: 139px;
-  height: 15.64px;
+  width: 138.95px;
+  height: 15.4px;
   object-fit: fill;
   flex-shrink: 0;
 }
@@ -63,6 +68,8 @@
   height: 20px;
   object-fit: contain;
   flex-shrink: 0;
+  /* Diamond rotation overflows the 20×20 box (ARB ~39) */
+  overflow: visible;
 }
 
 .play-close {
@@ -109,6 +116,7 @@
   width: 267px;
   height: 294px;
   z-index: 1;
+  transform-origin: 50% 50%;
   filter: drop-shadow(
     var(--schoolyard-shadow-x)
     var(--schoolyard-shadow-y)
@@ -118,28 +126,83 @@
 }
 
 .play-stage {
-  width: 267px;
-  height: 294px;
+  width: 100%;
+  height: 100%;
   position: relative;
   cursor: pointer;
+}
+
+/* StableFrameCompositor (V33/V34/V36) — placement fills + crop-local stickers */
+.stable-frame {
+  position: relative;
+  overflow: visible;
+}
+
+.stable-frame-paper,
+.stable-frame-decor,
+.stable-frame-fills,
+.stable-frame-stickers {
+  pointer-events: none;
 }
 
 .play-stage.is-locked {
   cursor: default;
 }
 
-/* Instruction — Figma 492:14465 on frame 492:14395 */
+/* Chatterbox / PaintStickerLayer (Stage 2+ H/V motion) */
+.paint-sticker-layer {
+  position: absolute;
+  inset: 0;
+  width: 267px;
+  height: 294px;
+  pointer-events: none;
+}
+
+.paint-sticker-layer .paint-svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.paint-masks,
+.sticker-layer {
+  position: absolute;
+  inset: 0;
+  width: 267px;
+  height: 294px;
+  overflow: visible;
+}
+
+.flap-paint-mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.sticker-on-flap {
+  will-change: transform;
+  pointer-events: none;
+}
+
+.sticker-on-flap img {
+  display: block;
+  pointer-events: none;
+}
+
+/* Instruction — Body 1 (same as Decorate .decorate-step-title / maker label):
+ * Outfit Medium 20 / weight 500 / LH 25 — Bright White
+ * Centered at Stage 1 slot (Figma ~504.68 top) — Stage 1 / 3 / 5 copy varies. */
 .play-instruction {
   position: absolute;
-  left: 601px;
+  left: 50%;
   top: 504.9px;
-  width: 239px;
-  height: 25px;
+  transform: translateX(-50%);
   margin: 0;
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1;
+  font-weight: 500;
+  font-size: var(--text-body);
+  line-height: 25px;
   color: var(--color-bright-white);
   text-align: center;
   white-space: nowrap;
@@ -151,7 +214,7 @@
   display: none;
 }
 
-/* Stage 1 — colour name on desk after pick (Comfortaa / Bright White) */
+/* Stage 2 spelled letters on desk — Comfortaa / Bright White / ALL CAPS / 1.5 tracking */
 .play-color-name {
   position: absolute;
   left: 50%;
@@ -164,11 +227,13 @@
   line-height: 1;
   color: var(--color-bright-white);
   text-align: center;
-  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  letter-spacing: 6px;
   pointer-events: none;
   z-index: 1;
   opacity: 0;
-  transition: opacity 160ms ease;
+  transition: opacity 120ms ease;
+  min-height: 48px;
 }
 
 .play-color-name.is-visible {
@@ -218,3 +283,275 @@
 .play-status-link:hover {
   color: #e8e7e7;
 }
+
+/* ── Stage 3 Number Pick — Fortune Selector (Figma 431:5963 / 423:4889) ── */
+
+.fortune-selector {
+  pointer-events: auto;
+}
+
+/* Hit target = component size 78×78 */
+.fortune-flap {
+  position: relative;
+  box-sizing: border-box;
+  width: 78px;
+  height: 78px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.fortune-flap:disabled {
+  cursor: default;
+}
+
+/* Triangle fills the 78×78 cell (Figma path coords) — not centered/scaled up */
+.fortune-flap-shape {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 78px;
+  height: 78px;
+  pointer-events: none;
+  display: block;
+  /* default / disabled shadow — Figma filter dy=1 blur=3 @ 18% */
+  filter: drop-shadow(0 1px 3px rgba(38, 70, 83, 0.18));
+}
+
+.fortune-flap[data-state='hover'] .fortune-flap-shape {
+  /* hover — dy=2 blur=6 */
+  filter: drop-shadow(0 2px 6px rgba(38, 70, 83, 0.18));
+}
+
+.fortune-flap[data-state='selected'] .fortune-flap-shape {
+  /* selected — dy=2 blur=15 */
+  filter: drop-shadow(0 2px 15px rgba(38, 70, 83, 0.18));
+}
+
+/* Number — Comfortaa Bold 24, Figma absolute within 78×78 */
+.fortune-flap-num {
+  position: absolute;
+  width: 29.257px;
+  height: 27px;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1;
+  color: rgba(2, 1, 1, 0.75); /* --flap-numbers */
+  pointer-events: none;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+/* A (odd): left 48.79px, top 13.95px */
+.fortune-flap[data-side='a'] .fortune-flap-num {
+  left: 48.79px;
+  top: 13.95px;
+}
+
+/* B (even): left 29.74px, top 13.81px */
+.fortune-flap[data-side='b'] .fortune-flap-num {
+  left: 29.74px;
+  top: 13.81px;
+}
+
+.fortune-flap[data-state='hover'] .fortune-flap-num {
+  color: #287271; /* --deep-teal */
+}
+
+.fortune-flap[data-state='selected'] .fortune-flap-num {
+  color: #2a9d8f; /* --bright-teal */
+}
+
+.fortune-flap[data-state='disabled'] .fortune-flap-num {
+  color: var(--color-taupe-text);
+}
+
+.flap-highlight {
+  opacity: 1;
+  /* Hover-only — never leave all highlights painted at once */
+  display: none;
+}
+
+/* Stage 3/5 flap picks — must receive events even if a host class sets pe:none */
+.flap-number-hits,
+.flap-number-hit {
+  pointer-events: auto;
+}
+
+.flap-number-hit:focus-visible {
+  outline: 2px solid var(--color-bright-white);
+  outline-offset: 2px;
+}
+
+.fortune-flap:focus-visible {
+  outline: 2px solid var(--color-bright-white);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Stage 6 — Fortune on desk (PRD §9.4) + post-reveal actions (§9.5) ── */
+
+/* Decor layers only — never `.reveal-frame` on the host. Chatterbox mounts
+ * RevealFrameCompositor at Stage 2+, so host.reveal-frame + pe:none blocked
+ * Stage 3/5 flap hit targets (Fortune Selector on the desk still worked). */
+.reveal-frame-paper,
+.reveal-frame-decor,
+.reveal-frame-fills,
+.reveal-frame-stickers {
+  pointer-events: none;
+}
+
+/* Desk fortune below chatterbox — Outfit Regular 32 / Bright White / centered */
+.play-fortune {
+  position: absolute;
+  left: 50%;
+  top: 449.7px;
+  transform: translateX(-50%);
+  margin: 0;
+  width: min(1062px, 90%);
+  font-family: var(--font-body);
+  font-size: var(--text-h1);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-bright-white);
+  text-align: center;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.play-fortune.is-visible {
+  opacity: 1;
+}
+
+.play-fortune[hidden] {
+  display: none;
+}
+
+/* Post-reveal actions — Figma overlay 590:8059 button stack (no wood card on desk) */
+.play-actions {
+  position: absolute;
+  left: 50%;
+  top: 580px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.play-actions.is-visible {
+  opacity: 1;
+}
+
+.play-actions[hidden] {
+  display: none;
+}
+
+/* Main Buttons 462:13168 — same treatment as Decorate Save / Pick a Vibe */
+.play-action {
+  --figma-stroke-w: 2px;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 8px 32px;
+  border-radius: 60px;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: box-shadow 120ms ease, background 120ms ease;
+}
+
+/* Primary — 462:13167 default / 548:3423 hover */
+.play-action-primary {
+  min-width: 193px;
+  background: var(--color-teal);
+  color: var(--color-soft-white);
+  box-shadow: 0 4px 6px rgba(38, 70, 83, 0.4);
+}
+
+.play-action-primary:hover {
+  background-color: var(--color-teal);
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.1)
+  );
+  box-shadow: 0 4px 8px rgba(38, 70, 83, 0.8);
+}
+
+/* Secondary — 462:13166 default / 462:13173 hover (text-only, no icon) */
+.play-action-secondary {
+  background: var(--color-soft-white);
+  color: var(--color-dark-teal);
+  box-shadow: 0 4px 6px rgba(38, 70, 83, 0.4);
+}
+
+.play-action-secondary:hover {
+  background: var(--color-bright-white);
+  box-shadow: 0 4px 8px rgba(38, 70, 83, 0.8);
+}
+
+/* Tertiary — 462:13175 */
+.play-action-home {
+  color: var(--color-soft-white);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: transparent;
+  box-shadow: none;
+  font-weight: 700;
+}
+
+/* Inside stroke highlight — shared with Decorate 462:13168 */
+.play-action.figma-stroke-inside::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--figma-stroke-w, 2px);
+  background: linear-gradient(
+    163.6deg,
+    rgba(38, 70, 83, 0.2) 0%,
+    rgba(255, 255, 255, 0.2) 22.6%,
+    rgba(255, 255, 255, 0.2) 75.5%,
+    rgba(38, 70, 83, 0.2) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.play-action-home:hover {
+  color: var(--color-bright-white);
+}
+
+.play-action:focus-visible {
+  outline: 2px solid var(--color-bright-white);
+  outline-offset: 3px;
+}
+

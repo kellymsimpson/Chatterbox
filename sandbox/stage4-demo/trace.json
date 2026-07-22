@@ -1,0 +1,130 @@
+{
+  "frames": [
+    {
+      "kind": "ready",
+      "t": 1784653667090,
+      "frame": "V34",
+      "countText": "V34 · H-open",
+      "countColor": "rgb(254, 251, 251)",
+      "wrapTransform": "",
+      "stageTransform": "",
+      "stage": 3,
+      "landAxis": "H",
+      "landFrame": "V34"
+    },
+    {
+      "kind": "picked",
+      "t": 1784653667321,
+      "frame": "V34",
+      "countText": "V34 · H-open",
+      "countColor": "rgb(254, 251, 251)",
+      "wrapTransform": "",
+      "stageTransform": "",
+      "stage": 4,
+      "landAxis": "H",
+      "landFrame": "V34",
+      "number": 2
+    },
+    {
+      "kind": "count-text",
+      "t": 1784653667321,
+      "frame": "V33",
+      "countText": "1",
+      "countColor": "rgb(254, 251, 251)",
+      "wrapTransform": "",
+      "stageTransform": "",
+      "stage": 4,
+      "landAxis": "H",
+      "landFrame": "V34"
+    },
+    {
+      "kind": "frame",
+      "t": 1784653667373,
+      "frame": "V33",
+      "countText": "1",
+      "countColor": "rgb(254, 251, 251)",
+      "wrapTransform": "",
+      "stageTransform": "",
+      "stage": 4,
+      "landAxis": "H",
+      "landFrame": "V34"
+    },
+    {
+      "kind": "frame",
+      "t": 1784653667718,
+      "frame": "V36",
+      "countText": "1",
+      "countColor": "rgb(254, 251, 251)",
+      "wrapTransform": "",
+      "stageTransform": "",
+      "stage": 4,
+      "landAxis": "H",
+      "landFrame": "V34"
+    },
+    {
+      "kind": "count-text",
+      "t": 1784653668050,
+      "frame": "V33",
+      "countText": "2",
+      "countColor": "rgb(254, 251, 251)",
+      "wrapTransform": "",
+      "stageTransform": "",
+      "stage": 4,
+      "landAxis": "H",
+      "landFrame": "V34"
+    },
+    {
+      "kind": "frame",
+      "t": 1784653668051,
+      "frame": "V33",
+      "countText": "2",
+      "countColor": "rgb(254, 251, 251)",
+      "wrapTransform": "",
+      "stageTransform": "",
+      "stage": 4,
+      "landAxis": "H",
+      "landFrame": "V34"
+    },
+    {
+      "kind": "frame",
+      "t": 1784653668385,
+      "frame": "V34",
+      "countText": "2",
+      "countColor": "rgb(254, 251, 251)",
+      "wrapTransform": "",
+      "stageTransform": "",
+      "stage": 4,
+      "landAxis": "H",
+      "landFrame": "V34"
+    },
+    {
+      "kind": "counted",
+      "t": 1784653668708,
+      "frame": "V34",
+      "countText": "2",
+      "countColor": "rgb(254, 251, 251)",
+      "wrapTransform": "",
+      "stageTransform": "",
+      "stage": 4,
+      "landAxis": "H",
+      "landFrame": "V34",
+      "count": 2,
+      "selectedNumber": 2,
+      "color": null
+    }
+  ],
+  "finalState": {
+    "countText": "2",
+    "countColor": "rgb(254, 251, 251)",
+    "countFont": "Comfortaa, sans-serif",
+    "wrapTransform": "",
+    "stageDatasetFrame": "V34",
+    "play": {
+      "stage": 4,
+      "selectedNumber": 2,
+      "landAxis": "H",
+      "landFrame": "V34",
+      "numberPick": null
+    }
+  }
+}

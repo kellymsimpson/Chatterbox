@@ -32,7 +32,8 @@
   padding: 48px 0 40px;
 }
 
-/* ── Header: title menu 556:4469 / 915:8889 ── */
+/* ── Header: title menu 556:4469 / 915:8889
+ * gap 8; C of wordmark left-aligns with D of heading */
 .decorate-top {
   display: flex;
   justify-content: space-between;
@@ -50,19 +51,21 @@
   min-height: 77px;
 }
 
-/* Logo + wordmark 556:8322 — 160×20; wordmark aspect 347/54; diamond 20×20 */
+/* Logo + wordmark 556:8322 — logo Frame 82 rotated −135° (diamond) */
 .decorate-wordmark {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 2px;
-  width: 160px;
+  width: 158.74px;
   height: 20px;
+  overflow: visible;
 }
 
 .decorate-wordmark-text {
   display: block;
-  width: 139px;
-  height: 15.64px; /* viewBox 136.808×15.3965 — do not stretch */
+  width: 138.95px;
+  height: 15.4px;
   object-fit: fill;
   flex-shrink: 0;
 }
@@ -73,6 +76,7 @@
   height: 20px;
   object-fit: contain;
   flex-shrink: 0;
+  overflow: visible;
 }
 
 .decorate-heading {
@@ -297,6 +301,16 @@ body[data-decorate-tool='eraser'] * {
 .decorate-btn-save.is-saving {
   cursor: wait;
   opacity: 0.85;
+}
+
+/* Primary disabled — Main Buttons 462:13168 / 1365:10060 */
+.decorate-btn-save:disabled {
+  background: var(--color-disabled-taupe);
+  background-image: none;
+  color: var(--color-taupe-text);
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 1;
 }
 
 .decorate-btn-start-over {
@@ -813,10 +827,16 @@ body[data-sticker-holding='1'] * {
 }
 
 .vibe-card[data-variant='disabled'] {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
-  background-color: #e8e7e7;
+  background: var(--color-disabled-taupe);
+  background-image: none;
+  color: var(--color-taupe-text);
   box-shadow: 0 8px 30px rgba(38, 70, 83, 0.48);
   cursor: pointer;
+}
+
+.vibe-card[data-variant='disabled'] .vibe-card-title,
+.vibe-card[data-variant='disabled'] .vibe-card-blurb {
+  color: var(--color-taupe-text);
 }
 
 .vibe-card-icon {
@@ -861,7 +881,7 @@ body[data-sticker-holding='1'] * {
 }
 
 /* Confirm — Main Buttons primary
- * disabled: 1365:10060 fill #767676, no shadow, 2px inside gradient stroke
+ * disabled: 1365:10060 fill Disabled Taupe, Taupe Text, no shadow, 2px inside stroke
  * enabled:  462:13167 fill #217D72, shadow 0 4 blur 6 #264653@0.4
  * Always present in overlay; disabled until a card is selected.
  */
@@ -891,8 +911,9 @@ body[data-sticker-holding='1'] * {
 
 .vibe-confirm-btn:disabled,
 .vibe-confirm-btn[data-state='disabled'] {
-  background: #767676;
+  background: var(--color-disabled-taupe);
   background-image: none;
+  color: var(--color-taupe-text);
   box-shadow: none;
   cursor: not-allowed;
 }

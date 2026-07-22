@@ -1,0 +1,18 @@
+{
+  "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V34&v=s32",
+  "samples": 92,
+  "blankSamples": 0,
+  "blanks": [],
+  "rotatingSamples": 33,
+  "firstReveal": {
+    "t": 3889.2000000476837,
+    "kids": 2,
+    "frame": "V37",
+    "transform": "",
+    "blank": false,
+    "hasPaper": true
+  },
+  "shotPath": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/no-blank-after-rotate-V37.png",
+  "landPath": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/land-V38-after-180.png",
+  "ok": true
+}

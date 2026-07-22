@@ -1,0 +1,492 @@
+{
+  "demoColors": {
+    "top_left": "#EA6949",
+    "top_right": "#FFB2D2",
+    "bottom_left": "#F6AA41",
+    "bottom_right": "#B285CD"
+  },
+  "passed": 8,
+  "total": 8,
+  "results": [
+    {
+      "label": "pair-1-BL-BR",
+      "num": 1,
+      "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V34&v=s33",
+      "shot": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/pair-1-BL-BR.png",
+      "ok": true,
+      "leftOk": true,
+      "rightOk": true,
+      "stickersWarped": true,
+      "expected": {
+        "left": "bottom_left",
+        "right": "bottom_right",
+        "colors": [
+          "#F6AA41",
+          "#B285CD"
+        ]
+      },
+      "info": {
+        "frame": "V38.2",
+        "selectedNumber2": 1,
+        "fills": [
+          {
+            "flap": "bottom_left",
+            "face": "left",
+            "fill": "#F6AA41"
+          },
+          {
+            "flap": "bottom_right",
+            "face": "right",
+            "fill": "#B285CD"
+          }
+        ],
+        "stickers": [
+          {
+            "flap": "bottom_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_right",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          }
+        ]
+      }
+    },
+    {
+      "label": "pair-2-BL-BR",
+      "num": 2,
+      "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V34&v=s33",
+      "shot": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/pair-2-BL-BR.png",
+      "ok": true,
+      "leftOk": true,
+      "rightOk": true,
+      "stickersWarped": true,
+      "expected": {
+        "left": "bottom_left",
+        "right": "bottom_right",
+        "colors": [
+          "#F6AA41",
+          "#B285CD"
+        ]
+      },
+      "info": {
+        "frame": "V38.1",
+        "selectedNumber2": 2,
+        "fills": [
+          {
+            "flap": "bottom_left",
+            "face": "left",
+            "fill": "#F6AA41"
+          },
+          {
+            "flap": "bottom_right",
+            "face": "right",
+            "fill": "#B285CD"
+          }
+        ],
+        "stickers": [
+          {
+            "flap": "bottom_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_right",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          }
+        ]
+      }
+    },
+    {
+      "label": "pair-5-TL-TR",
+      "num": 5,
+      "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V34&v=s33",
+      "shot": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/pair-5-TL-TR.png",
+      "ok": true,
+      "leftOk": true,
+      "rightOk": true,
+      "stickersWarped": true,
+      "expected": {
+        "left": "top_left",
+        "right": "top_right",
+        "colors": [
+          "#EA6949",
+          "#FFB2D2"
+        ]
+      },
+      "info": {
+        "frame": "V38.2",
+        "selectedNumber2": 5,
+        "fills": [
+          {
+            "flap": "top_left",
+            "face": "left",
+            "fill": "#EA6949"
+          },
+          {
+            "flap": "top_right",
+            "face": "right",
+            "fill": "#FFB2D2"
+          }
+        ],
+        "stickers": [
+          {
+            "flap": "top_right",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          }
+        ]
+      }
+    },
+    {
+      "label": "pair-6-TL-TR",
+      "num": 6,
+      "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V34&v=s33",
+      "shot": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/pair-6-TL-TR.png",
+      "ok": true,
+      "leftOk": true,
+      "rightOk": true,
+      "stickersWarped": true,
+      "expected": {
+        "left": "top_left",
+        "right": "top_right",
+        "colors": [
+          "#EA6949",
+          "#FFB2D2"
+        ]
+      },
+      "info": {
+        "frame": "V38.1",
+        "selectedNumber2": 6,
+        "fills": [
+          {
+            "flap": "top_left",
+            "face": "left",
+            "fill": "#EA6949"
+          },
+          {
+            "flap": "top_right",
+            "face": "right",
+            "fill": "#FFB2D2"
+          }
+        ],
+        "stickers": [
+          {
+            "flap": "top_right",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          }
+        ]
+      }
+    },
+    {
+      "label": "pair-3-TL-BL",
+      "num": 3,
+      "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V36&v=s33",
+      "shot": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/pair-3-TL-BL.png",
+      "ok": true,
+      "leftOk": true,
+      "rightOk": true,
+      "stickersWarped": true,
+      "expected": {
+        "left": "top_left",
+        "right": "bottom_left",
+        "colors": [
+          "#EA6949",
+          "#F6AA41"
+        ]
+      },
+      "info": {
+        "frame": "V40.2",
+        "selectedNumber2": 3,
+        "fills": [
+          {
+            "flap": "top_left",
+            "face": "left",
+            "fill": "#EA6949"
+          },
+          {
+            "flap": "bottom_left",
+            "face": "right",
+            "fill": "#F6AA41"
+          }
+        ],
+        "stickers": [
+          {
+            "flap": "bottom_left",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_left",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_left",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          }
+        ]
+      }
+    },
+    {
+      "label": "pair-4-TL-BL",
+      "num": 4,
+      "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V36&v=s33",
+      "shot": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/pair-4-TL-BL.png",
+      "ok": true,
+      "leftOk": true,
+      "rightOk": true,
+      "stickersWarped": true,
+      "expected": {
+        "left": "top_left",
+        "right": "bottom_left",
+        "colors": [
+          "#EA6949",
+          "#F6AA41"
+        ]
+      },
+      "info": {
+        "frame": "V40.1",
+        "selectedNumber2": 4,
+        "fills": [
+          {
+            "flap": "top_left",
+            "face": "left",
+            "fill": "#EA6949"
+          },
+          {
+            "flap": "bottom_left",
+            "face": "right",
+            "fill": "#F6AA41"
+          }
+        ],
+        "stickers": [
+          {
+            "flap": "bottom_left",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_left",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "bottom_left",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_left",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          }
+        ]
+      }
+    },
+    {
+      "label": "pair-7-TR-BR",
+      "num": 7,
+      "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V36&v=s33",
+      "shot": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/pair-7-TR-BR.png",
+      "ok": true,
+      "leftOk": true,
+      "rightOk": true,
+      "stickersWarped": true,
+      "expected": {
+        "left": "top_right",
+        "right": "bottom_right",
+        "colors": [
+          "#FFB2D2",
+          "#B285CD"
+        ]
+      },
+      "info": {
+        "frame": "V40.2",
+        "selectedNumber2": 7,
+        "fills": [
+          {
+            "flap": "top_right",
+            "face": "left",
+            "fill": "#FFB2D2"
+          },
+          {
+            "flap": "bottom_right",
+            "face": "right",
+            "fill": "#B285CD"
+          }
+        ],
+        "stickers": [
+          {
+            "flap": "bottom_right",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_right",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          }
+        ]
+      }
+    },
+    {
+      "label": "pair-8-TR-BR",
+      "num": 8,
+      "url": "http://127.0.0.1:8877/screens/play.html?id=408c846b-8fad-46e1-a5fb-d54021cb38b7&review=V36&v=s33",
+      "shot": "/Users/kellysimpson/Downloads/chatterbox-handoff/sandbox/stage6-demo/pair-8-TR-BR.png",
+      "ok": true,
+      "leftOk": true,
+      "rightOk": true,
+      "stickersWarped": true,
+      "expected": {
+        "left": "top_right",
+        "right": "bottom_right",
+        "colors": [
+          "#FFB2D2",
+          "#B285CD"
+        ]
+      },
+      "info": {
+        "frame": "V40.1",
+        "selectedNumber2": 8,
+        "fills": [
+          {
+            "flap": "top_right",
+            "face": "left",
+            "fill": "#FFB2D2"
+          },
+          {
+            "flap": "bottom_right",
+            "face": "right",
+            "fill": "#B285CD"
+          }
+        ],
+        "stickers": [
+          {
+            "flap": "bottom_right",
+            "face": "right",
+            "transform": "matrix3d(1.36227, 1.1076, 0, 0.002042, -0.888122, 0.645166, 0, -0.000737, 0, 0, 1, 0, 244.812, 106.954, 0, 1)",
+            "hasImg": true
+          },
+          {
+            "flap": "top_right",
+            "face": "left",
+            "transform": "matrix3d(0.657386, 0.691677, 0, -0.000621, -0.657697, 1.17972, 0, 0.002293, 0, 0, 1, 0, 91.6141, 102.728, 0, 1)",
+            "hasImg": true
+          }
+        ]
+      }
+    }
+  ]
+}
